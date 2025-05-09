@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CineAsia - Modern Asian Movie Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              neutral: {
+                50: "#f9f9f9",
+                100: "#f3f3f3",
+                200: "#e5e5e5",
+                300: "#d4d4d4",
+                400: "#a3a3a3",
+                500: "#737373",
+                600: "#525252",
+                700: "#404040",
+                800: "#262626",
+                900: "#171717",
+              },
+              accent: {
+                100: "#fff1f2",
+                500: "#f43f5e",
+                700: "#be123c",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f9f9f9;
+      }
+
+      /* Mobile menu */
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 50;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .mobile-menu.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .mobile-menu-content {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 80%;
+        max-width: 300px;
+        height: 100%;
+        background-color: #262626;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+      }
+
+      .mobile-menu.active .mobile-menu-content {
+        transform: translateX(0);
+      }
+
+      .movie-card {
+        transition: transform 0.3s ease;
+      }
+
+      .movie-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .theater-section {
+        background: linear-gradient(to right, #262626, #404040);
+      }
+
+      .coming-soon-section {
+        background: linear-gradient(to right, #404040, #525252);
+      }
+
+      .notification {
+        animation: slideIn 0.5s ease-out forwards,
+          fadeOut 0.5s ease-in 4.5s forwards;
+        transform: translateX(-100%);
+      }
+
+      @keyframes slideIn {
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-neutral-50 text-neutral-800">
+    <!-- Notification -->
+    <div
+      id="notification"
+      class="notification fixed bottom-8 left-0 z-50 bg-neutral-800 text-white px-4 py-2 rounded-r-lg shadow-lg"
+    >
+      <p class="text-sm">
+        <span class="font-bold">Mới cập nhật:</span> Phim "Hoa Mộc Lan" vừa được
+        thêm vào!
+      </p>
+    </div>
+
+    <!-- Scroll to top button -->
+    <button
+      id="scrollToTop"
+      class="fixed bottom-8 right-8 bg-neutral-800 text-white p-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300 z-50"
+    >
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Header -->
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu">
+      <div class="mobile-menu-content p-6">
+        <div class="flex justify-between items-center mb-8">
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-film text-accent-500 text-2xl"></i>
+            <h1 class="text-2xl font-bold text-white">CineAsia</h1>
+          </div>
+          <button id="closeMobileMenu" class="text-white text-xl">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="mb-6">
+          <div class="relative">
+            <input
+              type="text"
+              value="Đảo Hải Tặc"
+              placeholder="Tìm kiếm phim..."
+              class="w-full bg-neutral-700 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent-500"
+            />
+            <button class="absolute right-3 top-2 text-neutral-400">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <nav class="flex flex-col space-y-4 text-white mb-8">
+          <a
+            href="index.html"
+            class="py-2 border-b border-neutral-700 hover:text-accent-500 transition"
+            >Trang chủ</a
+          >
+          <a
+            href="category.html"
+            class="py-2 border-b border-neutral-700 hover:text-accent-500 transition"
+            >Phim lẻ</a
+          >
+          <a
+            href="category.html"
+            class="py-2 border-b border-neutral-700 hover:text-accent-500 transition"
+            >Phim bộ</a
+          >
+          <a
+            href="category.html"
+            class="py-2 border-b border-neutral-700 hover:text-accent-500 transition"
+            >Phim chiếu rạp</a
+          >
+          <a
+            href="category.html"
+            class="py-2 border-b border-neutral-700 hover:text-accent-500 transition"
+            >Phim sắp chiếu</a
+          >
+        </nav>
+
+        <a href="login.html">
+          <button
+            class="w-full bg-accent-500 hover:bg-accent-700 px-4 py-2 rounded-full text-white text-sm transition"
+          >
+            Đăng nhập
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-neutral-800 text-white shadow-md">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-film text-accent-500 text-2xl"></i>
+            <h1 class="text-2xl font-bold">CineAsia</h1>
+          </div>
+          <nav class="hidden md:flex space-x-6">
+            <a href="index.html" class="hover:text-accent-500 transition"
+              >Trang chủ</a
+            >
+            <a href="category.html" class="hover:text-accent-500 transition"
+              >Phim lẻ</a
+            >
+            <a href="category.html" class="hover:text-accent-500 transition"
+              >Phim bộ</a
+            >
+            <a href="category.html" class="hover:text-accent-500 transition"
+              >Phim chiếu rạp</a
+            >
+            <a href="category.html" class="hover:text-accent-500 transition"
+              >Phim sắp chiếu</a
+            >
+          </nav>
+          <div class="flex items-center space-x-4">
+            <div class="relative hidden sm:block">
+              <input
+                type="text"
+                value="Đảo Hải Tặc"
+                placeholder="Tìm kiếm phim..."
+                class="bg-neutral-700 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent-500"
+              />
+              <button class="absolute right-3 top-2 text-neutral-400">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <a href="login.html">
+              <button
+                class="hidden sm:block bg-accent-500 hover:bg-accent-700 px-4 py-2 rounded-full text-sm transition"
+              >
+                Đăng nhập
+              </button>
+            </a>
+            <button id="openMobileMenu" class="md:hidden text-white">
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Top Movies Tabs -->
+    <section class="bg-neutral-100 py-6">
+      <div class="container mx-auto px-4">
+        <div class="flex border-b border-neutral-300">
+          <button
+            class="tab-button px-6 py-3 font-medium text-accent-500 border-b-2 border-accent-500"
+            data-tab="hot"
+          >
+            Hot nhất
+          </button>
+          <button
+            class="tab-button px-6 py-3 font-medium text-neutral-500 hover:text-neutral-800 transition"
+            data-tab="new"
+          >
+            Mới nhất
+          </button>
+          <button
+            class="tab-button px-6 py-3 font-medium text-neutral-500 hover:text-neutral-800 transition"
+            data-tab="liked"
+          >
+            Nhiều like nhất
+          </button>
+        </div>
+
+        <!-- Hot Movies Carousel -->
+        <div class="tab-content py-6" id="hot-tab" style="display: block">
+          <div class="flex space-x-4 overflow-x-auto scrollbar-hide pb-4">
+            <!-- Movie 1 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Hot+1"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Đảo Hải Tặc</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >9.5</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">
+                  Hành động, Phiêu lưu
+                </p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-fire text-accent-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">10.5K lượt xem</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 2 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Hot+2"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Vũ Trụ Anh Hùng</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >9.2</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">
+                  Hành động, Viễn tưởng
+                </p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-fire text-accent-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">8.7K lượt xem</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 3 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Hot+3"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Hoa Mộc Lan</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >8.9</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">Hành động, Lịch sử</p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-fire text-accent-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">7.2K lượt xem</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 4 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Hot+4"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Tình Yêu Và Định Mệnh</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >8.7</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">Tình cảm, Lãng mạn</p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-fire text-accent-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">6.5K lượt xem</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 5 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Hot+5"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Bí Mật Đảo Jeju</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >9.0</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">Bí ẩn, Tâm lý</p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-fire text-accent-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">5.9K lượt xem</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Movies Carousel -->
+        <div class="tab-content py-6" id="new-tab" style="display: none">
+          <div class="flex space-x-4 overflow-x-auto scrollbar-hide pb-4">
+            <!-- Movie 1 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Mới+1"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Vũ Điệu Đam Mê</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >8.8</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">Âm nhạc, Lãng mạn</p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-calendar-alt text-accent-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">Mới 2 ngày</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 2 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Mới+2"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Bí Mật Ngôi Nhà Cổ</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >8.5</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">Kinh dị, Bí ẩn</p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-calendar-alt text-accent-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">Mới 3 ngày</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 3 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Mới+3"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Cuộc Chiến Vương Quyền</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >9.1</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">Hành động, Cổ trang</p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-calendar-alt text-accent-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">Mới 5 ngày</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 4 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Mới+4"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Tình Yêu Và Thù Hận</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >8.6</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">Tình cảm, Gia đình</p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-calendar-alt text-accent-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">Mới 1 tuần</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 5 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Mới+5"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Siêu Nhân Trở Lại</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >8.9</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">
+                  Viễn tưởng, Hành động
+                </p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-calendar-alt text-accent-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">Mới 10 ngày</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Most Liked Movies Carousel -->
+        <div class="tab-content py-6" id="liked-tab" style="display: none">
+          <div class="flex space-x-4 overflow-x-auto scrollbar-hide pb-4">
+            <!-- Movie 1 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Like+1"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Tình Yêu Bất Diệt</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >9.3</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">Tình cảm, Lãng mạn</p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-heart text-red-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">15.2K likes</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 2 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Like+2"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Chiến Binh Bất Tử</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >9.4</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">
+                  Hành động, Viễn tưởng
+                </p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-heart text-red-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">14.8K likes</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 3 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Like+3"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Đảo Hải Tặc</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >9.5</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">
+                  Hành động, Phiêu lưu
+                </p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-heart text-red-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">12.3K likes</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 4 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Like+4"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Bí Mật Đảo Jeju</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >9.0</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">Bí ẩn, Tâm lý</p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-heart text-red-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">11.7K likes</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movie 5 -->
+            <div
+              class="movie-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/256x384/262626/FFFFFF?text=Phim+Like+5"
+                alt="Movie poster"
+                class="w-full h-96 object-cover"
+              />
+              <div class="p-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-bold text-lg">Vũ Trụ Anh Hùng</h3>
+                  <span
+                    class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md"
+                    >9.2</span
+                  >
+                </div>
+                <p class="text-neutral-500 text-sm mt-1">
+                  Hành động, Viễn tưởng
+                </p>
+                <div class="flex items-center mt-2">
+                  <i class="fas fa-heart text-red-500 mr-1"></i>
+                  <span class="text-sm text-neutral-600">10.9K likes</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Left Content (70%) -->
+        <div class="lg:w-7/10">
+          <!-- Single Movies Section -->
+          <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-2xl font-bold">Phim Lẻ</h2>
+              <a href="#" class="text-accent-500 hover:underline">Xem tất cả</a>
+            </div>
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              <!-- Movie 1 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Lẻ+1"
+                  alt="Movie poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Chiến Binh Bất Tử</h3>
+                  <p class="text-neutral-500 text-sm mt-1">
+                    Hành động, Viễn tưởng
+                  </p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >HD</span
+                    >
+                    <span class="text-sm text-neutral-600">120 phút</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Movie 2 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Lẻ+2"
+                  alt="Movie poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Tình Yêu Và Nỗi Nhớ</h3>
+                  <p class="text-neutral-500 text-sm mt-1">
+                    Tình cảm, Lãng mạn
+                  </p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >HD</span
+                    >
+                    <span class="text-sm text-neutral-600">105 phút</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Movie 3 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Lẻ+3"
+                  alt="Movie poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Bí Mật Đêm Hè</h3>
+                  <p class="text-neutral-500 text-sm mt-1">Kinh dị, Bí ẩn</p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >HD</span
+                    >
+                    <span class="text-sm text-neutral-600">98 phút</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Movie 4 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Lẻ+4"
+                  alt="Movie poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Cuộc Chiến Vương Quyền</h3>
+                  <p class="text-neutral-500 text-sm mt-1">
+                    Hành động, Cổ trang
+                  </p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >HD</span
+                    >
+                    <span class="text-sm text-neutral-600">135 phút</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TV Series Section -->
+          <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-2xl font-bold">Phim Bộ</h2>
+              <a href="#" class="text-accent-500 hover:underline">Xem tất cả</a>
+            </div>
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              <!-- Series 1 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Bộ+1"
+                  alt="Series poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Vương Triều Hàn Quốc</h3>
+                  <p class="text-neutral-500 text-sm mt-1">
+                    Cổ trang, Chính kịch
+                  </p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >Tập 16/20</span
+                    >
+                    <span class="text-sm text-neutral-600">60 phút/tập</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Series 2 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Bộ+2"
+                  alt="Series poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Tình Yêu Và Sự Nghiệp</h3>
+                  <p class="text-neutral-500 text-sm mt-1">
+                    Tình cảm, Gia đình
+                  </p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >Tập 24/24</span
+                    >
+                    <span class="text-sm text-neutral-600">45 phút/tập</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Series 3 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Bộ+3"
+                  alt="Series poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Đội Đặc Nhiệm</h3>
+                  <p class="text-neutral-500 text-sm mt-1">
+                    Hành động, Hình sự
+                  </p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >Tập 10/12</span
+                    >
+                    <span class="text-sm text-neutral-600">50 phút/tập</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Series 4 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Bộ+4"
+                  alt="Series poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Bí Mật Gia Tộc</h3>
+                  <p class="text-neutral-500 text-sm mt-1">Bí ẩn, Tâm lý</p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >Tập 8/16</span
+                    >
+                    <span class="text-sm text-neutral-600">60 phút/tập</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Short Films Section -->
+          <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-2xl font-bold">Phim Ngắn</h2>
+              <a href="#" class="text-accent-500 hover:underline">Xem tất cả</a>
+            </div>
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              <!-- Short Film 1 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Ngắn+1"
+                  alt="Short film poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Khoảnh Khắc Yêu Thương</h3>
+                  <p class="text-neutral-500 text-sm mt-1">
+                    Tình cảm, Gia đình
+                  </p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >HD</span
+                    >
+                    <span class="text-sm text-neutral-600">15 phút</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Short Film 2 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Ngắn+2"
+                  alt="Short film poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Đêm Mưa Sài Gòn</h3>
+                  <p class="text-neutral-500 text-sm mt-1">Tâm lý, Lãng mạn</p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >HD</span
+                    >
+                    <span class="text-sm text-neutral-600">20 phút</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Short Film 3 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Ngắn+3"
+                  alt="Short film poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Nỗi Nhớ Quê Hương</h3>
+                  <p class="text-neutral-500 text-sm mt-1">Tâm lý, Xã hội</p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >HD</span
+                    >
+                    <span class="text-sm text-neutral-600">18 phút</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Short Film 4 -->
+              <div
+                class="movie-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src="https://placehold.co/300x450/262626/FFFFFF?text=Phim+Ngắn+4"
+                  alt="Short film poster"
+                  class="w-full h-64 object-cover"
+                />
+                <div class="p-4">
+                  <h3 class="font-bold">Giấc Mơ Tuổi Trẻ</h3>
+                  <p class="text-neutral-500 text-sm mt-1">
+                    Thanh xuân, Học đường
+                  </p>
+                  <div class="flex justify-between items-center mt-2">
+                    <span
+                      class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-md"
+                      >HD</span
+                    >
+                    <span class="text-sm text-neutral-600">25 phút</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Movies in Theaters Section (Special Design) -->
+          <section
+            class="mb-12 theater-section rounded-xl overflow-hidden text-white"
+          >
+            <div class="p-8">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold flex items-center">
+                  <i class="fas fa-ticket-alt mr-2"></i>
+                  Phim Chiếu Rạp
+                </h2>
+                <a
+                  href="#"
+                  class="text-white hover:text-accent-100 hover:underline"
+                  >Xem tất cả</a
+                >
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Featured Theater Movie -->
+                <div class="click-item relative rounded-lg overflow-hidden">
+                  <img
+                    src="https://placehold.co/600x400/404040/FFFFFF?text=Phim+Chiếu+Rạp+Đặc+Sắc"
+                    alt="Featured movie"
+                    class="w-full h-80 object-cover"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6"
+                  >
+                    <span
+                      class="bg-accent-500 text-white px-2 py-1 text-xs rounded-md inline-block mb-2 w-max"
+                      >Đang chiếu</span
+                    >
+                    <h3 class="text-xl font-bold">Huyền Thoại Võ Thuật</h3>
+                    <p class="text-neutral-300 text-sm mt-1">
+                      Hành động, Võ thuật
+                    </p>
+                    <div class="flex items-center mt-3 space-x-4">
+                      <div class="flex items-center">
+                        <i class="fas fa-star text-yellow-400 mr-1"></i>
+                        <span>9.2/10</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="fas fa-clock text-neutral-400 mr-1"></i>
+                        <span>128 phút</span>
+                      </div>
+                    </div>
+                    <button
+                      class="mt-4 bg-accent-500 hover:bg-accent-700 text-white px-4 py-2 rounded-md transition flex items-center w-max"
+                    >
+                      <i class="fas fa-ticket-alt mr-2"></i>
+                      Đặt vé ngay
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Theater Movies List -->
+                <div class="space-y-4">
+                  <!-- Theater Movie 1 -->
+                  <div
+                    class=" theater-movie flex bg-neutral-700/50 rounded-lg overflow-hidden h-24"
+                  >
+                    <img
+                      src="https://placehold.co/120x180/404040/FFFFFF?text=Phim+1"
+                      alt="Movie poster"
+                      class="w-20 h-24 object-cover"
+                    />
+                    <div class="p-3 flex flex-col justify-between flex-grow">
+                      <div>
+                        <h4 class="font-medium">Đại Chiến Thế Kỷ</h4>
+                        <p class="text-neutral-300 text-xs">
+                          Hành động, Viễn tưởng
+                        </p>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-xs">115 phút</span>
+                        <span
+                          class="bg-green-500/20 text-green-400 px-2 py-0.5 text-xs rounded"
+                          >Đang chiếu</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Theater Movie 2 -->
+                  <div
+                    class="click-item flex bg-neutral-700/50 rounded-lg overflow-hidden h-24"
+                  >
+                    <img
+                      src="https://placehold.co/120x180/404040/FFFFFF?text=Phim+2"
+                      alt="Movie poster"
+                      class="w-20 h-24 object-cover"
+                    />
+                    <div class="p-3 flex flex-col justify-between flex-grow">
+                      <div>
+                        <h4 class="font-medium">Tình Yêu Và Định Mệnh</h4>
+                        <p class="text-neutral-300 text-xs">
+                          Tình cảm, Lãng mạn
+                        </p>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-xs">105 phút</span>
+                        <span
+                          class="bg-green-500/20 text-green-400 px-2 py-0.5 text-xs rounded"
+                          >Đang chiếu</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Theater Movie 3 -->
+                  <div
+                    class="click-item flex bg-neutral-700/50 rounded-lg overflow-hidden h-24"
+                  >
+                    <img
+                      src="https://placehold.co/120x180/404040/FFFFFF?text=Phim+3"
+                      alt="Movie poster"
+                      class="w-20 h-24 object-cover"
+                    />
+                    <div class="p-3 flex flex-col justify-between flex-grow">
+                      <div>
+                        <h4 class="font-medium">Bí Mật Đảo Jeju</h4>
+                        <p class="text-neutral-300 text-xs">Bí ẩn, Tâm lý</p>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-xs">120 phút</span>
+                        <span
+                          class="bg-green-500/20 text-green-400 px-2 py-0.5 text-xs rounded"
+                          >Đang chiếu</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Coming Soon Section (Special Design) -->
+          <section
+            class="mb-12 coming-soon-section rounded-xl overflow-hidden text-white"
+          >
+            <div class="p-8">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold flex items-center">
+                  <i class="fas fa-calendar-alt mr-2"></i>
+                  Phim Sắp Chiếu
+                </h2>
+                <a
+                  href="#"
+                  class="text-white hover:text-accent-100 hover:underline"
+                  >Xem tất cả</a
+                >
+              </div>
+
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Coming Soon Movie 1 -->
+                <div class="relative group click-item">
+                  <img
+                    src="https://placehold.co/300x450/525252/FFFFFF?text=Sắp+Chiếu+1"
+                    alt="Coming soon movie"
+                    class="w-full h-64 object-cover rounded-lg"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 rounded-lg"
+                  >
+                    <h3 class="font-bold">Chiến Binh Samurai</h3>
+                    <p class="text-neutral-300 text-xs mt-1">
+                      Hành động, Lịch sử
+                    </p>
+                    <p class="text-xs mt-2">Khởi chiếu: 15/06/2025</p>
+                    <button
+                      class="mt-2 bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded text-xs transition"
+                    >
+                      Đặt vé trước
+                    </button>
+                  </div>
+                  <div
+                    class="absolute top-2 right-2 bg-yellow-500 text-black px-2 py-1 text-xs font-bold rounded"
+                  >
+                    15/06
+                  </div>
+                </div>
+
+                <!-- Coming Soon Movie 2 -->
+                <div class="relative group click-item">
+                  <img
+                    src="https://placehold.co/300x450/525252/FFFFFF?text=Sắp+Chiếu+2"
+                    alt="Coming soon movie"
+                    class="w-full h-64 object-cover rounded-lg"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 rounded-lg"
+                  >
+                    <h3 class="font-bold">Tình Yêu Mùa Hè</h3>
+                    <p class="text-neutral-300 text-xs mt-1">
+                      Tình cảm, Lãng mạn
+                    </p>
+                    <p class="text-xs mt-2">Khởi chiếu: 20/06/2025</p>
+                    <button
+                      class="mt-2 bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded text-xs transition"
+                    >
+                      Đặt vé trước
+                    </button>
+                  </div>
+                  <div
+                    class="absolute top-2 right-2 bg-yellow-500 text-black px-2 py-1 text-xs font-bold rounded"
+                  >
+                    20/06
+                  </div>
+                </div>
+
+                <!-- Coming Soon Movie 3 -->
+                <div class="relative group click-item">
+                  <img
+                    src="https://placehold.co/300x450/525252/FFFFFF?text=Sắp+Chiếu+3"
+                    alt="Coming soon movie"
+                    class="w-full h-64 object-cover rounded-lg"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 rounded-lg"
+                  >
+                    <h3 class="font-bold">Bí Mật Đêm Trăng</h3>
+                    <p class="text-neutral-300 text-xs mt-1">Kinh dị, Bí ẩn</p>
+                    <p class="text-xs mt-2">Khởi chiếu: 25/06/2025</p>
+                    <button
+                      class="mt-2 bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded text-xs transition"
+                    >
+                      Đặt vé trước
+                    </button>
+                  </div>
+                  <div
+                    class="absolute top-2 right-2 bg-yellow-500 text-black px-2 py-1 text-xs font-bold rounded"
+                  >
+                    25/06
+                  </div>
+                </div>
+
+                <!-- Coming Soon Movie 4 -->
+                <div class="relative group click-item">
+                  <img
+                    src="https://placehold.co/300x450/525252/FFFFFF?text=Sắp+Chiếu+4"
+                    alt="Coming soon movie"
+                    class="w-full h-64 object-cover rounded-lg"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 rounded-lg"
+                  >
+                    <h3 class="font-bold">Cuộc Chiến Vũ Trụ</h3>
+                    <p class="text-neutral-300 text-xs mt-1">
+                      Viễn tưởng, Phiêu lưu
+                    </p>
+                    <p class="text-xs mt-2">Khởi chiếu: 30/06/2025</p>
+                    <button
+                      class="mt-2 bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded text-xs transition"
+                    >
+                      Đặt vé trước
+                    </button>
+                  </div>
+                  <div
+                    class="absolute top-2 right-2 bg-yellow-500 text-black px-2 py-1 text-xs font-bold rounded"
+                  >
+                    30/06
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Comments Section (Special Design) -->
+          <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-2xl font-bold">Bình Luận Nổi Bật</h2>
+              <a href="#" class="text-accent-500 hover:underline">Xem tất cả</a>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="space-y-6">
+                <!-- Comment 1 -->
+                <div class="flex space-x-4">
+                  <img
+                    src="https://placehold.co/100x100/262626/FFFFFF?text=User+1"
+                    alt="User avatar"
+                    class="w-10 h-10 rounded-full"
+                  />
+                  <div class="flex-1">
+                    <div class="flex items-center mb-1">
+                      <h4 class="font-medium">NguyenVanA</h4>
+                      <span class="mx-2 text-neutral-400">•</span>
+                      <span class="text-neutral-500 text-sm">2 giờ trước</span>
+                    </div>
+                    <p class="text-neutral-700 mb-2">
+                      Phim "Huyền Thoại Võ Thuật" thực sự xuất sắc! Cảnh quay
+                      mãn nhãn, diễn xuất tuyệt vời. Đáng xem 10/10.
+                    </p>
+                    <div class="flex items-center text-sm text-neutral-500">
+                      <button class="flex items-center hover:text-accent-500">
+                        <i class="far fa-thumbs-up mr-1"></i>
+                        <span>125</span>
+                      </button>
+                      <span class="mx-2">•</span>
+                      <button class="hover:text-accent-500">Trả lời</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Comment 2 -->
+                <div class="flex space-x-4">
+                  <img
+                    src="https://placehold.co/100x100/262626/FFFFFF?text=User+2"
+                    alt="User avatar"
+                    class="w-10 h-10 rounded-full"
+                  />
+                  <div class="flex-1">
+                    <div class="flex items-center mb-1">
+                      <h4 class="font-medium">TranThiB</h4>
+                      <span class="mx-2 text-neutral-400">•</span>
+                      <span class="text-neutral-500 text-sm">5 giờ trước</span>
+                    </div>
+                    <p class="text-neutral-700 mb-2">
+                      Tôi vừa xem "Tình Yêu Và Định Mệnh" và thực sự cảm động.
+                      Cốt truyện hay, diễn viên diễn xuất tự nhiên.
+                    </p>
+                    <div class="flex items-center text-sm text-neutral-500">
+                      <button class="flex items-center hover:text-accent-500">
+                        <i class="far fa-thumbs-up mr-1"></i>
+                        <span>87</span>
+                      </button>
+                      <span class="mx-2">•</span>
+                      <button class="hover:text-accent-500">Trả lời</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Comment 3 -->
+                <div class="flex space-x-4">
+                  <img
+                    src="https://placehold.co/100x100/262626/FFFFFF?text=User+3"
+                    alt="User avatar"
+                    class="w-10 h-10 rounded-full"
+                  />
+                  <div class="flex-1">
+                    <div class="flex items-center mb-1">
+                      <h4 class="font-medium">LeVanC</h4>
+                      <span class="mx-2 text-neutral-400">•</span>
+                      <span class="text-neutral-500 text-sm">1 ngày trước</span>
+                    </div>
+                    <p class="text-neutral-700 mb-2">
+                      Phim "Bí Mật Đảo Jeju" thực sự là một tác phẩm nghệ thuật.
+                      Cảnh quay đẹp, âm nhạc hay, diễn xuất tuyệt vời.
+                    </p>
+                    <div class="flex items-center text-sm text-neutral-500">
+                      <button class="flex items-center hover:text-accent-500">
+                        <i class="far fa-thumbs-up mr-1"></i>
+                        <span>156</span>
+                      </button>
+                      <span class="mx-2">•</span>
+                      <button class="hover:text-accent-500">Trả lời</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 pt-6 border-t border-neutral-200">
+                <form class="flex space-x-4">
+                  <img
+                    src="https://placehold.co/100x100/262626/FFFFFF?text=You"
+                    alt="Your avatar"
+                    class="w-10 h-10 rounded-full"
+                  />
+                  <div class="flex-1">
+                    <textarea
+                      placeholder="Viết bình luận của bạn..."
+                      class="w-full border border-neutral-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                    ></textarea>
+                    <div class="flex justify-end mt-2">
+                      <button
+                        class="bg-accent-500 hover:bg-accent-700 text-white px-4 py-2 rounded-md text-sm transition"
+                      >
+                        Gửi bình luận
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Right Sidebar (30%) -->
+        <div class="lg:w-3/10">
+          <!-- Active Users Section -->
+          <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 class="text-lg font-bold mb-4">Người Dùng Sôi Nổi</h3>
+            <div class="space-y-4">
+              <!-- User 1 -->
+              <div class="flex items-center space-x-3">
+                <img
+                  src="https://placehold.co/100x100/262626/FFFFFF?text=User+1"
+                  alt="User avatar"
+                  class="w-10 h-10 rounded-full"
+                />
+                <div>
+                  <h4 class="font-medium">NguyenVanA</h4>
+                  <p class="text-neutral-500 text-xs">125 bình luận</p>
+                </div>
+                <div class="ml-auto">
+                  <span
+                    class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full"
+                    >Top 1</span
+                  >
+                </div>
+              </div>
+
+              <!-- User 2 -->
+              <div class="flex items-center space-x-3">
+                <img
+                  src="https://placehold.co/100x100/262626/FFFFFF?text=User+2"
+                  alt="User avatar"
+                  class="w-10 h-10 rounded-full"
+                />
+                <div>
+                  <h4 class="font-medium">TranThiB</h4>
+                  <p class="text-neutral-500 text-xs">98 bình luận</p>
+                </div>
+                <div class="ml-auto">
+                  <span
+                    class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full"
+                    >Top 2</span
+                  >
+                </div>
+              </div>
+
+              <!-- User 3 -->
+              <div class="flex items-center space-x-3">
+                <img
+                  src="https://placehold.co/100x100/262626/FFFFFF?text=User+3"
+                  alt="User avatar"
+                  class="w-10 h-10 rounded-full"
+                />
+                <div>
+                  <h4 class="font-medium">LeVanC</h4>
+                  <p class="text-neutral-500 text-xs">87 bình luận</p>
+                </div>
+                <div class="ml-auto">
+                  <span
+                    class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full"
+                    >Top 3</span
+                  >
+                </div>
+              </div>
+
+              <!-- User 4 -->
+              <div class="flex items-center space-x-3">
+                <img
+                  src="https://placehold.co/100x100/262626/FFFFFF?text=User+4"
+                  alt="User avatar"
+                  class="w-10 h-10 rounded-full"
+                />
+                <div>
+                  <h4 class="font-medium">PhamThiD</h4>
+                  <p class="text-neutral-500 text-xs">76 bình luận</p>
+                </div>
+                <div class="ml-auto">
+                  <span
+                    class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full"
+                    >Top 4</span
+                  >
+                </div>
+              </div>
+
+              <!-- User 5 -->
+              <div class="flex items-center space-x-3">
+                <img
+                  src="https://placehold.co/100x100/262626/FFFFFF?text=User+5"
+                  alt="User avatar"
+                  class="w-10 h-10 rounded-full"
+                />
+                <div>
+                  <h4 class="font-medium">HoangVanE</h4>
+                  <p class="text-neutral-500 text-xs">65 bình luận</p>
+                </div>
+                <div class="ml-auto">
+                  <span
+                    class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full"
+                    >Top 5</span
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Search Filters Section -->
+          <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 class="text-lg font-bold mb-4">Tìm Kiếm & Lọc Phim</h3>
+
+            <form>
+              <div class="space-y-4">
+                <!-- Search -->
+                <div>
+                  <label class="block text-neutral-700 text-sm font-medium mb-2"
+                    >Tên phim</label
+                  >
+                  <div class="relative">
+                    <input
+                      type="text"
+                      placeholder="Nhập tên phim..."
+                      class="w-full border border-neutral-300 rounded-lg p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                    />
+                    <button class="absolute right-3 top-3 text-neutral-400">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Category -->
+                <div>
+                  <label class="block text-neutral-700 text-sm font-medium mb-2"
+                    >Thể loại</label
+                  >
+                  <select
+                    class="w-full border border-neutral-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                  >
+                    <option value="">Tất cả thể loại</option>
+                    <option value="action">Hành động</option>
+                    <option value="romance">Tình cảm</option>
+                    <option value="comedy">Hài hước</option>
+                    <option value="horror">Kinh dị</option>
+                    <option value="scifi">Viễn tưởng</option>
+                    <option value="drama">Chính kịch</option>
+                  </select>
+                </div>
+
+                <!-- Country -->
+                <div>
+                  <label class="block text-neutral-700 text-sm font-medium mb-2"
+                    >Quốc gia</label
+                  >
+                  <select
+                    class="w-full border border-neutral-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                  >
+                    <option value="">Tất cả quốc gia</option>
+                    <option value="vietnam">Việt Nam</option>
+                    <option value="korea">Hàn Quốc</option>
+                    <option value="japan">Nhật Bản</option>
+                    <option value="china">Trung Quốc</option>
+                    <option value="thailand">Thái Lan</option>
+                    <option value="usa">Mỹ</option>
+                  </select>
+                </div>
+
+                <!-- Year -->
+                <div>
+                  <label class="block text-neutral-700 text-sm font-medium mb-2"
+                    >Năm sản xuất</label
+                  >
+                  <select
+                    class="w-full border border-neutral-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
+                  >
+                    <option value="">Tất cả các năm</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                  </select>
+                </div>
+
+                <!-- Rating -->
+                <div>
+                  <label class="block text-neutral-700 text-sm font-medium mb-2"
+                    >Đánh giá</label
+                  >
+                  <div class="flex items-center space-x-1">
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-yellow-400"></i>
+                    <i class="fas fa-star text-neutral-300"></i>
+                    <span class="ml-2 text-sm text-neutral-500">trở lên</span>
+                  </div>
+                </div>
+
+                <button
+                  class="w-full bg-accent-500 hover:bg-accent-700 text-white px-4 py-3 rounded-lg text-sm font-medium transition mt-2"
+                >
+                  Tìm kiếm
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- Top Actors Section -->
+          <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 class="text-lg font-bold mb-4">Diễn Viên Nổi Bật</h3>
+
+            <div class="grid grid-cols-3 gap-4">
+              <!-- Actor 1 -->
+              <div class="text-center">
+                <img
+                  src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+1"
+                  alt="Actor"
+                  class="w-full h-24 object-cover rounded-lg mb-2"
+                />
+                <h4 class="font-medium text-sm">Ngô Thanh Vân</h4>
+              </div>
+
+              <!-- Actor 2 -->
+              <div class="text-center">
+                <img
+                  src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+2"
+                  alt="Actor"
+                  class="w-full h-24 object-cover rounded-lg mb-2"
+                />
+                <h4 class="font-medium text-sm">Trấn Thành</h4>
+              </div>
+
+              <!-- Actor 3 -->
+              <div class="text-center">
+                <img
+                  src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+3"
+                  alt="Actor"
+                  class="w-full h-24 object-cover rounded-lg mb-2"
+                />
+                <h4 class="font-medium text-sm">Ninh Dương Lan Ngọc</h4>
+              </div>
+
+              <!-- Actor 4 -->
+              <div class="text-center">
+                <img
+                  src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+4"
+                  alt="Actor"
+                  class="w-full h-24 object-cover rounded-lg mb-2"
+                />
+                <h4 class="font-medium text-sm">Thành Long</h4>
+              </div>
+
+              <!-- Actor 5 -->
+              <div class="text-center">
+                <img
+                  src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+5"
+                  alt="Actor"
+                  class="w-full h-24 object-cover rounded-lg mb-2"
+                />
+                <h4 class="font-medium text-sm">Son Ye Jin</h4>
+              </div>
+
+              <!-- Actor 6 -->
+              <div class="text-center">
+                <img
+                  src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+6"
+                  alt="Actor"
+                  class="w-full h-24 object-cover rounded-lg mb-2"
+                />
+                <h4 class="font-medium text-sm">Hyun Bin</h4>
+              </div>
+            </div>
+
+            <a
+              href="#"
+              class="block text-center text-accent-500 hover:underline mt-4 text-sm"
+            >
+              Xem tất cả diễn viên
+            </a>
+          </section>
+
+          <!-- Newsletter -->
+          <section class="bg-neutral-800 text-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-bold mb-2">Đăng Ký Nhận Thông Báo</h3>
+            <p class="text-neutral-300 text-sm mb-4">
+              Nhận thông báo về phim mới và ưu đãi đặc biệt
+            </p>
+
+            <form>
+              <div class="mb-4">
+                <input
+                  type="email"
+                  placeholder="Email của bạn"
+                  class="w-full bg-neutral-700 text-white border-none rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent-500"
+                />
+              </div>
+              <button
+                class="w-full bg-accent-500 hover:bg-accent-700 text-white px-4 py-3 rounded-lg text-sm font-medium transition"
+              >
+                Đăng ký ngay
+              </button>
+            </form>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-neutral-800 text-white pt-12 pb-6">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          <!-- About -->
+          <div>
+            <h4 class="text-lg font-bold mb-4">Về CineAsia</h4>
+            <p class="text-neutral-400 text-sm mb-4">
+              CineAsia là trang web xem phim trực tuyến hàng đầu với kho phim đa
+              dạng từ châu Á và quốc tế.
+            </p>
+            <div class="flex space-x-4">
+              <a href="#" class="text-neutral-400 hover:text-white transition">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="text-neutral-400 hover:text-white transition">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="text-neutral-400 hover:text-white transition">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#" class="text-neutral-400 hover:text-white transition">
+                <i class="fab fa-youtube"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div>
+            <h4 class="text-lg font-bold mb-4">Liên Kết Nhanh</h4>
+            <ul class="space-y-2 text-neutral-400">
+              <li>
+                <a href="#" class="hover:text-white transition">Trang chủ</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Phim lẻ</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Phim bộ</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition"
+                  >Phim chiếu rạp</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition"
+                  >Phim sắp chiếu</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition"
+                  >Bình luận phim</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Categories -->
+          <div>
+            <h4 class="text-lg font-bold mb-4">Thể Loại</h4>
+            <ul class="space-y-2 text-neutral-400">
+              <li>
+                <a href="#" class="hover:text-white transition">Hành động</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Tình cảm</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Hài hước</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Kinh dị</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Viễn tưởng</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Hoạt hình</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact -->
+          <div>
+            <h4 class="text-lg font-bold mb-4">Liên Hệ</h4>
+            <ul class="space-y-2 text-neutral-400">
+              <li class="flex items-center">
+                <i class="fas fa-map-marker-alt mr-2 text-accent-500"></i>
+                <span>123 Đường Phim, Quận 1, TP.HCM</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-phone-alt mr-2 text-accent-500"></i>
+                <span>+84 123 456 789</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-envelope mr-2 text-accent-500"></i>
+                <span>info@cineasia.com</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-neutral-700 pt-6 text-center text-neutral-500 text-sm"
+        >
+          <p>&copy; 2025 CineAsia. Tất cả quyền được bảo lưu.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile Menu
+      const openMobileMenuBtn = document.getElementById("openMobileMenu");
+      const closeMobileMenuBtn = document.getElementById("closeMobileMenu");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      openMobileMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.add("active");
+        document.body.style.overflow = "hidden";
+      });
+
+      closeMobileMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.remove("active");
+        document.body.style.overflow = "";
+      });
+
+      // Tab switching functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const tabName = button.getAttribute("data-tab");
+
+            // Hide all tab contents
+            tabContents.forEach((content) => {
+              content.style.display = "none";
+            });
+
+            // Show the selected tab content
+            document.getElementById(`${tabName}-tab`).style.display = "block";
+
+            // Update tab button styles
+            tabButtons.forEach((btn) => {
+              btn.classList.remove(
+                "text-accent-500",
+                "border-b-2",
+                "border-accent-500"
+              );
+              btn.classList.add("text-neutral-500");
+            });
+
+            // Add active class to clicked button
+            button.classList.remove("text-neutral-500");
+            button.classList.add(
+              "text-accent-500",
+              "border-b-2",
+              "border-accent-500"
+            );
+          });
+        });
+      });
+      // Scroll to top button
+      const scrollToTopBtn = document.getElementById("scrollToTop");
+
+      window.addEventListener("scroll", () => {
+        if (window.pageYOffset > 300) {
+          scrollToTopBtn.style.opacity = "1";
+        } else {
+          scrollToTopBtn.style.opacity = "0";
+        }
+      });
+
+      scrollToTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+
+      // Tab switching
+      const tabButtons = document.querySelectorAll(".tab-button");
+
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          // Remove active class from all buttons
+          tabButtons.forEach((btn) => {
+            btn.classList.remove(
+              "text-accent-500",
+              "border-b-2",
+              "border-accent-500"
+            );
+            btn.classList.add("text-neutral-500");
+          });
+
+          // Add active class to clicked button
+          button.classList.remove("text-neutral-500");
+          button.classList.add(
+            "text-accent-500",
+            "border-b-2",
+            "border-accent-500"
+          );
+        });
+      });
+
+      // Show notifications
+      function showNotification(message) {
+        const notification = document.getElementById("notification");
+        notification.textContent = message;
+        notification.style.transform = "translateX(0)";
+
+        setTimeout(() => {
+          notification.style.transform = "translateX(-100%)";
+        }, 5000);
+      }
+
+      // Create new notifications periodically
+      setInterval(() => {
+        const movies = [
+          'Phim "Chiến Binh Bất Tử" vừa được cập nhật',
+          'Phim "Tình Yêu Mùa Hè" sắp ra mắt',
+          'Phim "Bí Mật Đảo Jeju" đã có tập mới',
+        ];
+
+        const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+        const notification = document.getElementById("notification");
+        notification.innerHTML = `<p class="text-sm"><span class="font-bold">Mới cập nhật:</span> ${randomMovie}!</p>`;
+
+        notification.style.animation = "none";
+        notification.offsetHeight; // Trigger reflow
+        notification.style.animation =
+          "slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards";
+      }, 10000);
+    </script>
+    <script src="js/click.js" ></script>
+  </body>
+</html>

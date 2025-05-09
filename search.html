@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kết Quả Tìm Kiếm: "Đảo Hải Tặc" - CineAsia</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                neutral: {
+                    50: '#f9f9f9',
+                    100: '#f3f3f3',
+                    200: '#e5e5e5',
+                    300: '#d4d4d4',
+                    400: '#a3a3a3',
+                    500: '#737373',
+                    600: '#525252',
+                    700: '#404040',
+                    800: '#262626',
+                    900: '#171717',
+                },
+                accent: {
+                    100: '#fff1f2',
+                    500: '#f43f5e',
+                    700: '#be123c',
+                }
+            },
+            fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+            }
+        }
+    }
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9f9f9;
+}
+
+.movie-card {
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.notification {
+    animation: slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards;
+    transform: translateX(-100%);
+}
+
+@keyframes slideIn {
+    to { transform: translateX(0); }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+}
+
+/* Custom checkbox styles */
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    height: 18px;
+    width: 18px;
+    background-color: #fff;
+    border: 1px solid #d4d4d4;
+    border-radius: 3px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-checkbox:hover input ~ .checkmark {
+    background-color: #f3f3f3;
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #f43f5e;
+    border-color: #f43f5e;
+}
+
+.checkmark:after {
+    content: "";
+    display: none;
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.custom-checkbox .checkmark:after {
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Custom range slider */
+.range-slider {
+    width: 100%;
+    height: 4px;
+    background: #e5e5e5;
+    border-radius: 2px;
+    position: relative;
+    margin: 30px 0;
+}
+
+.range-slider .track {
+    height: 100%;
+    background: #f43f5e;
+    border-radius: 2px;
+    position: absolute;
+    left: 20%;
+    right: 20%;
+}
+
+.range-slider .thumb {
+    width: 16px;
+    height: 16px;
+    background: white;
+    border: 2px solid #f43f5e;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+.range-slider .thumb.left {
+    left: 20%;
+}
+
+.range-slider .thumb.right {
+    left: 80%;
+}
+
+.range-values {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -20px;
+    color: #737373;
+    font-size: 12px;
+}
+
+/* Collapsible sections */
+.filter-section {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.filter-section.collapsed {
+    max-height: 40px;
+}
+
+.filter-section:not(.collapsed) {
+    max-height: 300px;
+}
+
+.filter-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.filter-section.collapsed .filter-toggle i {
+    transform: rotate(180deg);
+}
+
+/* Mobile menu */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-menu.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-menu-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80%;
+    max-width: 300px;
+    height: 100%;
+    background-color: #262626;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+.mobile-menu.active .mobile-menu-content {
+    transform: translateX(0);
+}
+</style>
+</head>
+<body class="bg-neutral-50 text-neutral-800">
+<!-- Notification -->
+<div id="notification" class="notification fixed bottom-8 left-0 z-50 bg-neutral-800 text-white px-4 py-2 rounded-r-lg shadow-lg">
+<p class="text-sm"><span class="font-bold">Mới cập nhật:</span> Phim "Hoa Mộc Lan" vừa được thêm vào!</p>
+</div>
+
+<!-- Scroll to top button -->
+<button id="scrollToTop" class="fixed bottom-8 right-8 bg-neutral-800 text-white p-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300 z-50">
+<i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="mobile-menu">
+    <div class="mobile-menu-content p-6">
+        <div class="flex justify-between items-center mb-8">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-film text-accent-500 text-2xl"></i>
+                <h1 class="text-2xl font-bold text-white">CineAsia</h1>
+            </div>
+            <button id="closeMobileMenu" class="text-white text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="mb-6">
+            <div class="relative">
+                <input type="text" value="Đảo Hải Tặc" placeholder="Tìm kiếm phim..." class="w-full bg-neutral-700 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent-500">
+                <button class="absolute right-3 top-2 text-neutral-400">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <nav class="flex flex-col space-y-4 text-white mb-8">
+            <a href="index.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Trang chủ</a>
+            <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim lẻ</a>
+            <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim bộ</a>
+            <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim chiếu rạp</a>
+            <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim sắp chiếu</a>
+        </nav>
+        
+        <button class="w-full bg-accent-500 hover:bg-accent-700 px-4 py-2 rounded-full text-white text-sm transition">
+            Đăng nhập
+        </button>
+    </div>
+</div>
+
+<!-- Header -->
+<header class="bg-neutral-800 text-white shadow-md">
+<div class="container mx-auto px-4 py-4">
+    <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-film text-accent-500 text-2xl"></i>
+            <h1 class="text-2xl font-bold">CineAsia</h1>
+        </div>
+        <nav class="hidden md:flex space-x-6">
+            <a href="index.html" class="hover:text-accent-500 transition">Trang chủ</a>
+            <a href="category.html" class="hover:text-accent-500 transition">Phim lẻ</a>
+            <a href="category.html" class="hover:text-accent-500 transition">Phim bộ</a>
+            <a href="category.html" class="hover:text-accent-500 transition">Phim chiếu rạp</a>
+            <a href="category.html" class="hover:text-accent-500 transition">Phim sắp chiếu</a>
+        </nav>
+        <div class="flex items-center space-x-4">
+            <div class="relative hidden sm:block">
+                <input type="text" value="Đảo Hải Tặc" placeholder="Tìm kiếm phim..." class="bg-neutral-700 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent-500">
+                <button class="absolute right-3 top-2 text-neutral-400">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <button class="hidden sm:block bg-accent-500 hover:bg-accent-700 px-4 py-2 rounded-full text-sm transition">
+                Đăng nhập
+            </button>
+            <button id="openMobileMenu" class="md:hidden text-white">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </div>
+</div>
+</header>
+
+<!-- Breadcrumbs -->
+<div class="bg-neutral-100 py-3">
+<div class="container mx-auto px-4">
+    <div class="flex items-center text-sm text-neutral-600">
+        <a href="index.html" class="hover:text-accent-500">Trang chủ</a>
+        <span class="mx-2">/</span>
+        <span class="text-neutral-800 font-medium">Kết quả tìm kiếm: "Đảo Hải Tặc"</span>
+    </div>
+</div>
+</div>
+
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8">
+<div class="flex flex-col lg:flex-row gap-8">
+    <!-- Filters Sidebar (Left) -->
+    <div class="lg:w-1/4">
+        <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg font-bold">Bộ lọc</h2>
+                <button id="resetFilters" class="text-accent-500 hover:text-accent-700 text-sm font-medium">
+                    Đặt lại
+                </button>
+            </div>
+            
+            <!-- Filter by Category -->
+            <div class="filter-section mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-medium">Thể loại</h3>
+                    <button class="filter-toggle text-neutral-500 hover:text-neutral-700">
+                        <i class="fas fa-chevron-up text-xs"></i>
+                    </button>
+                </div>
+                <div class="filter-content grid grid-cols-2 gap-2">
+                    <label class="custom-checkbox text-sm">
+                        <input type="checkbox" checked data-filter="category" data-value="Hành động">
+                        <span class="checkmark"></span>
+                        Hành động
+                    </label>
+                    <label class="custom-checkbox text-sm">
+                        <input type="checkbox" checked data-filter="category" data-value="Phiêu lưu">
+                        <span class="checkmark"></span>
+                        Phiêu lưu
+                    </label>
+                    <label class="custom-checkbox text-sm">
+                        <input type="checkbox" data-filter="category" data-value="Hài hước">
+                        <span class="checkmark"></span>
+                        Hài hước
+                    </label>
+                    <label class="custom-checkbox text-sm">
+                        <input type="checkbox" data-filter="category" data-value="Tình cảm">
+                        <span class="checkmark"></span>
+                        Tình cảm
+                    </label>
+                    <label class="custom-checkbox text-sm">
+                        <input type="checkbox" data-filter="category" data-value="Kinh dị">
+                        <span class="checkmark"></span>
+                        Kinh dị
+                    </label>
+                    <label class="custom-checkbox text-sm">
+                        <input type="checkbox" data-filter="category" data-value="Viễn tưởng">
+                        <span class="checkmark"></span>
+                        Viễn tưởng
+                    </label>
+                    <label class="custom-checkbox text-sm">
+                        <input type="checkbox" checked data-filter="category" data-value="Hoạt hình">
+                        <span class="checkmark"></span>
+                        Hoạt hình
+                    </label>
+                    <label class="custom-checkbox text-sm">
+                        <input type="checkbox" data-filter="category" data-value="Tâm lý">
+                        <span class="checkmark"></span>
+                        Tâm lý
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Filter by Year -->
+            <div class="filter-section mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-medium">Năm phát hành</h3>
+                    <button class="filter-toggle text-neutral-500 hover:text-neutral-700">
+                        <i class="fas fa-chevron-up text-xs"></i>
+                    </button>
+                </div>
+                <div class="filter-content">
+                    <div class="range-slider" id="yearRangeSlider">
+                        <div class="track"></div>
+                        <div class="thumb left" id="yearThumbLeft"></div>
+                        <div class="thumb right" id="yearThumbRight"></div>
+                    </div>
+                    <div class="range-values">
+                        <span>1990</span>
+                        <span>2025</span>
+                    </div>
+                    <div class="flex justify-between mt-2">
+                        <div class="w-[45%]">
+                            <label class="text-xs text-neutral-500">Từ</label>
+                            <input type="number" id="yearFrom" value="1990" min="1900" max="2025" class="w-full border border-neutral-300 rounded px-2 py-1 text-sm">
+                        </div>
+                        <div class="w-[45%]">
+                            <label class="text-xs text-neutral-500">Đến</label>
+                            <input type="number" id="yearTo" value="2025" min="1900" max="2025" class="w-full border border-neutral-300 rounded px-2 py-1 text-sm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filter by Country -->
+            <div class="filter-section mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-medium">Quốc gia</h3>
+                    <button class="filter-toggle text-neutral-500 hover:text-neutral-700">
+                        <i class="fas fa-chevron-up text-xs"></i>
+                    </button>
+                </div>
+                <div class="filter-content">
+                    <select id="countrySelect" class="w-full border border-neutral-300 rounded px-3 py-2 text-sm">
+                        <option value="">Tất cả quốc gia</option>
+                        <option value="jp" selected>Nhật Bản</option>
+                        <option value="kr">Hàn Quốc</option>
+                        <option value="cn">Trung Quốc</option>
+                        <option value="th">Thái Lan</option>
+                        <option value="vn">Việt Nam</option>
+                        <option value="us">Mỹ</option>
+                        <option value="other">Khác</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Filter by Rating -->
+            <div class="filter-section mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-medium">Đánh giá</h3>
+                    <button class="filter-toggle text-neutral-500 hover:text-neutral-700">
+                        <i class="fas fa-chevron-up text-xs"></i>
+                    </button>
+                </div>
+                <div class="filter-content">
+                    <div class="flex items-center space-x-1">
+                        <button class="rating-star bg-accent-500 text-white w-8 h-8 rounded flex items-center justify-center" data-rating="1">
+                            <i class="fas fa-star text-xs"></i>
+                        </button>
+                        <button class="rating-star bg-accent-500 text-white w-8 h-8 rounded flex items-center justify-center" data-rating="2">
+                            <i class="fas fa-star text-xs"></i>
+                        </button>
+                        <button class="rating-star bg-accent-500 text-white w-8 h-8 rounded flex items-center justify-center" data-rating="3">
+                            <i class="fas fa-star text-xs"></i>
+                        </button>
+                        <button class="rating-star bg-accent-500 text-white w-8 h-8 rounded flex items-center justify-center" data-rating="4">
+                            <i class="fas fa-star text-xs"></i>
+                        </button>
+                        <button class="rating-star bg-neutral-200 text-neutral-400 w-8 h-8 rounded flex items-center justify-center" data-rating="5">
+                            <i class="fas fa-star text-xs"></i>
+                        </button>
+                        <span class="ml-2 text-sm">trở lên</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filter by Type -->
+            <div class="filter-section mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-medium">Loại phim</h3>
+                    <button class="filter-toggle text-neutral-500 hover:text-neutral-700">
+                        <i class="fas fa-chevron-up text-xs"></i>
+                    </button>
+                </div>
+                <div class="filter-content">
+                    <div class="flex space-x-2">
+                        <button class="movie-type-btn px-3 py-1 rounded text-sm bg-accent-500 text-white" data-type="all">Tất cả</button>
+                        <button class="movie-type-btn px-3 py-1 rounded text-sm bg-neutral-200 text-neutral-700 hover:bg-neutral-300" data-type="movie">Phim lẻ</button>
+                        <button class="movie-type-btn px-3 py-1 rounded text-sm bg-neutral-200 text-neutral-700 hover:bg-neutral-300" data-type="series">Phim bộ</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Apply Filters Button -->
+            <button id="applyFilters" class="w-full bg-accent-500 hover:bg-accent-700 text-white py-2 rounded-md font-medium transition">
+                Áp dụng bộ lọc
+            </button>
+        </div>
+    </div>
+    
+    <!-- Search Results (Right) -->
+    <div class="lg:w-3/4">
+        <!-- Search Summary -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+                <div>
+                    <h2 class="text-xl font-bold mb-1">Kết quả tìm kiếm: "Đảo Hải Tặc"</h2>
+                    <p class="text-neutral-500 text-sm">Tìm thấy <span id="resultCount">24</span> kết quả</p>
+                </div>
+                <div class="flex items-center space-x-3 w-full sm:w-auto">
+                    <span class="text-sm text-neutral-500">Sắp xếp theo:</span>
+                    <select id="sortSelect" class="border border-neutral-300 rounded px-3 py-1 text-sm w-full sm:w-auto">
+                        <option value="relevance">Liên quan nhất</option>
+                        <option value="newest">Mới nhất</option>
+                        <option value="rating">Đánh giá cao nhất</option>
+                        <option value="views">Lượt xem nhiều nhất</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Active Filters -->
+            <div id="activeFilters" class="mt-4 flex flex-wrap gap-2">
+                <div class="bg-neutral-100 text-neutral-700 text-xs px-3 py-1 rounded-full flex items-center" data-filter="category" data-value="Hành động">
+                    Hành động
+                    <button class="ml-2 text-neutral-500 hover:text-neutral-700 remove-filter">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="bg-neutral-100 text-neutral-700 text-xs px-3 py-1 rounded-full flex items-center" data-filter="category" data-value="Phiêu lưu">
+                    Phiêu lưu
+                    <button class="ml-2 text-neutral-500 hover:text-neutral-700 remove-filter">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="bg-neutral-100 text-neutral-700 text-xs px-3 py-1 rounded-full flex items-center" data-filter="category" data-value="Hoạt hình">
+                    Hoạt hình
+                    <button class="ml-2 text-neutral-500 hover:text-neutral-700 remove-filter">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="bg-neutral-100 text-neutral-700 text-xs px-3 py-1 rounded-full flex items-center" data-filter="country" data-value="jp">
+                    Nhật Bản
+                    <button class="ml-2 text-neutral-500 hover:text-neutral-700 remove-filter">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="bg-neutral-100 text-neutral-700 text-xs px-3 py-1 rounded-full flex items-center" data-filter="rating" data-value="4">
+                    4 sao trở lên
+                    <button class="ml-2 text-neutral-500 hover:text-neutral-700 remove-filter">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Grid -->
+        <div id="resultsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Result 1 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden movie-card" data-year="1999" data-rating="9.5" data-type="series" data-categories="Hành động,Phiêu lưu,Hoạt hình" data-country="jp">
+                <a href="detail.html" class="block">
+                    <div class="relative">
+                        <img src="https://placehold.co/300x450/262626/FFFFFF?text=Đảo+Hải+Tặc" alt="Movie poster" class="w-full h-64 object-cover">
+                        <div class="absolute top-2 left-2 bg-accent-500 text-white text-xs px-2 py-1 rounded">
+                            Phim bộ
+                        </div>
+                        <div class="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded flex items-center">
+                            <i class="fas fa-star mr-1"></i>
+                            <span>9.5</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-1 hover:text-accent-500 transition">Đảo Hải Tặc</h3>
+                        <div class="flex items-center text-sm text-neutral-500 mb-2">
+                            <span>1999</span>
+                            <span class="mx-2">•</span>
+                            <span>1000+ tập</span>
+                        </div>
+                        <p class="text-neutral-600 text-sm mb-3 line-clamp-2">
+                            Monkey D. Luffy và băng hải tặc Mũ Rơm phiêu lưu trên biển để tìm kiếm kho báu One Piece và trở thành Vua Hải Tặc.
+                        </p>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hành động</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Phiêu lưu</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hoạt hình</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Result 2 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden movie-card" data-year="2022" data-rating="9.2" data-type="movie" data-categories="Hành động,Phiêu lưu,Hoạt hình" data-country="jp">
+                <a href="#" class="block">
+                    <div class="relative">
+                        <img src="https://placehold.co/300x450/262626/FFFFFF?text=One+Piece+Film+Red" alt="Movie poster" class="w-full h-64 object-cover">
+                        <div class="absolute top-2 left-2 bg-accent-500 text-white text-xs px-2 py-1 rounded">
+                            Phim lẻ
+                        </div>
+                        <div class="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded flex items-center">
+                            <i class="fas fa-star mr-1"></i>
+                            <span>9.2</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-1 hover:text-accent-500 transition">One Piece Film: Red</h3>
+                        <div class="flex items-center text-sm text-neutral-500 mb-2">
+                            <span>2022</span>
+                            <span class="mx-2">•</span>
+                            <span>115 phút</span>
+                        </div>
+                        <p class="text-neutral-600 text-sm mb-3 line-clamp-2">
+                            Luffy và băng Mũ Rơm tham dự buổi hòa nhạc của Uta - ca sĩ nổi tiếng nhất thế giới và cũng là con gái của Shanks.
+                        </p>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hành động</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Phiêu lưu</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hoạt hình</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Result 3 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden movie-card" data-year="2012" data-rating="8.9" data-type="movie" data-categories="Hành động,Phiêu lưu,Hoạt hình" data-country="jp">
+                <a href="#" class="block">
+                    <div class="relative">
+                        <img src="https://placehold.co/300x450/262626/FFFFFF?text=One+Piece+Film+Z" alt="Movie poster" class="w-full h-64 object-cover">
+                        <div class="absolute top-2 left-2 bg-accent-500 text-white text-xs px-2 py-1 rounded">
+                            Phim lẻ
+                        </div>
+                        <div class="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded flex items-center">
+                            <i class="fas fa-star mr-1"></i>
+                            <span>8.9</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-1 hover:text-accent-500 transition">One Piece Film: Z</h3>
+                        <div class="flex items-center text-sm text-neutral-500 mb-2">
+                            <span>2012</span>
+                            <span class="mx-2">•</span>
+                            <span>108 phút</span>
+                        </div>
+                        <p class="text-neutral-600 text-sm mb-3 line-clamp-2">
+                            Băng Mũ Rơm đối đầu với Z - cựu đô đốc hải quân với kế hoạch hủy diệt Tân Thế Giới.
+                        </p>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hành động</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Phiêu lưu</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hoạt hình</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Result 4 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden movie-card" data-year="2016" data-rating="8.7" data-type="movie" data-categories="Hành động,Phiêu lưu,Hoạt hình" data-country="jp">
+                <a href="#" class="block">
+                    <div class="relative">
+                        <img src="https://placehold.co/300x450/262626/FFFFFF?text=One+Piece+Film+Gold" alt="Movie poster" class="w-full h-64 object-cover">
+                        <div class="absolute top-2 left-2 bg-accent-500 text-white text-xs px-2 py-1 rounded">
+                            Phim lẻ
+                        </div>
+                        <div class="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded flex items-center">
+                            <i class="fas fa-star mr-1"></i>
+                            <span>8.7</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-1 hover:text-accent-500 transition">One Piece Film: Gold</h3>
+                        <div class="flex items-center text-sm text-neutral-500 mb-2">
+                            <span>2016</span>
+                            <span class="mx-2">•</span>
+                            <span>120 phút</span>
+                        </div>
+                        <p class="text-neutral-600 text-sm mb-3 line-clamp-2">
+                            Băng Mũ Rơm đến thành phố giải trí Gran Tesoro, nơi họ đối đầu với Gild Tesoro - người đàn ông giàu có nhất thế giới.
+                        </p>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hành động</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Phiêu lưu</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hoạt hình</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Result 5 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden movie-card" data-year="2019" data-rating="9.0" data-type="movie" data-categories="Hành động,Phiêu lưu,Hoạt hình" data-country="jp">
+                <a href="#" class="block">
+                    <div class="relative">
+                        <img src="https://placehold.co/300x450/262626/FFFFFF?text=One+Piece+Stampede" alt="Movie poster" class="w-full h-64 object-cover">
+                        <div class="absolute top-2 left-2 bg-accent-500 text-white text-xs px-2 py-1 rounded">
+                            Phim lẻ
+                        </div>
+                        <div class="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded flex items-center">
+                            <i class="fas fa-star mr-1"></i>
+                            <span>9.0</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-1 hover:text-accent-500 transition">One Piece: Stampede</h3>
+                        <div class="flex items-center text-sm text-neutral-500 mb-2">
+                            <span>2019</span>
+                            <span class="mx-2">•</span>
+                            <span>101 phút</span>
+                        </div>
+                        <p class="text-neutral-600 text-sm mb-3 line-clamp-2">
+                            Các hải tặc từ khắp thế giới tụ họp tại Lễ hội Hải tặc để tìm kiếm kho báu của Vua Hải Tặc Roger.
+                        </p>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hành động</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Phiêu lưu</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hoạt hình</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Result 6 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden movie-card" data-year="2009" data-rating="8.8" data-type="movie" data-categories="Hành động,Phiêu lưu,Hoạt hình" data-country="jp">
+                <a href="#" class="block">
+                    <div class="relative">
+                        <img src="https://placehold.co/300x450/262626/FFFFFF?text=One+Piece+Strong+World" alt="Movie poster" class="w-full h-64 object-cover">
+                        <div class="absolute top-2 left-2 bg-accent-500 text-white text-xs px-2 py-1 rounded">
+                            Phim lẻ
+                        </div>
+                        <div class="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded flex items-center">
+                            <i class="fas fa-star mr-1"></i>
+                            <span>8.8</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold mb-1 hover:text-accent-500 transition">One Piece: Strong World</h3>
+                        <div class="flex items-center text-sm text-neutral-500 mb-2">
+                            <span>2009</span>
+                            <span class="mx-2">•</span>
+                            <span>115 phút</span>
+                        </div>
+                        <p class="text-neutral-600 text-sm mb-3 line-clamp-2">
+                            Băng Mũ Rơm đối đầu với Shiki - hải tặc huyền thoại đã từng là đối thủ của Roger và đang đe dọa East Blue.
+                        </p>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hành động</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Phiêu lưu</span>
+                            <span class="bg-neutral-100 text-neutral-700 text-xs px-2 py-1 rounded">Hoạt hình</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="flex justify-center">
+            <div class="inline-flex rounded-md shadow-sm">
+                <button class="px-4 py-2 text-sm font-medium text-neutral-500 bg-white border border-neutral-300 rounded-l-lg hover:bg-neutral-100">
+                    <i class="fas fa-chevron-left mr-1"></i> Trước
+                </button>
+                <button class="px-4 py-2 text-sm font-medium text-white bg-accent-500 border border-accent-500">
+                    1
+                </button>
+                <button class="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border-t border-b border-neutral-300 hover:bg-neutral-100">
+                    2
+                </button>
+                <button class="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border-t border-b border-neutral-300 hover:bg-neutral-100">
+                    3
+                </button>
+                <button class="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border-t border-b border-neutral-300 hover:bg-neutral-100">
+                    4
+                </button>
+                <button class="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border-t border-b border-neutral-300 hover:bg-neutral-100">
+                    ...
+                </button>
+                <button class="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-r-lg hover:bg-neutral-100">
+                    Sau <i class="fas fa-chevron-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-neutral-800 text-white pt-12 pb-6 mt-12">
+<div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <!-- About -->
+        <div>
+            <h4 class="text-lg font-bold mb-4">Về CineAsia</h4>
+            <p class="text-neutral-400 text-sm mb-4">CineAsia là trang web xem phim trực tuyến hàng đầu với kho phim đa dạng từ châu Á và quốc tế.</p>
+            <div class="flex space-x-4">
+                <a href="#" class="text-neutral-400 hover:text-white transition">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="text-neutral-400 hover:text-white transition">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-neutral-400 hover:text-white transition">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-neutral-400 hover:text-white transition">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+            <h4 class="text-lg font-bold mb-4">Liên Kết Nhanh</h4>
+            <ul class="space-y-2 text-neutral-400">
+                <li><a href="#" class="hover:text-white transition">Trang chủ</a></li>
+                <li><a href="#" class="hover:text-white transition">Phim lẻ</a></li>
+                <li><a href="#" class="hover:text-white transition">Phim bộ</a></li>
+                <li><a href="#" class="hover:text-white transition">Phim chiếu rạp</a></li>
+                <li><a href="#" class="hover:text-white transition">Phim sắp chiếu</a></li>
+                <li><a href="#" class="hover:text-white transition">Bình luận phim</a></li>
+            </ul>
+        </div>
+        
+        <!-- Categories -->
+        <div>
+            <h4 class="text-lg font-bold mb-4">Thể Loại</h4>
+            <ul class="space-y-2 text-neutral-400">
+                <li><a href="#" class="hover:text-white transition">Hành động</a></li>
+                <li><a href="#" class="hover:text-white transition">Tình c��m</a></li>
+                <li><a href="#" class="hover:text-white transition">Hài hước</a></li>
+                <li><a href="#" class="hover:text-white transition">Kinh dị</a></li>
+                <li><a href="#" class="hover:text-white transition">Viễn tưởng</a></li>
+                <li><a href="#" class="hover:text-white transition">Hoạt hình</a></li>
+            </ul>
+        </div>
+        
+        <!-- Contact -->
+        <div>
+            <h4 class="text-lg font-bold mb-4">Liên Hệ</h4>
+            <ul class="space-y-2 text-neutral-400">
+                <li class="flex items-center">
+                    <i class="fas fa-map-marker-alt mr-2 text-accent-500"></i>
+                    <span>123 Đường Phim, Quận 1, TP.HCM</span>
+                </li>
+                <li class="flex items-center">
+                    <i class="fas fa-phone-alt mr-2 text-accent-500"></i>
+                    <span>+84 123 456 789</span>
+                </li>
+                <li class="flex items-center">
+                    <i class="fas fa-envelope mr-2 text-accent-500"></i>
+                    <span>info@cineasia.com</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="border-t border-neutral-700 pt-6 text-center text-neutral-500 text-sm">
+        <p>&copy; 2025 CineAsia. Tất cả quyền được bảo lưu.</p>
+    </div>
+</div>
+</footer>
+
+<script>
+// Mobile Menu
+const openMobileMenuBtn = document.getElementById('openMobileMenu');
+const closeMobileMenuBtn = document.getElementById('closeMobileMenu');
+const mobileMenu = document.getElementById('mobileMenu');
+
+openMobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+closeMobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+});
+
+// Scroll to top button
+const scrollToTopBtn = document.getElementById('scrollToTop');
+
+window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+        scrollToTopBtn.style.opacity = '1';
+    } else {
+        scrollToTopBtn.style.opacity = '0';
+    }
+});
+
+scrollToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// Show notifications
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.innerHTML = `<p class="text-sm">${message}</p>`;
+    
+    notification.style.animation = 'none';
+    notification.offsetHeight; // Trigger reflow
+    notification.style.animation = 'slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards';
+}
+
+// Create new notifications periodically
+setInterval(() => {
+    const movies = [
+        'Phim "Chiến Binh Bất Tử" vừa được cập nhật',
+        'Phim "Tình Yêu Mùa Hè" sắp ra mắt',
+        'Phim "Bí Mật Đảo Jeju" đã có tập mới'
+    ];
+    
+    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+    const notification = document.getElementById('notification');
+    notification.innerHTML = `<p class="text-sm"><span class="font-bold">Mới cập nhật:</span> ${randomMovie}!</p>`;
+    
+    notification.style.animation = 'none';
+    notification.offsetHeight; // Trigger reflow
+    notification.style.animation = 'slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards';
+}, 10000);
+
+// Toggle filter sections
+const filterToggles = document.querySelectorAll('.filter-toggle');
+
+filterToggles.forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        const filterSection = toggle.closest('.filter-section');
+        filterSection.classList.toggle('collapsed');
+        
+        // Update the icon
+        const icon = toggle.querySelector('i');
+        if (filterSection.classList.contains('collapsed')) {
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        } else {
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        }
+    });
+});
+
+// Year Range Slider
+const yearSlider = document.getElementById('yearRangeSlider');
+const yearThumbLeft = document.getElementById('yearThumbLeft');
+const yearThumbRight = document.getElementById('yearThumbRight');
+const yearTrack = yearSlider.querySelector('.track');
+const yearFromInput = document.getElementById('yearFrom');
+const yearToInput = document.getElementById('yearTo');
+
+const minYear = 1990;
+const maxYear = 2025;
+const yearRange = maxYear - minYear;
+
+// Initialize thumbs position
+let leftPos = 20; // 20%
+let rightPos = 80; // 80%
+
+function updateYearSlider() {
+    yearTrack.style.left = `${leftPos}%`;
+    yearTrack.style.right = `${100 - rightPos}%`;
+    yearThumbLeft.style.left = `${leftPos}%`;
+    yearThumbRight.style.left = `${rightPos}%`;
+    
+    const leftYear = Math.round(minYear + (yearRange * leftPos / 100));
+    const rightYear = Math.round(minYear + (yearRange * rightPos / 100));
+    
+    yearFromInput.value = leftYear;
+    yearToInput.value = rightYear;
+}
+
+// Update slider when inputs change
+yearFromInput.addEventListener('change', () => {
+    const value = parseInt(yearFromInput.value);
+    if (value < minYear) yearFromInput.value = minYear;
+    if (value > parseInt(yearToInput.value)) yearFromInput.value = yearToInput.value;
+    
+    leftPos = ((parseInt(yearFromInput.value) - minYear) / yearRange) * 100;
+    updateYearSlider();
+});
+
+yearToInput.addEventListener('change', () => {
+    const value = parseInt(yearToInput.value);
+    if (value > maxYear) yearToInput.value = maxYear;
+    if (value < parseInt(yearFromInput.value)) yearToInput.value = yearFromInput.value;
+    
+    rightPos = ((parseInt(yearToInput.value) - minYear) / yearRange) * 100;
+    updateYearSlider();
+});
+
+// Drag functionality for thumbs
+let isDragging = null;
+
+yearThumbLeft.addEventListener('mousedown', () => {
+    isDragging = 'left';
+});
+
+yearThumbRight.addEventListener('mousedown', () => {
+    isDragging = 'right';
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    
+    const rect = yearSlider.getBoundingClientRect();
+    const pos = ((e.clientX - rect.left) / rect.width) * 100;
+    
+    if (isDragging === 'left') {
+        if (pos < 0) leftPos = 0;
+        else if (pos > rightPos - 5) leftPos = rightPos - 5;
+        else leftPos = pos;
+    } else {
+        if (pos > 100) rightPos = 100;
+        else if (pos < leftPos + 5) rightPos = leftPos + 5;
+        else rightPos = pos;
+    }
+    
+    updateYearSlider();
+});
+
+document.addEventListener('mouseup', () => {
+    isDragging = null;
+});
+
+// Rating stars
+const ratingStars = document.querySelectorAll('.rating-star');
+let currentRating = 4; // Default 4 stars
+
+ratingStars.forEach(star => {
+    star.addEventListener('click', () => {
+        const rating = parseInt(star.getAttribute('data-rating'));
+        currentRating = rating;
+        
+        // Update stars UI
+        ratingStars.forEach((s, index) => {
+            if (index < rating) {
+                s.classList.remove('bg-neutral-200', 'text-neutral-400');
+                s.classList.add('bg-accent-500', 'text-white');
+            } else {
+                s.classList.remove('bg-accent-500', 'text-white');
+                s.classList.add('bg-neutral-200', 'text-neutral-400');
+            }
+        });
+        
+        // Update active filters
+        updateRatingFilter(rating);
+    });
+});
+
+// Movie type buttons
+const movieTypeButtons = document.querySelectorAll('.movie-type-btn');
+let currentMovieType = 'all'; // Default all
+
+movieTypeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const type = button.getAttribute('data-type');
+        currentMovieType = type;
+        
+        // Update buttons UI
+        movieTypeButtons.forEach(btn => {
+            if (btn.getAttribute('data-type') === type) {
+                btn.classList.remove('bg-neutral-200', 'text-neutral-700');
+                btn.classList.add('bg-accent-500', 'text-white');
+            } else {
+                btn.classList.remove('bg-accent-500', 'text-white');
+                btn.classList.add('bg-neutral-200', 'text-neutral-700');
+            }
+        });
+        
+        // Apply filter immediately
+        applyFilters();
+    });
+});
+
+// Category checkboxes
+const categoryCheckboxes = document.querySelectorAll('input[data-filter="category"]');
+categoryCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+        const value = checkbox.getAttribute('data-value');
+        if (checkbox.checked) {
+            addActiveFilter('category', value);
+        } else {
+            removeActiveFilter('category', value);
+        }
+        
+        // Apply filter immediately
+        applyFilters();
+    });
+});
+
+// Country select
+const countrySelect = document.getElementById('countrySelect');
+countrySelect.addEventListener('change', () => {
+    const value = countrySelect.value;
+    const text = countrySelect.options[countrySelect.selectedIndex].text;
+    
+    // Remove existing country filter
+    document.querySelectorAll('#activeFilters [data-filter="country"]').forEach(el => el.remove());
+    
+    if (value) {
+        addActiveFilter('country', value, text);
+    }
+    
+    // Apply filter immediately
+    applyFilters();
+});
+
+// Active filters management
+function addActiveFilter(filterType, value, displayText = null) {
+    // Check if filter already exists
+    const existingFilter = document.querySelector(`#activeFilters [data-filter="${filterType}"][data-value="${value}"]`);
+    if (existingFilter) return;
+    
+    const activeFiltersContainer = document.getElementById('activeFilters');
+    const filterElement = document.createElement('div');
+    filterElement.className = 'bg-neutral-100 text-neutral-700 text-xs px-3 py-1 rounded-full flex items-center';
+    filterElement.setAttribute('data-filter', filterType);
+    filterElement.setAttribute('data-value', value);
+    
+    filterElement.innerHTML = `
+        ${displayText || value}
+        <button class="ml-2 text-neutral-500 hover:text-neutral-700 remove-filter">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    activeFiltersContainer.appendChild(filterElement);
+    
+    // Add event listener to remove button
+    const removeBtn = filterElement.querySelector('.remove-filter');
+    removeBtn.addEventListener('click', () => {
+        removeActiveFilter(filterType, value);
+        
+        // Update UI based on filter type
+        if (filterType === 'category') {
+            const checkbox = document.querySelector(`input[data-filter="category"][data-value="${value}"]`);
+            if (checkbox) checkbox.checked = false;
+        } else if (filterType === 'country') {
+            countrySelect.value = '';
+        } else if (filterType === 'rating') {
+            currentRating = 0;
+            ratingStars.forEach(s => {
+                s.classList.remove('bg-accent-500', 'text-white');
+                s.classList.add('bg-neutral-200', 'text-neutral-400');
+            });
+        }
+        
+        // Apply filter immediately
+        applyFilters();
+    });
+}
+
+function removeActiveFilter(filterType, value) {
+    const filter = document.querySelector(`#activeFilters [data-filter="${filterType}"][data-value="${value}"]`);
+    if (filter) {
+        filter.remove();
+    }
+}
+
+function updateRatingFilter(rating) {
+    // Remove existing rating filter
+    document.querySelectorAll('#activeFilters [data-filter="rating"]').forEach(el => el.remove());
+    
+    // Add new rating filter
+    addActiveFilter('rating', rating, `${rating} sao trở lên`);
+    
+    // Apply filter immediately
+    applyFilters();
+}
+
+// Reset filters
+const resetFiltersBtn = document.getElementById('resetFilters');
+
+resetFiltersBtn.addEventListener('click', () => {
+    // Reset checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    
+    // Reset year range
+    yearFromInput.value = minYear;
+    yearToInput.value = maxYear;
+    leftPos = 0;
+    rightPos = 100;
+    updateYearSlider();
+    
+    // Reset country select
+    countrySelect.selectedIndex = 0;
+    
+    // Reset rating stars
+    currentRating = 0;
+    ratingStars.forEach(star => {
+        star.classList.remove('bg-accent-500', 'text-white');
+        star.classList.add('bg-neutral-200', 'text-neutral-400');
+    });
+    
+    // Reset movie type
+    currentMovieType = 'all';
+    movieTypeButtons.forEach(btn => {
+        if (btn.getAttribute('data-type') === 'all') {
+            btn.classList.add('bg-accent-500', 'text-white');
+            btn.classList.remove('bg-neutral-200', 'text-neutral-700');
+        } else {
+            btn.classList.remove('bg-accent-500', 'text-white');
+            btn.classList.add('bg-neutral-200', 'text-neutral-700');
+        }
+    });
+    
+    // Clear active filters
+    document.getElementById('activeFilters').innerHTML = '';
+    
+    // Apply filters
+    applyFilters();
+    
+    // Show notification
+    showNotification('Đã đặt lại tất cả bộ lọc!');
+});
+
+// Apply filters button
+const applyFiltersBtn = document.getElementById('applyFilters');
+applyFiltersBtn.addEventListener('click', applyFilters);
+
+// Apply filters function
+function applyFilters() {
+    const movieCards = document.querySelectorAll('.movie-card');
+    let visibleCount = 0;
+    
+    movieCards.forEach(card => {
+        let shouldShow = true;
+        
+        // Check year range
+        const year = parseInt(card.getAttribute('data-year'));
+        const minYearFilter = parseInt(yearFromInput.value);
+        const maxYearFilter = parseInt(yearToInput.value);
+        
+        if (year < minYearFilter || year > maxYearFilter) {
+            shouldShow = false;
+        }
+        
+        // Check categories
+        const activeCategories = [];
+        document.querySelectorAll('#activeFilters [data-filter="category"]').forEach(el => {
+            activeCategories.push(el.getAttribute('data-value'));
+        });
+        
+        if (activeCategories.length > 0) {
+            const cardCategories = card.getAttribute('data-categories').split(',');
+            const hasAllCategories = activeCategories.every(category => cardCategories.includes(category));
+            if (!hasAllCategories) {
+                shouldShow = false;
+            }
+        }
+        
+        // Check country
+        const countryFilter = document.querySelector('#activeFilters [data-filter="country"]');
+        if (countryFilter) {
+            const countryValue = countryFilter.getAttribute('data-value');
+            if (card.getAttribute('data-country') !== countryValue) {
+                shouldShow = false;
+            }
+        }
+        
+        // Check rating
+        const ratingFilter = document.querySelector('#activeFilters [data-filter="rating"]');
+        if (ratingFilter) {
+            const minRating = parseFloat(ratingFilter.getAttribute('data-value'));
+            const cardRating = parseFloat(card.getAttribute('data-rating'));
+            if (cardRating < minRating) {
+                shouldShow = false;
+            }
+        }
+        
+        // Check movie type
+        if (currentMovieType !== 'all') {
+            if (card.getAttribute('data-type') !== currentMovieType) {
+                shouldShow = false;
+            }
+        }
+        
+        // Show or hide the card
+        if (shouldShow) {
+            card.style.display = '';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Update result count
+    document.getElementById('resultCount').textContent = visibleCount;
+    
+    // Show notification
+    showNotification(`Đã tìm thấy ${visibleCount} kết quả phù hợp!`);
+}
+
+// Sort functionality
+const sortSelect = document.getElementById('sortSelect');
+sortSelect.addEventListener('change', () => {
+    const sortValue = sortSelect.value;
+    const resultsGrid = document.getElementById('resultsGrid');
+    const movieCards = Array.from(document.querySelectorAll('.movie-card'));
+    
+    // Sort the cards
+    movieCards.sort((a, b) => {
+        if (sortValue === 'newest') {
+            return parseInt(b.getAttribute('data-year')) - parseInt(a.getAttribute('data-year'));
+        } else if (sortValue === 'rating') {
+            return parseFloat(b.getAttribute('data-rating')) - parseFloat(a.getAttribute('data-rating'));
+        } else if (sortValue === 'views') {
+            // For demo purposes, we'll use rating as a proxy for views
+            return parseFloat(b.getAttribute('data-rating')) - parseFloat(a.getAttribute('data-rating'));
+        }
+        // Default: relevance (no change)
+        return 0;
+    });
+    
+    // Re-append the cards in the new order
+    movieCards.forEach(card => {
+        resultsGrid.appendChild(card);
+    });
+    
+    // Show notification
+    showNotification(`Đã sắp xếp phim theo ${sortSelect.options[sortSelect.selectedIndex].text}!`);
+});
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', () => {
+    // Apply initial filters
+    applyFilters();
+});
+</script>
+</body>
+</html>

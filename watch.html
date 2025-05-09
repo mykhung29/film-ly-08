@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xem Phim: Đảo Hải Tặc - Tập 1 - CineAsia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neutral: {
+                            50: '#f9f9f9',
+                            100: '#f3f3f3',
+                            200: '#e5e5e5',
+                            300: '#d4d4d4',
+                            400: '#a3a3a3',
+                            500: '#737373',
+                            600: '#525252',
+                            700: '#404040',
+                            800: '#262626',
+                            900: '#171717',
+                        },
+                        accent: {
+                            100: '#fff1f2',
+                            500: '#f43f5e',
+                            700: '#be123c',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80%;
+            max-width: 300px;
+            height: 100%;
+            background-color: #262626;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active .mobile-menu-content {
+            transform: translateX(0);
+        }
+
+        .movie-card {
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .notification {
+            animation: slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards;
+            transform: translateX(-100%);
+        }
+
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Picture-in-Picture styles */
+        .pip-video {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            height: 180px;
+            z-index: 1000;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .pip-video.active {
+            display: block;
+        }
+
+        .pip-controls {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            display: flex;
+            justify-content: space-between;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .pip-video:hover .pip-controls {
+            opacity: 1;
+        }
+
+        .pip-title {
+            color: white;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+
+        .pip-close {
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Video player styles */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .video-container iframe,
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-container:hover .video-controls {
+            opacity: 1;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .control-button {
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 60px;
+            left: 20px;
+            right: 20px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #f43f5e;
+            width: 30%;
+            /* Just for demo */
+        }
+
+        .volume-slider {
+            width: 80px;
+            -webkit-appearance: none;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="bg-neutral-50 text-neutral-800">
+    <!-- Notification -->
+    <div id="notification"
+        class="notification fixed bottom-8 left-0 z-50 bg-neutral-800 text-white px-4 py-2 rounded-r-lg shadow-lg">
+        <p class="text-sm"><span class="font-bold">Mới cập nhật:</span> Phim "Hoa Mộc Lan" vừa được thêm vào!</p>
+    </div>
+
+    <!-- Scroll to top button -->
+    <button id="scrollToTop"
+        class="fixed bottom-8 right-8 bg-neutral-800 text-white p-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300 z-50">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Picture-in-Picture Video -->
+    <div id="pipVideo" class="pip-video">
+        <div class="pip-controls">
+            <div class="pip-title">Đảo Hải Tặc - Tập 1</div>
+            <button id="closePip" class="pip-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <video id="pipVideoElement" src="https://placehold.co/1280x720" controls muted></video>
+    </div>
+
+    <!-- Header -->
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu">
+        <div class="mobile-menu-content p-6">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-film text-accent-500 text-2xl"></i>
+                    <h1 class="text-2xl font-bold text-white">CineAsia</h1>
+                </div>
+                <button id="closeMobileMenu" class="text-white text-xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="mb-6">
+                <div class="relative">
+                    <input type="text" value="Đảo Hải Tặc" placeholder="Tìm kiếm phim..."
+                        class="w-full bg-neutral-700 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent-500">
+                    <button class="absolute right-3 top-2 text-neutral-400">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <nav class="flex flex-col space-y-4 text-white mb-8">
+                <a href="index.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Trang
+                    chủ</a>
+                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim lẻ</a>
+                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim bộ</a>
+                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim chiếu rạp</a>
+                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim sắp chiếu</a>
+            </nav>
+
+            <a href="login.html">
+<button
+                class="w-full bg-accent-500 hover:bg-accent-700 px-4 py-2 rounded-full text-white text-sm transition">
+                Đăng nhập
+            </button>
+</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-neutral-800 text-white shadow-md">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" >
+<div class="flex items-center space-x-2">
+                    <i class="fas fa-film text-accent-500 text-2xl"></i>
+                    <h1 class="text-2xl font-bold">CineAsia</h1>
+                </div></a>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="index.html" class="hover:text-accent-500 transition">Trang chủ</a>
+                    <a href="category.html" class="hover:text-accent-500 transition">Phim lẻ</a>
+                    <a href="category.html" class="hover:text-accent-500 transition">Phim bộ</a>
+                    <a href="category.html" class="hover:text-accent-500 transition">Phim chiếu rạp</a>
+                    <a href="category.html" class="hover:text-accent-500 transition">Phim sắp chiếu</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <div class="relative hidden sm:block">
+                        <input type="text" value="Đảo Hải Tặc" placeholder="Tìm kiếm phim..."
+                            class="bg-neutral-700 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent-500">
+                        <button class="absolute right-3 top-2 text-neutral-400">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <a href="login.html">
+<button
+                        class="hidden sm:block bg-accent-500 hover:bg-accent-700 px-4 py-2 rounded-full text-sm transition">
+                        Đăng nhập
+                    </button>
+</a>
+                    <button id="openMobileMenu" class="md:hidden text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Breadcrumbs -->
+    <div class="bg-neutral-100 py-3">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center text-sm text-neutral-600">
+                <a href="index.html" class="hover:text-accent-500">Trang chủ</a>
+                <span class="mx-2">/</span>
+                <a href="#" class="hover:text-accent-500">Phim bộ</a>
+                <span class="mx-2">/</span>
+                <a href="detail.html" class="hover:text-accent-500">Đảo Hải Tặc</a>
+                <span class="mx-2">/</span>
+                <span class="text-neutral-800 font-medium">Tập 1</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Video Player Section -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            <div class="video-container">
+                <video id="mainVideo" poster="https://placehold.co/1280x720/262626/FFFFFF?text=Đảo+Hải+Tặc+Tập+1"
+                    controls>
+                    <source src="https://placehold.co/1280x720" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+
+            </div>
+            <div class="flex flex-col justify-between md:flex-row">
+                <div class="p-6">
+                    <h1 class="text-2xl font-bold mb-2">Đảo Hải Tặc - Tập 1: Khởi đầu cuộc phiêu lưu</h1>
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i>
+                            <span class="font-medium">9.5</span>
+                            <span class="text-neutral-500 text-sm ml-1">/10</span>
+                        </div>
+                        <div class="text-sm text-neutral-500">
+                            <span>24 phút • 1999</span>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <button id="likeButton"
+                            class="flex items-center space-x-2 bg-neutral-100 hover:bg-neutral-200 px-4 py-2 rounded-full transition">
+                            <i class="far fa-heart"></i>
+                            <span>Yêu thích</span>
+                        </button>
+                        <button
+                            class="flex items-center space-x-2 bg-neutral-100 hover:bg-neutral-200 px-4 py-2 rounded-full transition">
+                            <i class="fas fa-share-alt"></i>
+                            <span>Chia sẻ</span>
+                        </button>
+                        <button
+                            class="flex items-center space-x-2 bg-neutral-100 hover:bg-neutral-200 px-4 py-2 rounded-full transition">
+                            <i class="fas fa-plus"></i>
+                            <span>Thêm vào</span>
+                        </button>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Next/Previous Episodes -->
+                <div class="p-6 flex items-center">
+                    <div class="flex justify-between gap-8">
+                        <div class="opacity-50 cursor-not-allowed">
+                            <span class="flex items-center text-neutral-500">
+                                <i class="fas fa-chevron-left mr-2"></i>
+                                Tập trước
+                            </span>
+                        </div>
+                        <div>
+                            <a href="#" class="flex items-center text-accent-500 hover:text-accent-700">
+                                Tập sau
+                                <i class="fas fa-chevron-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Left Content (7/10) -->
+            <div class="lg:w-[70%]">
+
+
+                <!-- Tabbed Content -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+                    <div class="border-b border-neutral-200">
+                        <div class="flex">
+                            <button class="tab-btn px-6 py-4 font-medium text-accent-500 border-b-2 border-accent-500"
+                                data-tab="episodes">
+                                Danh sách tập
+                            </button>
+                            <button
+                                class="tab-btn px-6 py-4 font-medium text-neutral-500 hover:text-neutral-800 transition"
+                                data-tab="details">
+                                Chi tiết phim
+                            </button>
+                            <button
+                                class="tab-btn px-6 py-4 font-medium text-neutral-500 hover:text-neutral-800 transition"
+                                data-tab="comments">
+                                Bình luận
+                            </button>
+                            <button
+                                class="tab-btn px-6 py-4 font-medium text-neutral-500 hover:text-neutral-800 transition"
+                                data-tab="cast">
+                                Diễn viên
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Episodes Tab -->
+                    <div id="episodes-tab" class="tab-content active p-6">
+                        <div class="mb-4 flex justify-between items-center">
+                            <h3 class="font-bold">Danh sách tập phim</h3>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-neutral-500">Sắp xếp:</span>
+                                <select class="text-sm border border-neutral-300 rounded px-2 py-1">
+                                    <option>Mới nhất</option>
+                                    <option>Cũ nhất</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                            <!-- Episode 1 -->
+                            <div class="bg-accent-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer">
+                                <div class="relative mb-2">
+                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+1"
+                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
+                                    <span
+                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:15</span>
+                                </div>
+                                <h4 class="font-medium text-sm text-accent-500">Tập 1</h4>
+                                <p class="text-neutral-500 text-xs">Khởi đầu cuộc phiêu lưu</p>
+                            </div>
+
+                            <!-- Episode 2 -->
+                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch">
+                                <div class="relative mb-2">
+                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+2"
+                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
+                                    <span
+                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">23:45</span>
+                                </div>
+                                <h4 class="font-medium text-sm">Tập 2</h4>
+                                <p class="text-neutral-500 text-xs">Người thợ săn hải tặc</p>
+                            </div>
+
+                            <!-- Episode 3 -->
+                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch">
+                                <div class="relative mb-2">
+                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+3"
+                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
+                                    <span
+                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:30</span>
+                                </div>
+                                <h4 class="font-medium text-sm">Tập 3</h4>
+                                <p class="text-neutral-500 text-xs">Morgan và Coby</p>
+                            </div>
+
+                            <!-- Episode 4 -->
+                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch">
+                                <div class="relative mb-2">
+                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+4"
+                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
+                                    <span
+                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">23:55</span>
+                                </div>
+                                <h4 class="font-medium text-sm">Tập 4</h4>
+                                <p class="text-neutral-500 text-xs">Quá khứ của Zoro</p>
+                            </div>
+
+                            <!-- Episode 5 -->
+                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch">
+                                <div class="relative mb-2">
+                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+5"
+                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
+                                    <span
+                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:10</span>
+                                </div>
+                                <h4 class="font-medium text-sm">Tập 5</h4>
+                                <p class="text-neutral-500 text-xs">Thị trấn Orange</p>
+                            </div>
+
+                            <!-- Episode 6 -->
+                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch">
+                                <div class="relative mb-2">
+                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+6"
+                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
+                                    <span
+                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:05</span>
+                                </div>
+                                <h4 class="font-medium text-sm">Tập 6</h4>
+                                <p class="text-neutral-500 text-xs">Gặp gỡ Nami</p>
+                            </div>
+
+                            <!-- Episode 7 -->
+                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch">
+                                <div class="relative mb-2">
+                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+7"
+                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
+                                    <span
+                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">23:50</span>
+                                </div>
+                                <h4 class="font-medium text-sm">Tập 7</h4>
+                                <p class="text-neutral-500 text-xs">Tên hề Buggy</p>
+                            </div>
+
+                            <!-- Episode 8 -->
+                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch">
+                                <div class="relative mb-2">
+                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+8"
+                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
+                                    <span
+                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:20</span>
+                                </div>
+                                <h4 class="font-medium text-sm">Tập 8</h4>
+                                <p class="text-neutral-500 text-xs">Trận chiến với Buggy</p>
+                            </div>
+
+                            <!-- Episode 9 -->
+                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch">
+                                <div class="relative mb-2">
+                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+9"
+                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
+                                    <span
+                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:00</span>
+                                </div>
+                                <h4 class="font-medium text-sm">Tập 9</h4>
+                                <p class="text-neutral-500 text-xs">Kho báu của Nami</p>
+                            </div>
+
+                            <!-- Episode 10 -->
+                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch">
+                                <div class="relative mb-2">
+                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+10"
+                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
+                                    <span
+                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:15</span>
+                                </div>
+                                <h4 class="font-medium text-sm">Tập 10</h4>
+                                <p class="text-neutral-500 text-xs">Hướng đến Syrup</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex justify-center">
+                            <div class="flex space-x-1">
+                                <button
+                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300 bg-neutral-100">
+                                    <i class="fas fa-chevron-left text-xs"></i>
+                                </button>
+                                <button
+                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300 bg-accent-500 text-white">1</button>
+                                <button
+                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300">2</button>
+                                <button
+                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300">3</button>
+                                <button
+                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300">...</button>
+                                <button
+                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300">100</button>
+                                <button
+                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300 bg-neutral-100">
+                                    <i class="fas fa-chevron-right text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details Tab -->
+                    <div id="details-tab" class="tab-content p-6">
+                        <h3 class="font-bold mb-4">Chi tiết phim</h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-medium mb-2">Nội dung tập phim:</h4>
+                                <p class="text-neutral-600">
+                                    Tập đầu tiên của Đảo Hải Tặc giới thiệu về Monkey D. Luffy, một cậu bé có ước mơ trở
+                                    thành Vua Hải Tặc. Sau khi vô tình ăn phải trái ác quỷ Gomu Gomu, cơ thể Luffy trở
+                                    nên có thể co giãn như cao su. Tập phim kể về quá khứ của Luffy, cuộc gặp gỡ với
+                                    Shanks Tóc Đỏ và khởi đầu cuộc phiêu lưu của cậu trên biển cả.
+                                </p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-medium mb-2">Thông tin chung:</h4>
+                                    <ul class="space-y-2">
+                                        <li class="flex">
+                                            <span class="text-neutral-500 w-32">Tên phim:</span>
+                                            <span>Đảo Hải Tặc (One Piece)</span>
+                                        </li>
+                                        <li class="flex">
+                                            <span class="text-neutral-500 w-32">Tập phim:</span>
+                                            <span>Tập 1 - Khởi đầu cuộc phiêu lưu</span>
+                                        </li>
+                                        <li class="flex">
+                                            <span class="text-neutral-500 w-32">Thời lượng:</span>
+                                            <span>24 phút</span>
+                                        </li>
+                                        <li class="flex">
+                                            <span class="text-neutral-500 w-32">Năm phát hành:</span>
+                                            <span>1999</span>
+                                        </li>
+                                        <li class="flex">
+                                            <span class="text-neutral-500 w-32">Quốc gia:</span>
+                                            <span>Nhật Bản</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-medium mb-2">Thông tin sản xuất:</h4>
+                                    <ul class="space-y-2">
+                                        <li class="flex">
+                                            <span class="text-neutral-500 w-32">Đạo diễn:</span>
+                                            <span>Kōnosuke Uda</span>
+                                        </li>
+                                        <li class="flex">
+                                            <span class="text-neutral-500 w-32">Biên kịch:</span>
+                                            <span>Junki Takegami</span>
+                                        </li>
+                                        <li class="flex">
+                                            <span class="text-neutral-500 w-32">Nhà sản xuất:</span>
+                                            <span>Toei Animation</span>
+                                        </li>
+                                        <li class="flex">
+                                            <span class="text-neutral-500 w-32">Phát sóng:</span>
+                                            <span>Fuji TV</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 class="font-medium mb-2">Nhân vật chính:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full">Monkey
+                                        D. Luffy</span>
+                                    <span class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full">Shanks
+                                        Tóc Đỏ</span>
+                                    <span
+                                        class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full">Coby</span>
+                                    <span
+                                        class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full">Alvida</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comments Tab -->
+                    <div id="comments-tab" class="tab-content p-6">
+                        <h3 class="text-lg font-bold mb-4">Bình Luận (125)</h3>
+
+                        <!-- Comment Form -->
+                        <div class="mb-6">
+                            <div class="flex space-x-4">
+                                <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar"
+                                    class="w-10 h-10 rounded-full">
+                                <div class="flex-1">
+                                    <textarea id="mainCommentInput" placeholder="Viết bình luận của bạn..."
+                                        class="w-full border border-neutral-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
+                                    <div class="flex justify-end mt-2">
+                                        <button id="submitCommentBtn"
+                                            class="bg-accent-500 hover:bg-accent-700 text-white px-4 py-2 rounded-md text-sm transition">
+                                            Gửi bình luận
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comments List -->
+                        <div id="commentsList" class="space-y-6">
+                            <!-- Comment 1 -->
+                            <div class="comment-item flex space-x-4">
+                                <img src="https://placehold.co/100x100/262626/FFFFFF?text=User+1" alt="User avatar"
+                                    class="w-10 h-10 rounded-full">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-1">
+                                        <h4 class="font-medium">NguyenVanA</h4>
+                                        <span class="mx-2 text-neutral-400">•</span>
+                                        <span class="text-neutral-500 text-sm">2 giờ trước</span>
+                                    </div>
+                                    <p class="text-neutral-700 mb-2">Tập đầu tiên thực sự đã gây ấn tượng mạnh với tôi!
+                                        Cách mà họ giới thiệu Luffy và ước mơ trở thành Vua Hải Tặc của cậu ấy thật
+                                        tuyệt vời. Shanks là một nhân vật rất thú vị.</p>
+                                    <div class="flex items-center text-sm text-neutral-500">
+                                        <button class="like-button flex items-center hover:text-accent-500"
+                                            data-likes="125">
+                                            <i class="far fa-thumbs-up mr-1"></i>
+                                            <span>125</span>
+                                        </button>
+                                        <span class="mx-2">•</span>
+                                        <button class="reply-button hover:text-accent-500">Trả lời</button>
+                                    </div>
+
+                                    <!-- Reply Form (Hidden by default) -->
+                                    <div class="reply-form mt-3 ml-6 hidden">
+                                        <div class="flex space-x-3">
+                                            <img src="https://placehold.co/100x100/262626/FFFFFF?text=You"
+                                                alt="Your avatar" class="w-8 h-8 rounded-full">
+                                            <div class="flex-1">
+                                                <textarea placeholder="Viết phản hồi của bạn..."
+                                                    class="w-full border border-neutral-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
+                                                <div class="flex justify-end mt-2 space-x-2">
+                                                    <button
+                                                        class="cancel-reply bg-neutral-200 hover:bg-neutral-300 text-neutral-700 px-3 py-1 rounded-md text-xs transition">
+                                                        Hủy
+                                                    </button>
+                                                    <button
+                                                        class="submit-reply bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded-md text-xs transition">
+                                                        Gửi
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Replies Container -->
+                                    <div class="replies-container">
+                                        <!-- Reply 1 -->
+                                        <div class="mt-4 ml-6 flex space-x-4">
+                                            <img src="https://placehold.co/100x100/262626/FFFFFF?text=User+2"
+                                                alt="User avatar" class="w-8 h-8 rounded-full">
+                                            <div class="flex-1">
+                                                <div class="flex items-center mb-1">
+                                                    <h4 class="font-medium">TranThiB</h4>
+                                                    <span class="mx-2 text-neutral-400">•</span>
+                                                    <span class="text-neutral-500 text-sm">1 giờ trước</span>
+                                                </div>
+                                                <p class="text-neutral-700 mb-2">Đồng ý! Cảnh Shanks hy sinh cánh tay để
+                                                    cứu Luffy thực sự rất cảm động. Đó là khoảnh khắc định hình cả
+                                                    series.</p>
+                                                <div class="flex items-center text-sm text-neutral-500">
+                                                    <button class="like-button flex items-center hover:text-accent-500"
+                                                        data-likes="43">
+                                                        <i class="far fa-thumbs-up mr-1"></i>
+                                                        <span>43</span>
+                                                    </button>
+                                                    <span class="mx-2">•</span>
+                                                    <button class="reply-button hover:text-accent-500">Trả lời</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comment 2 -->
+                            <div class="comment-item flex space-x-4">
+                                <img src="https://placehold.co/100x100/262626/FFFFFF?text=User+3" alt="User avatar"
+                                    class="w-10 h-10 rounded-full">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-1">
+                                        <h4 class="font-medium">LeVanC</h4>
+                                        <span class="mx-2 text-neutral-400">•</span>
+                                        <span class="text-neutral-500 text-sm">1 ngày trước</span>
+                                    </div>
+                                    <p class="text-neutral-700 mb-2">Xem lại tập đầu tiên sau nhiều năm vẫn thấy thú vị.
+                                        Thật khó tin là One Piece đã phát triển đến mức này từ những khởi đầu đơn giản.
+                                    </p>
+                                    <div class="flex items-center text-sm text-neutral-500">
+                                        <button class="like-button flex items-center hover:text-accent-500"
+                                            data-likes="87">
+                                            <i class="far fa-thumbs-up mr-1"></i>
+                                            <span>87</span>
+                                        </button>
+                                        <span class="mx-2">•</span>
+                                        <button class="reply-button hover:text-accent-500">Trả lời</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 text-center">
+                            <button id="toggleCommentsBtn" class="text-accent-500 hover:text-accent-700 font-medium">
+                                Xem thêm bình luận
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cast Tab -->
+                    <div id="cast-tab" class="tab-content p-6">
+                        <h3 class="font-bold mb-4">Diễn viên lồng tiếng & Đạo diễn</h3>
+
+                        <div class="mb-6">
+                            <h4 class="font-medium text-lg mb-3">Đạo diễn</h4>
+                            <div class="flex items-center space-x-4">
+                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Director" alt="Director"
+                                    class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h5 class="font-medium">Kōnosuke Uda</h5>
+                                    <p class="text-neutral-500 text-sm">Đạo diễn tập 1-278</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="font-medium text-lg mb-3">Diễn viên lồng tiếng chính</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                            <!-- Actor 1 -->
+                            <div class="flex items-center space-x-3">
+                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+1" alt="Actor"
+                                    class="w-14 h-14 rounded-full object-cover">
+                                <div>
+                                    <h5 class="font-medium">Mayumi Tanaka</h5>
+                                    <p class="text-neutral-500 text-sm">Monkey D. Luffy</p>
+                                </div>
+                            </div>
+
+                            <!-- Actor 2 -->
+                            <div class="flex items-center space-x-3">
+                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+2" alt="Actor"
+                                    class="w-14 h-14 rounded-full object-cover">
+                                <div>
+                                    <h5 class="font-medium">Shūichi Ikeda</h5>
+                                    <p class="text-neutral-500 text-sm">Shanks</p>
+                                </div>
+                            </div>
+
+                            <!-- Actor 3 -->
+                            <div class="flex items-center space-x-3">
+                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+3" alt="Actor"
+                                    class="w-14 h-14 rounded-full object-cover">
+                                <div>
+                                    <h5 class="font-medium">Mika Doi</h5>
+                                    <p class="text-neutral-500 text-sm">Alvida</p>
+                                </div>
+                            </div>
+
+                            <!-- Actor 4 -->
+                            <div class="flex items-center space-x-3">
+                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+4" alt="Actor"
+                                    class="w-14 h-14 rounded-full object-cover">
+                                <div>
+                                    <h5 class="font-medium">Kōichi Nagano</h5>
+                                    <p class="text-neutral-500 text-sm">Coby</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Right Sidebar (3/10) -->
+            <div class="lg:w-[30%]">
+                <!-- Weekly Top Movies -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h3 class="text-lg font-bold mb-4">Top Phim Tuần Này</h3>
+                    <div class="space-y-4">
+                        <!-- Top Movie 1 -->
+                        <div class="flex space-x-3 click-item">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 bg-accent-500 text-white rounded-full flex items-center justify-center font-bold">
+                                1
+                            </div>
+                            <div class="flex space-x-3">
+                                <img src="https://placehold.co/100x150/262626/FFFFFF?text=Top+1" alt="Movie poster"
+                                    class="w-14 h-20 object-cover rounded">
+                                <div>
+                                    <h4 class="font-medium">Đảo Hải Tặc</h4>
+                                    <p class="text-neutral-500 text-xs">Hành động, Phiêu lưu</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
+                                        <span class="text-xs">9.5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Movie 2 -->
+                        <div class="flex space-x-3 click-item">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 bg-neutral-500 text-white rounded-full flex items-center justify-center font-bold">
+                                2
+                            </div>
+                            <div class="flex space-x-3">
+                                <img src="https://placehold.co/100x150/262626/FFFFFF?text=Top+2" alt="Movie poster"
+                                    class="w-14 h-20 object-cover rounded">
+                                <div>
+                                    <h4 class="font-medium">Vũ Trụ Anh Hùng</h4>
+                                    <p class="text-neutral-500 text-xs">Hành động, Viễn tưởng</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
+                                        <span class="text-xs">9.2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Movie 3 -->
+                        <div class="flex space-x-3 click-item">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 bg-neutral-500 text-white rounded-full flex items-center justify-center font-bold">
+                                3
+                            </div>
+                            <div class="flex space-x-3">
+                                <img src="https://placehold.co/100x150/262626/FFFFFF?text=Top+3" alt="Movie poster"
+                                    class="w-14 h-20 object-cover rounded">
+                                <div>
+                                    <h4 class="font-medium">Hoa Mộc Lan</h4>
+                                    <p class="text-neutral-500 text-xs">Hành động, Lịch sử</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
+                                        <span class="text-xs">8.9</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Movie 4 -->
+                        <div class="flex space-x-3 click-item">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 bg-neutral-500 text-white rounded-full flex items-center justify-center font-bold">
+                                4
+                            </div>
+                            <div class="flex space-x-3">
+                                <img src="https://placehold.co/100x150/262626/FFFFFF?text=Top+4" alt="Movie poster"
+                                    class="w-14 h-20 object-cover rounded">
+                                <div>
+                                    <h4 class="font-medium">Bí Mật Đảo Jeju</h4>
+                                    <p class="text-neutral-500 text-xs">Bí ẩn, Tâm lý</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
+                                        <span class="text-xs">9.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Movie 5 -->
+                        <div class="flex space-x-3 click-item">
+                            <div
+                                class="flex-shrink-0 w-8 h-8 bg-neutral-500 text-white rounded-full flex items-center justify-center font-bold">
+                                5
+                            </div>
+                            <div class="flex space-x-3">
+                                <img src="https://placehold.co/100x150/262626/FFFFFF?text=Top+5" alt="Movie poster"
+                                    class="w-14 h-20 object-cover rounded">
+                                <div>
+                                    <h4 class="font-medium">Tình Yêu Và Định Mệnh</h4>
+                                    <p class="text-neutral-500 text-xs">Tình cảm, Lãng mạn</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
+                                        <span class="text-xs">8.7</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-neutral-800 text-white pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- About -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Về CineAsia</h4>
+                    <p class="text-neutral-400 text-sm mb-4">CineAsia là trang web xem phim trực tuyến hàng đầu với kho
+                        phim đa dạng từ châu Á và quốc tế.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-neutral-400 hover:text-white transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-neutral-400 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-neutral-400 hover:text-white transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-neutral-400 hover:text-white transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Liên Kết Nhanh</h4>
+                    <ul class="space-y-2 text-neutral-400">
+                        <li><a href="#" class="hover:text-white transition">Trang chủ</a></li>
+                        <li><a href="#" class="hover:text-white transition">Phim lẻ</a></li>
+                        <li><a href="#" class="hover:text-white transition">Phim bộ</a></li>
+                        <li><a href="#" class="hover:text-white transition">Phim chiếu rạp</a></li>
+                        <li><a href="#" class="hover:text-white transition">Phim sắp chiếu</a></li>
+                        <li><a href="#" class="hover:text-white transition">Bình luận phim</a></li>
+                    </ul>
+                </div>
+
+                <!-- Categories -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Thể Loại</h4>
+                    <ul class="space-y-2 text-neutral-400">
+                        <li><a href="#" class="hover:text-white transition">Hành động</a></li>
+                        <li><a href="#" class="hover:text-white transition">Tình cảm</a></li>
+                        <li><a href="#" class="hover:text-white transition">Hài hước</a></li>
+                        <li><a href="#" class="hover:text-white transition">Kinh dị</a></li>
+                        <li><a href="#" class="hover:text-white transition">Viễn tưởng</a></li>
+                        <li><a href="#" class="hover:text-white transition">Hoạt hình</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Liên Hệ</h4>
+                    <ul class="space-y-2 text-neutral-400">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2 text-accent-500"></i>
+                            <span>123 Đường Phim, Quận 1, TP.HCM</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2 text-accent-500"></i>
+                            <span>+84 123 456 789</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2 text-accent-500"></i>
+                            <span>info@cineasia.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-neutral-700 pt-6 text-center text-neutral-500 text-sm">
+                <p>&copy; 2025 CineAsia. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu toggle for mobile
+        const openMobileMenuBtn = document.getElementById('openMobileMenu');
+        const closeMobileMenuBtn = document.getElementById('closeMobileMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        openMobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Scroll to top button
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.opacity = '1';
+            } else {
+                scrollToTopBtn.style.opacity = '0';
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Tab switching
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.getAttribute('data-tab');
+
+                    // Hide all tab contents
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+
+                    // Show the selected tab content
+                    document.getElementById(`${tabName}-tab`).classList.add('active');
+
+                    // Update tab button styles
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('text-accent-500', 'border-b-2', 'border-accent-500');
+                        btn.classList.add('text-neutral-500');
+                    });
+
+                    // Add active class to clicked button
+                    button.classList.remove('text-neutral-500');
+                    button.classList.add('text-accent-500', 'border-b-2', 'border-accent-500');
+                });
+            });
+        });
+
+        // Show notifications
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = `<p class="text-sm">${message}</p>`;
+
+            notification.style.animation = 'none';
+            notification.offsetHeight; // Trigger reflow
+            notification.style.animation = 'slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards';
+        }
+
+        // Create new notifications periodically
+        setInterval(() => {
+            const movies = [
+                'Phim "Chiến Binh Bất Tử" vừa được cập nhật',
+                'Phim "Tình Yêu Mùa Hè" sắp ra mắt',
+                'Phim "Bí Mật Đảo Jeju" đã có tập mới'
+            ];
+
+            const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+            const notification = document.getElementById('notification');
+            notification.innerHTML = `<p class="text-sm"><span class="font-bold">Mới cập nhật:</span> ${randomMovie}!</p>`;
+
+            notification.style.animation = 'none';
+            notification.offsetHeight; // Trigger reflow
+            notification.style.animation = 'slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards';
+        }, 10000);
+
+        // Picture-in-Picture functionality
+        const mainVideo = document.getElementById('mainVideo');
+        const pipVideo = document.getElementById('pipVideo');
+        const pipVideoElement = document.getElementById('pipVideoElement');
+        const pipBtn = document.getElementById('pipBtn');
+        const closePip = document.getElementById('closePip');
+
+        // Toggle PiP mode
+        pipBtn.addEventListener('click', () => {
+            // Copy current video time
+            const currentTime = mainVideo.currentTime;
+
+            // Set the same source and time for PiP video
+            pipVideoElement.src = mainVideo.src;
+            pipVideoElement.currentTime = currentTime;
+
+            // Show PiP video
+            pipVideo.classList.add('active');
+
+            // Play PiP video
+            pipVideoElement.play();
+
+            // Pause main video
+            mainVideo.pause();
+
+            // Show notification
+            showNotification('Video đã chuyển sang chế độ thu nhỏ');
+        });
+
+        // Close PiP mode
+        closePip.addEventListener('click', () => {
+            // Copy current time from PiP video
+            const currentTime = pipVideoElement.currentTime;
+
+            // Set the same time for main video
+            mainVideo.currentTime = currentTime;
+
+            // Hide PiP video
+            pipVideo.classList.remove('active');
+
+            // Pause PiP video
+            pipVideoElement.pause();
+
+            // Play main video
+            mainVideo.play();
+        });
+
+        // Video player controls
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const progress = document.querySelector('.progress');
+
+        // Play/Pause
+        playPauseBtn.addEventListener('click', () => {
+            if (mainVideo.paused) {
+                mainVideo.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                mainVideo.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+
+        // Mute/Unmute
+        muteBtn.addEventListener('click', () => {
+            mainVideo.muted = !mainVideo.muted;
+            if (mainVideo.muted) {
+                muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            } else {
+                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            }
+        });
+
+        // Fullscreen
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                if (mainVideo.requestFullscreen) {
+                    mainVideo.requestFullscreen();
+                } else if (mainVideo.webkitRequestFullscreen) {
+                    mainVideo.webkitRequestFullscreen();
+                } else if (mainVideo.msRequestFullscreen) {
+                    mainVideo.msRequestFullscreen();
+                }
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+            }
+        });
+
+        // Update progress bar
+        mainVideo.addEventListener('timeupdate', () => {
+            const percent = (mainVideo.currentTime / mainVideo.duration) * 100;
+            progress.style.width = `${percent}%`;
+        });
+
+        // Like Button Functionality
+        const likeButton = document.getElementById('likeButton');
+        let isLiked = false;
+
+        likeButton.addEventListener('click', () => {
+            isLiked = !isLiked;
+
+            if (isLiked) {
+                likeButton.innerHTML = '<i class="fas fa-heart text-red-500"></i><span>Đã thích</span>';
+                likeButton.classList.remove('bg-neutral-100', 'hover:bg-neutral-200');
+                likeButton.classList.add('bg-red-50', 'hover:bg-red-100', 'text-red-500');
+
+                // Show notification
+                showNotification('Đã thêm phim vào danh sách yêu thích!');
+            } else {
+                likeButton.innerHTML = '<i class="far fa-heart"></i><span>Yêu thích</span>';
+                likeButton.classList.remove('bg-red-50', 'hover:bg-red-100', 'text-red-500');
+                likeButton.classList.add('bg-neutral-100', 'hover:bg-neutral-200');
+            }
+        });
+
+        // Comments functionality
+        const replyButtons = document.querySelectorAll('.reply-button');
+
+        replyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const replyForm = button.closest('.flex-1').querySelector('.reply-form');
+                replyForm.classList.toggle('hidden');
+            });
+        });
+
+        // Toggle Comments (Show More/Show Less)
+        const toggleCommentsBtn = document.getElementById('toggleCommentsBtn');
+        let commentsExpanded = false;
+
+        if (toggleCommentsBtn) {
+            toggleCommentsBtn.addEventListener('click', () => {
+                const commentsList = document.getElementById('commentsList');
+                const comments = commentsList.querySelectorAll('.comment-item');
+
+                commentsExpanded = !commentsExpanded;
+
+                if (commentsExpanded) {
+                    // Show all comments
+                    comments.forEach(comment => {
+                        comment.style.display = 'flex';
+                    });
+                    toggleCommentsBtn.textContent = 'Ẩn bớt bình luận';
+                } else {
+                    // Show only first 2 comments
+                    comments.forEach((comment, index) => {
+                        if (index > 1) {
+                            comment.style.display = 'none';
+                        }
+                    });
+                    toggleCommentsBtn.textContent = 'Xem thêm bình luận';
+                }
+            });
+        }
+
+        // Auto-hide comments initially (except first 2)
+        document.addEventListener('DOMContentLoaded', function () {
+            const commentsList = document.getElementById('commentsList');
+            if (commentsList) {
+                const comments = commentsList.querySelectorAll('.comment-item');
+
+                comments.forEach((comment, index) => {
+                    if (index > 1) {
+                        comment.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+    <script src="js/click.js" ></script>
+
+</body>
+
+</html>
