@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Slider with Edge-Aware Tooltip</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full relative" id="slider-container">
+        <!-- Slider container -->
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Movie Title" data-release="2025"
+                    data-desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Movie Title</h3>
+                </div>
+                <!-- Repeat slides -->
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+
+                <div class="swiper-slide flex flex-col items-center bg-white rounded-lg shadow-md p-4 cursor-pointer"
+                    data-title="Another Movie" data-release="2024"
+                    data-desc="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.">
+                    <img src="https://via.placeholder.com/150x220" alt="Poster"
+                        class="w-36 h-52 rounded-md object-cover" />
+                    <h3 class="mt-2 text-lg font-semibold text-gray-800">Another Movie</h3>
+                </div>
+                <!-- ... more slides ... -->
+            </div>
+            <!-- Navigation -->
+            <div class="swiper-button-next text-gray-700"></div>
+            <div class="swiper-button-prev text-gray-700"></div>
+            <!-- Pagination -->
+            <div class="swiper-pagination mt-4"></div>
+        </div>
+
+        <!-- Detached Tooltip -->
+        <div id="tooltip"
+            class="hidden absolute z-50 w-64 p-4 bg-black text-white text-sm rounded-lg shadow-lg transition-transform origin-bottom">
+        </div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+        // Initialize Swiper
+        const swiper = new Swiper('.swiper', {
+            slidesPerView: 4,
+            spaceBetween: 20,
+            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            breakpoints: {
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 3 },
+                1024: { slidesPerView: 5 },
+                1280: { slidesPerView: 6 }
+            }
+        });
+
+        // Get slider and tooltip elements
+        const container = document.getElementById('slider-container');
+        const tooltip = document.getElementById('tooltip');
+        const slides = Array.from(document.querySelectorAll('.swiper-slide'));
+        let hideTimeout;
+
+        // Calculate number of columns for edge detection
+        function getCols() {
+            const w = window.innerWidth;
+            if (w >= 1280) return 6;
+            if (w >= 1024) return 5;
+            if (w >= 768) return 3;
+            if (w >= 640) return 2;
+            return 1;
+        }
+
+        function showTooltip(slide, index) {
+            // Populate content
+            tooltip.innerHTML = `
+        <h4 class="font-bold mb-1">${slide.dataset.title}</h4>
+        <p class="text-xs">Release: ${slide.dataset.release}</p>
+        <p class="mt-2 text-sm">${slide.dataset.desc}</p>
+      `;
+            tooltip.classList.remove('hidden');
+            tooltip.style.transform = 'scale(1.25)';
+
+            // Measure
+            const rect = slide.getBoundingClientRect();
+            const tipRect = tooltip.getBoundingClientRect();
+            const contRect = container.getBoundingClientRect();
+
+            // Default centered
+            let left = rect.left + rect.width / 2 - tipRect.width / 2 + window.scrollX;
+            const top = rect.top - tipRect.height - 10 + window.scrollY;
+
+            // Edge align
+            const cols = getCols();
+            if (index % cols === 0) {
+                left = contRect.left + window.scrollX + 8; // pad from left edge
+            } else if ((index + 1) % cols === 0) {
+                left = contRect.left + contRect.width - tipRect.width - 8 + window.scrollX; // pad from right edge
+            }
+
+            tooltip.style.top = `${top}px`;
+            tooltip.style.left = `${left}px`;
+        }
+
+        slides.forEach((slide, idx) => {
+            slide.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                showTooltip(slide, idx);
+            });
+            slide.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    tooltip.classList.add('hidden');
+                }, 100);
+            });
+        });
+
+        // Keep visible when hovered
+        tooltip.addEventListener('mouseenter', () => {
+            clearTimeout(hideTimeout);
+        });
+        tooltip.addEventListener('mouseleave', () => {
+            tooltip.classList.add('hidden');
+        });
+
+        // Hide on resize
+        window.addEventListener('resize', () => {
+            tooltip.classList.add('hidden');
+        });
+    </script>
+</body>
+
+</html>
