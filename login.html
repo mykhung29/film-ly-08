@@ -1,743 +1,832 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Đăng Nhập / Đăng Ký - CineAsia</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                colors: {
-                    neutral: {
-                        50: '#f9f9f9',
-                        100: '#f3f3f3',
-                        200: '#e5e5e5',
-                        300: '#d4d4d4',
-                        400: '#a3a3a3',
-                        500: '#737373',
-                        600: '#525252',
-                        700: '#404040',
-                        800: '#262626',
-                        900: '#171717',
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phim Hành Động | PhimHay</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/layout.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10B981',
+                        dark: '#0F172A',
+                        darker: '#0B1120',
+                        light: '#E2E8F0'
                     },
-                    accent: {
-                        100: '#fff1f2',
-                        500: '#f43f5e',
-                        700: '#be123c',
-                    }
-                },
-                fontFamily: {
-                    sans: ['Inter', 'sans-serif'],
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
                 }
             }
         }
-    }
-</script>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: #f9f9f9;
-    }
-    
-    .notification {
-        animation: slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards;
-        transform: translateX(-100%);
-    }
-    
-    @keyframes slideIn {
-        to { transform: translateX(0); }
-    }
-    
-    @keyframes fadeOut {
-        to { opacity: 0; visibility: hidden; }
-    }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-  
-        /* Mobile menu */
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 50;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+        * {
+            font-family: 'Inter', sans-serif;
         }
 
-        .mobile-menu.active {
-            opacity: 1;
-            visibility: visible;
+        body {
+            background-color: #0B1120;
+            color: #E2E8F0;
         }
 
-        .mobile-menu-content {
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0B1120;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #10B981;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+
+        /* Glass effect */
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-dark {
+            background: rgba(11, 17, 32, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Movie card hover tooltip */
+        .movie-card {
+            position: relative;
+        }
+
+        .movie-tooltip {
             position: absolute;
             top: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            width: 400px;
+            /* Increased width to be larger than parent */
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        .movie-card:hover .movie-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-10px);
+            pointer-events: auto;
+            /* Enable pointer events when visible */
+        }
+
+        /* Xử lí đầu cuối card  */
+        /* Mặc định (grid-cols-2) */
+        .movie-card:nth-child(2n+1):hover .movie-tooltip {
+            left: 0;
+            transform: translateX(0) translateY(-10px);
+        }
+
+        .movie-card:nth-child(2n):hover .movie-tooltip {
+            left: 100%;
+            transform: translateX(-100%) translateY(-10px);
+        }
+
+        /* sm:grid-cols-4 */
+        @media (min-width: 640px) {
+            .movie-card:nth-child(4n+1):hover .movie-tooltip {
+                left: 0;
+                transform: translateX(0) translateY(-10px);
+            }
+
+            .movie-card:nth-child(4n):hover .movie-tooltip {
+                left: 100%;
+                transform: translateX(-100%) translateY(-10px);
+            }
+        }
+
+        /* md:grid-cols-5 */
+        @media (min-width: 768px) {
+            .movie-card:nth-child(5n+1):hover .movie-tooltip {
+                left: 0;
+                transform: translateX(0) translateY(-10px);
+            }
+
+            .movie-card:nth-child(5n):hover .movie-tooltip {
+                left: 100%;
+                transform: translateX(-100%) translateY(-10px);
+            }
+        }
+
+        /* lg:grid-cols-6 */
+        @media (min-width: 1024px) {
+            .movie-card:nth-child(6n+1):hover .movie-tooltip {
+                left: 0;
+                transform: translateX(0) translateY(-10px);
+            }
+
+            .movie-card:nth-child(6n):hover .movie-tooltip {
+                left: 100%;
+                transform: translateX(-100%) translateY(-10px);
+            }
+        }
+
+        /* xl:grid-cols-8 */
+        @media (min-width: 1280px) {
+            .movie-card:nth-child(8n+1):hover .movie-tooltip {
+                left: 0;
+                transform: translateX(0) translateY(-10px);
+            }
+
+            .movie-card:nth-child(8n):hover .movie-tooltip {
+                left: 100%;
+                transform: translateX(-100%) translateY(-10px);
+            }
+        }
+
+
+
+        /* Adjust tooltip position for edge cards */
+        /* Xử lí đầu cuối card  */
+        /* .movie-card:first-child .movie-tooltip,
+        .movie-card:nth-child(5n+1) .movie-tooltip {
+            left: 0;
+            transform: translateX(0) translateY(-20px);
+        }
+
+        .movie-card:first-child:hover .movie-tooltip,
+        .movie-card:nth-child(5n+1):hover .movie-tooltip {
+            transform: translateX(0) translateY(-10px);
+        }
+
+        .movie-card:nth-child(8n) .movie-tooltip {
+            left: auto;
             right: 0;
-            width: 80%;
-            max-width: 300px;
-            height: 100%;
-            background-color: #262626;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            overflow-y: auto;
+            transform: translateX(0) translateY(-20px);
         }
 
-        .mobile-menu.active .mobile-menu-content {
-            transform: translateX(0);
+        .movie-card:nth-child(8n):hover .movie-tooltip {
+            transform: translateX(0) translateY(-10px);
+        } */
+
+        /* Tooltip blur separator */
+        .tooltip-separator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent 0%, rgba(11, 17, 32, 0.8) 50%, rgba(11, 17, 32, 1) 100%);
+            backdrop-filter: blur(8px);
         }
 
+        /* Filter dropdown animation */
+        .filter-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
 
-    
-    /* Auth form animations */
-    .auth-container {
-        position: relative;
-        min-height: 500px; /* Ensure container has enough height */
-    }
-    
-    .auth-form {
-        transition: all 0.4s ease;
-    }
-    
-    .auth-form.hidden {
-        opacity: 0;
-        visibility: hidden;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-    }
-    
-    /* Password visibility toggle */
-    .password-toggle {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        color: #737373;
-    }
-    
-    /* Social login buttons */
-    .social-login-btn {
-        transition: all 0.3s ease;
-    }
-    
-    .social-login-btn:hover {
-        transform: translateY(-2px);
-    }
-    
-    /* Input focus styles */
-    .form-input:focus {
-        border-color: #f43f5e;
-        box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.1);
-    }
-    
-    /* Auth background */
-    .auth-bg {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://placehold.co/1920x1080/262626/FFFFFF?text=Cinema+Background');
-        background-size: cover;
-        background-position: center;
-    }
-    
-    /* Tab styles */
-    .auth-tabs {
-        display: flex;
-        border-bottom: 1px solid #e5e5e5;
-    }
-    
-    .auth-tab {
-        flex: 1;
-        text-align: center;
-        padding: 1rem;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-    
-    .auth-tab.active {
-        color: #f43f5e;
-        border-bottom: 2px solid #f43f5e;
-    }
-    
-    .auth-tab:hover:not(.active) {
-        background-color: #f9f9f9;
-    }
-</style>
+        .filter-dropdown.open {
+            max-height: 600px;
+        }
+
+        /* Checkbox custom style */
+        .custom-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #374151;
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .custom-checkbox:checked {
+            background: #10B981;
+            border-color: #10B981;
+        }
+
+        .custom-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Pagination */
+        .pagination-item {
+            transition: all 0.2s ease;
+        }
+
+        .pagination-item:hover:not(.active):not(.disabled) {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+
+        .pagination-item.active {
+            background: #10B981;
+            color: white;
+        }
+
+        .pagination-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #1E293B 25%, #334155 50%, #1E293B 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Filter tag */
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .filter-tag:hover {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        /* Smooth transitions */
+        .smooth-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
 </head>
-<body class="bg-neutral-50 text-neutral-800">
-<!-- Notification -->
-<div id="notification" class="notification fixed bottom-8  left-0 z-50 bg-neutral-800 text-white px-4 py-2 rounded-r-lg shadow-lg">
-    <p class="text-sm"><span class="font-bold">Mới cập nhật:</span> Phim "Hoa Mộc Lan" vừa được thêm vào!</p>
-</div>
 
-<!-- Scroll to top button -->
-<button id="scrollToTop" class="fixed bottom-8 right-8 bg-neutral-800 text-white p-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300 z-50">
-    <i class="fas fa-arrow-up"></i>
-</button>
-
- <!-- Header -->
-
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="mobile-menu">
-        <div class="mobile-menu-content p-6">
-            <div class="flex justify-between items-center mb-8">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-film text-accent-500 text-2xl"></i>
-                    <h1 class="text-2xl font-bold text-white">CineAsia</h1>
-                </div>
-                <button id="closeMobileMenu" class="text-white text-xl">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <div class="mb-6">
-                <div class="relative">
-                    <input type="text" value="Đảo Hải Tặc" placeholder="Tìm kiếm phim..."
-                        class="w-full bg-neutral-700 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent-500">
-                    <button class="absolute right-3 top-2 text-neutral-400">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-
-            <nav class="flex flex-col space-y-4 text-white mb-8">
-                <a href="index.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Trang
-                    chủ</a>
-                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim lẻ</a>
-                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim bộ</a>
-                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim chiếu rạp</a>
-                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim sắp chiếu</a>
-            </nav>
-
-            <a href="login.html">
-<button
-                class="w-full bg-accent-500 hover:bg-accent-700 px-4 py-2 rounded-full text-white text-sm transition">
-                Đăng nhập
-            </button>
-</a>
-        </div>
-    </div>
-
+<body>
     <!-- Header -->
-    <header class="bg-neutral-800 text-white shadow-md">
-        <div class="container mx-auto px-4 py-4">
+    <header class="header py-4 px-6 sticky top-0 z-50 bg-dark border-b border-gray-800 shadow-lg">
+        <div class="container mx-auto">
             <div class="flex justify-between items-center">
-                <a href="index.html" >
-<div class="flex items-center space-x-2">
-                    <i class="fas fa-film text-accent-500 text-2xl"></i>
-                    <h1 class="text-2xl font-bold">CineAsia</h1>
-                </div></a>
-                <nav class="hidden md:flex space-x-6">
-                    <a href="index.html" class="hover:text-accent-500 transition">Trang chủ</a>
-                    <a href="category.html" class="hover:text-accent-500 transition">Phim lẻ</a>
-                    <a href="category.html" class="hover:text-accent-500 transition">Phim bộ</a>
-                    <a href="category.html" class="hover:text-accent-500 transition">Phim chiếu rạp</a>
-                    <a href="category.html" class="hover:text-accent-500 transition">Phim sắp chiếu</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    <div class="relative hidden sm:block">
-                        <input type="text" value="Đảo Hải Tặc" placeholder="Tìm kiếm phim..."
-                            class="bg-neutral-700 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent-500">
-                        <button class="absolute right-3 top-2 text-neutral-400">
-                            <i class="fas fa-search"></i>
-                        </button>
+                <!-- Logo -->
+                <a href="index.html" class="logo text-2xl">
+                    <i class="fas fa-film mr-2"></i>
+                    <span class="hidden sm:inline">CinemaStream</span>
+                    <span class="sm:hidden">CS</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="nav-link active">Home</a>
+                    
+                    <!-- Categories Dropdown -->
+                    <div class="dropdown relative">
+                        <a href="category.html" class="nav-link flex items-center">
+                            Categories
+                            <i class="fas fa-chevron-down text-xs ml-1"></i>
+                        </a>
+                        <div class="dropdown-content rounded-lg">
+                            <div class="p-2 grid grid-cols-2 gap-1">
+                                <a href="category.html?genre=action" class="dropdown-item rounded">Action</a>
+                                <a href="category.html?genre=comedy" class="dropdown-item rounded">Comedy</a>
+                                <a href="category.html?genre=drama" class="dropdown-item rounded">Drama</a>
+                                <a href="category.html?genre=horror" class="dropdown-item rounded">Horror</a>
+                                <a href="category.html?genre=sci-fi" class="dropdown-item rounded">Sci-Fi</a>
+                                <a href="category.html?genre=thriller" class="dropdown-item rounded">Thriller</a>
+                            </div>
+                            <div class="border-t border-gray-700 p-2">
+                                <a href="category.html" class="text-teal hover:underline text-sm flex items-center p-2">
+                                    <span>View All Categories</span>
+                                    <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <a href="login.html">
-<button
-                        class="hidden sm:block bg-accent-500 hover:bg-accent-700 px-4 py-2 rounded-full text-sm transition">
-                        Đăng nhập
+                    
+                    <!-- Years Dropdown -->
+                    <div class="dropdown relative">
+                        <a href="category.html?type=year" class="nav-link flex items-center">
+                            Years
+                            <i class="fas fa-chevron-down text-xs ml-1"></i>
+                        </a>
+                        <div class="dropdown-content rounded-lg">
+                            <div class="p-2 grid grid-cols-2 gap-1">
+                                <a href="category.html?year=2023" class="dropdown-item rounded">2023</a>
+                                <a href="category.html?year=2022" class="dropdown-item rounded">2022</a>
+                                <a href="category.html?year=2021" class="dropdown-item rounded">2021</a>
+                                <a href="category.html?year=2020" class="dropdown-item rounded">2020</a>
+                                <a href="category.html?year=2019" class="dropdown-item rounded">2019</a>
+                                <a href="category.html?year=2018" class="dropdown-item rounded">2018</a>
+                            </div>
+                            <div class="border-t border-gray-700 p-2">
+                                <a href="category.html?type=year" class="text-teal hover:underline text-sm flex items-center p-2">
+                                    <span>View All Years</span>
+                                    <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="nav-link">TV Shows</a>
+                    <a href="#" class="nav-link">My List</a>
+                </nav>
+                
+                <!-- Right Side Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Desktop Search -->
+                    <div class="hidden md:block relative">
+                        <form action="search.html" method="get" id="desktopSearchForm">
+                            <input type="text" name="q" placeholder="Search..." class="search-input rounded-full px-4 py-2 pr-10">
+                            <button type="submit" class="absolute right-3 top-2.5 text-gray-light hover:text-teal">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Mobile Search Button -->
+                    <button id="mobileSearchToggle" class="md:hidden text-gray-light hover:text-teal">
+                        <i class="fas fa-search text-xl"></i>
                     </button>
-</a>
-                    <button id="openMobileMenu" class="md:hidden text-white">
+                    
+                    <!-- Notifications -->
+                    <div class="dropdown relative">
+                        <button class="text-gray-light hover:text-teal relative">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <div class="dropdown-content right-0 w-72 rounded-lg">
+                            <div class="p-3 border-b border-gray-700 flex justify-between items-center">
+                                <h3 class="text-white font-medium">Notifications</h3>
+                                <a href="#" class="text-teal text-sm hover:underline">Mark all as read</a>
+                            </div>
+                            <div class="max-h-80 overflow-y-auto">
+                                <a href="#" class="dropdown-item border-b border-gray-700">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 mr-3">
+                                            <div class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
+                                                <i class="fas fa-film"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="text-white text-sm font-medium">New release available</p>
+                                            <p class="text-gray-light text-xs mt-1">Dune: Part Two is now available</p>
+                                            <p class="text-gray-light text-xs mt-1">2 hours ago</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item border-b border-gray-700">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 mr-3">
+                                            <div class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="text-white text-sm font-medium">New recommendations</p>
+                                            <p class="text-gray-light text-xs mt-1">Check out these movies based on your watchlist</p>
+                                            <p class="text-gray-light text-xs mt-1">1 day ago</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 mr-3">
+                                            <div class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
+                                                <i class="fas fa-gift"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="text-white text-sm font-medium">Special Offer</p>
+                                            <p class="text-gray-light text-xs mt-1">Get 20% off on annual subscription</p>
+                                            <p class="text-gray-light text-xs mt-1">3 days ago</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="p-3 border-t border-gray-700">
+                                <a href="#" class="text-teal hover:underline text-sm flex items-center justify-center">
+                                    <span>View All Notifications</span>
+                                    <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Login Button -->
+                    <a href="auth.html" class="text-gray-light hover:text-teal transition flex items-center">
+                        <span class="hidden md:inline-block mr-2">Login</span>
+                        <i class="fas fa-user-circle text-xl"></i>
+                    </a>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobileMenuToggle" class="md:hidden text-gray-light hover:text-teal">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
+            
+            <!-- Mobile Search (Hidden by default) -->
+            <div id="mobileSearchBar" class="mt-4 hidden">
+                <form action="search.html" method="get" id="mobileSearchForm">
+                    <div class="relative">
+                        <input type="text" name="q" placeholder="Search movies, TV shows..." class="w-full bg-dark border border-gray-700 rounded-full px-4 py-2 text-white focus:outline-none focus:border-teal">
+                        <button type="submit" class="absolute right-3 top-2.5 text-gray-light hover:text-teal">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </header>
-
-<!-- Breadcrumbs -->
-<div class="bg-neutral-100 py-3">
-    <div class="container mx-auto px-4">
-        <div class="flex items-center text-sm text-neutral-600">
-            <a href="index.html" class="hover:text-accent-500">Trang chủ</a>
-            <span class="mx-2">/</span>
-            <span class="text-neutral-800 font-medium">Đăng nhập / Đăng ký</span>
-        </div>
-    </div>
-</div>
-
-<!-- Main Content -->
-<main class="auth-bg py-16">
-    <div class="container mx-auto px-4">
-        <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-            <!-- Auth Tabs -->
-            <div class="auth-tabs">
-                <div class="auth-tab active" data-tab="login">Đăng nhập</div>
-                <div class="auth-tab" data-tab="register">Đăng ký</div>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu">
+        <div class="p-6">
+            <!-- Mobile Menu Header -->
+            <div class="flex justify-between items-center mb-8">
+                <a href="index.html" class="logo text-2xl">
+                    <i class="fas fa-film mr-2"></i>
+                    <span>CinemaStream</span>
+                </a>
+                <button id="mobileMenuClose" class="text-gray-light hover:text-teal">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
             </div>
             
-            <!-- Auth Forms Container -->
-            <div class="auth-container p-6">
-                <!-- Login Form -->
-                <form class="auth-form" id="loginForm">
-                    <div class="mb-6">
-                        <h2 class="text-2xl font-bold text-center mb-2">Chào mừng trở lại!</h2>
-                        <p class="text-neutral-500 text-center">Đăng nhập để tiếp tục trải nghiệm</p>
-                    </div>
-                    
-                    <!-- Email/Username -->
-                    <div class="mb-4">
-                        <label for="loginEmail" class="block text-sm font-medium text-neutral-700 mb-1">Email hoặc tên đăng nhập</label>
-                        <input type="text" id="loginEmail" class="form-input w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none" placeholder="Nhập email hoặc tên đăng nhập">
-                    </div>
-                    
-                    <!-- Password -->
-                    <div class="mb-4 relative">
-                        <label for="loginPassword" class="block text-sm font-medium text-neutral-700 mb-1">Mật khẩu</label>
-                        <input type="password" id="loginPassword" class="form-input w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none" placeholder="Nhập mật khẩu">
-                        <span class="password-toggle" data-for="loginPassword">
-                            <i class="far fa-eye"></i>
-                        </span>
-                    </div>
-                    
-                    <!-- Remember Me & Forgot Password -->
-                    <div class="flex justify-between items-center mb-6">
-                        <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox h-4 w-4 text-accent-500">
-                            <span class="ml-2 text-sm text-neutral-600">Ghi nhớ đăng nhập</span>
-                        </label>
-                        <a href="#" class="text-sm text-accent-500 hover:text-accent-700">Quên mật khẩu?</a>
-                    </div>
-                    
-                    <!-- Login Button -->
-                    <button type="submit" class="w-full bg-accent-500 hover:bg-accent-700 text-white py-2 rounded-md font-medium transition mb-4">
-                        Đăng nhập
-                    </button>
-                    
-                    <!-- Social Login -->
-                    <div class="relative mb-6">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-neutral-300"></div>
-                        </div>
-                        <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-neutral-500">Hoặc đăng nhập với</span>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-3 gap-3 mb-6">
-                        <button type="button" class="social-login-btn flex justify-center items-center py-2 px-4 border border-neutral-300 rounded-md shadow-sm bg-white hover:bg-neutral-50">
-                            <i class="fab fa-google text-red-500"></i>
-                        </button>
-                        <button type="button" class="social-login-btn flex justify-center items-center py-2 px-4 border border-neutral-300 rounded-md shadow-sm bg-white hover:bg-neutral-50">
-                            <i class="fab fa-facebook-f text-blue-600"></i>
-                        </button>
-                        <button type="button" class="social-login-btn flex justify-center items-center py-2 px-4 border border-neutral-300 rounded-md shadow-sm bg-white hover:bg-neutral-50">
-                            <i class="fab fa-twitter text-blue-400"></i>
-                        </button>
-                    </div>
-                    
-                    <!-- Switch to Register -->
-                    <p class="text-center text-sm text-neutral-600">
-                        Chưa có tài khoản? 
-                        <a href="#" class="text-accent-500 hover:text-accent-700 font-medium switch-auth" data-target="register">Đăng ký ngay</a>
-                    </p>
-                </form>
+            <!-- Mobile Navigation -->
+            <nav class="space-y-6">
+                <a href="index.html" class="block text-white hover:text-teal transition text-lg">Home</a>
                 
-                <!-- Register Form -->
-                <form class="auth-form hidden" id="registerForm">
-                    <div class="mb-6">
-                        <h2 class="text-2xl font-bold text-center mb-2">Tạo tài khoản mới</h2>
-                        <p class="text-neutral-500 text-center">Đăng ký để trải nghiệm đầy đủ tính năng</p>
-                    </div>
-                    
-                    <!-- Full Name -->
-                    <div class="mb-4">
-                        <label for="registerName" class="block text-sm font-medium text-neutral-700 mb-1">Họ và tên</label>
-                        <input type="text" id="registerName" class="form-input w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none" placeholder="Nhập họ và tên">
-                    </div>
-                    
-                    <!-- Email -->
-                    <div class="mb-4">
-                        <label for="registerEmail" class="block text-sm font-medium text-neutral-700 mb-1">Email</label>
-                        <input type="email" id="registerEmail" class="form-input w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none" placeholder="Nhập địa chỉ email">
-                    </div>
-                    
-                    <!-- Password -->
-                    <div class="mb-4 relative">
-                        <label for="registerPassword" class="block text-sm font-medium text-neutral-700 mb-1">Mật khẩu</label>
-                        <input type="password" id="registerPassword" class="form-input w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none" placeholder="Tạo mật khẩu">
-                        <span class="password-toggle" data-for="registerPassword">
-                            <i class="far fa-eye"></i>
-                        </span>
-                    </div>
-                    
-                    <!-- Confirm Password -->
-                    <div class="mb-4 relative">
-                        <label for="confirmPassword" class="block text-sm font-medium text-neutral-700 mb-1">Xác nhận mật khẩu</label>
-                        <input type="password" id="confirmPassword" class="form-input w-full px-4 py-2 border border-neutral-300 rounded-md focus:outline-none" placeholder="Nhập lại mật khẩu">
-                        <span class="password-toggle" data-for="confirmPassword">
-                            <i class="far fa-eye"></i>
-                        </span>
-                    </div>
-                    
-                    <!-- Terms and Conditions -->
-                    <div class="mb-6">
-                        <label class="flex items-start">
-                            <input type="checkbox" class="form-checkbox h-4 w-4 mt-1 text-accent-500">
-                            <span class="ml-2 text-sm text-neutral-600">
-                                Tôi đồng ý với <a href="#" class="text-accent-500 hover:text-accent-700">Điều khoản dịch vụ</a> và <a href="#" class="text-accent-500 hover:text-accent-700">Chính sách bảo mật</a>
-                            </span>
-                        </label>
-                    </div>
-                    
-                    <!-- Register Button -->
-                    <button type="submit" class="w-full bg-accent-500 hover:bg-accent-700 text-white py-2 rounded-md font-medium transition mb-4">
-                        Đăng ký
+                <!-- Mobile Categories -->
+                <div class="space-y-2">
+                    <button id="mobileCategoriesToggle" class="flex items-center justify-between w-full text-white hover:text-teal transition text-lg">
+                        <span>Categories</span>
+                        <i class="fas fa-chevron-down"></i>
                     </button>
-                    
-                    <!-- Social Register -->
-                    <div class="relative mb-6">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-neutral-300"></div>
+                    <div id="mobileCategoriesDropdown" class="mobile-dropdown pl-4">
+                        <div class="grid grid-cols-2 gap-2 py-2">
+                            <a href="category.html?genre=action" class="text-gray-light hover:text-teal transition py-1">Action</a>
+                            <a href="category.html?genre=comedy" class="text-gray-light hover:text-teal transition py-1">Comedy</a>
+                            <a href="category.html?genre=drama" class="text-gray-light hover:text-teal transition py-1">Drama</a>
+                            <a href="category.html?genre=horror" class="text-gray-light hover:text-teal transition py-1">Horror</a>
+                            <a href="category.html?genre=sci-fi" class="text-gray-light hover:text-teal transition py-1">Sci-Fi</a>
+                            <a href="category.html?genre=thriller" class="text-gray-light hover:text-teal transition py-1">Thriller</a>
                         </div>
-                        <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-neutral-500">Hoặc đăng ký với</span>
+                        <a href="category.html" class="block text-teal text-sm py-2 hover:underline">View All Categories</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile Years -->
+                <div class="space-y-2">
+                    <button id="mobileYearsToggle" class="flex items-center justify-between w-full text-white hover:text-teal transition text-lg">
+                        <span>Years</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="mobileYearsDropdown" class="mobile-dropdown pl-4">
+                        <div class="grid grid-cols-2 gap-2 py-2">
+                            <a href="category.html?year=2023" class="text-gray-light hover:text-teal transition py-1">2023</a>
+                            <a href="category.html?year=2022" class="text-gray-light hover:text-teal transition py-1">2022</a>
+                            <a href="category.html?year=2021" class="text-gray-light hover:text-teal transition py-1">2021</a>
+                            <a href="category.html?year=2020" class="text-gray-light hover:text-teal transition py-1">2020</a>
+                            <a href="category.html?year=2019" class="text-gray-light hover:text-teal transition py-1">2019</a>
+                            <a href="category.html?year=2018" class="text-gray-light hover:text-teal transition py-1">2018</a>
                         </div>
+                        <a href="category.html?type=year" class="block text-teal text-sm py-2 hover:underline">View All Years</a>
                     </div>
-                    
-                    <div class="grid grid-cols-3 gap-3 mb-6">
-                        <button type="button" class="social-login-btn flex justify-center items-center py-2 px-4 border border-neutral-300 rounded-md shadow-sm bg-white hover:bg-neutral-50">
-                            <i class="fab fa-google text-red-500"></i>
-                        </button>
-                        <button type="button" class="social-login-btn flex justify-center items-center py-2 px-4 border border-neutral-300 rounded-md shadow-sm bg-white hover:bg-neutral-50">
-                            <i class="fab fa-facebook-f text-blue-600"></i>
-                        </button>
-                        <button type="button" class="social-login-btn flex justify-center items-center py-2 px-4 border border-neutral-300 rounded-md shadow-sm bg-white hover:bg-neutral-50">
-                            <i class="fab fa-twitter text-blue-400"></i>
-                        </button>
-                    </div>
-                    
-                    <!-- Switch to Login -->
-                    <p class="text-center text-sm text-neutral-600">
-                        Đã có tài khoản? 
-                        <a href="#" class="text-accent-500 hover:text-accent-700 font-medium switch-auth" data-target="login">Đăng nhập</a>
-                    </p>
-                </form>
-            </div>
-        </div>
-    </div>
-</main>
-
-<!-- Footer -->
-<footer class="bg-neutral-800 text-white pt-12 pb-6">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-            <!-- About -->
-            <div>
-                <h4 class="text-lg font-bold mb-4">Về CineAsia</h4>
-                <p class="text-neutral-400 text-sm mb-4">CineAsia là trang web xem phim trực tuyến hàng đầu với kho phim đa dạng từ châu Á và quốc tế.</p>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-neutral-400 hover:text-white transition">
+                </div>
+                
+                <a href="#" class="block text-white hover:text-teal transition text-lg">TV Shows</a>
+                <a href="#" class="block text-white hover:text-teal transition text-lg">My List</a>
+                
+                <div class="pt-6 border-t border-gray-700">
+                    <a href="auth.html" class="block text-white hover:text-teal transition text-lg">Login / Sign Up</a>
+                </div>
+            </nav>
+            
+            <!-- Mobile Menu Footer -->
+            <div class="absolute bottom-8 left-6 right-6">
+                <div class="flex space-x-4 mb-4">
+                    <a href="#" class="social-icon text-gray-light">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a href="#" class="text-neutral-400 hover:text-white transition">
+                    <a href="#" class="social-icon text-gray-light">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="#" class="text-neutral-400 hover:text-white transition">
+                    <a href="#" class="social-icon text-gray-light">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="#" class="text-neutral-400 hover:text-white transition">
+                    <a href="#" class="social-icon text-gray-light">
                         <i class="fab fa-youtube"></i>
                     </a>
                 </div>
+                <p class="text-gray-light text-sm">
+                    &copy; 2023 CinemaStream. All rights reserved.
+                </p>
             </div>
-            
-            <!-- Quick Links -->
-            <div>
-                <h4 class="text-lg font-bold mb-4">Liên Kết Nhanh</h4>
-                <ul class="space-y-2 text-neutral-400">
-                    <li><a href="#" class="hover:text-white transition">Trang chủ</a></li>
-                    <li><a href="#" class="hover:text-white transition">Phim lẻ</a></li>
-                    <li><a href="#" class="hover:text-white transition">Phim bộ</a></li>
-                    <li><a href="#" class="hover:text-white transition">Phim chiếu rạp</a></li>
-                    <li><a href="#" class="hover:text-white transition">Phim sắp chiếu</a></li>
-                    <li><a href="#" class="hover:text-white transition">Bình luận phim</a></li>
-                </ul>
-            </div>
-            
-            <!-- Categories -->
-            <div>
-                <h4 class="text-lg font-bold mb-4">Thể Loại</h4>
-                <ul class="space-y-2 text-neutral-400">
-                    <li><a href="#" class="hover:text-white transition">Hành động</a></li>
-                    <li><a href="#" class="hover:text-white transition">Tình cảm</a></li>
-                    <li><a href="#" class="hover:text-white transition">Hài hước</a></li>
-                    <li><a href="#" class="hover:text-white transition">Kinh dị</a></li>
-                    <li><a href="#" class="hover:text-white transition">Viễn tưởng</a></li>
-                    <li><a href="#" class="hover:text-white transition">Hoạt hình</a></li>
-                </ul>
-            </div>
-            
-            <!-- Contact -->
-            <div>
-                <h4 class="text-lg font-bold mb-4">Liên Hệ</h4>
-                <ul class="space-y-2 text-neutral-400">
-                    <li class="flex items-center">
-                        <i class="fas fa-map-marker-alt mr-2 text-accent-500"></i>
-                        <span>123 Đường Phim, Quận 1, TP.HCM</span>
-                    </li>
-                    <li class="flex items-center">
-                        <i class="fas fa-phone-alt mr-2 text-accent-500"></i>
-                        <span>+84 123 456 789</span>
-                    </li>
-                    <li class="flex items-center">
-                        <i class="fas fa-envelope mr-2 text-accent-500"></i>
-                        <span>info@cineasia.com</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="border-t border-neutral-700 pt-6 text-center text-neutral-500 text-sm">
-            <p>&copy; 2025 CineAsia. Tất cả quyền được bảo lưu.</p>
         </div>
     </div>
-</footer>
 
-<!-- Loading Overlay -->
-<div id="loadingOverlay" class="fixed top-0 left-0 right-0 bottom-0 bg-white bg-opacity-80 flex justify-center items-center z-50 hidden">
-    <div class="w-12 h-12 border-4 border-accent-500 border-t-transparent rounded-full animate-spin"></div>
-</div>
-
-<script>
-
-     // Menu toggle for mobile
-     const openMobileMenuBtn = document.getElementById('openMobileMenu');
-    const closeMobileMenuBtn = document.getElementById('closeMobileMenu');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    openMobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-
-    closeMobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-
+    <!-- Main Content -->
     
-    document.addEventListener('DOMContentLoaded', function() {
-        // Tab switching functionality
-        const authTabs = document.querySelectorAll('.auth-tab');
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const switchAuthLinks = document.querySelectorAll('.switch-auth');
-        
-        // Function to switch between forms
-        function switchForm(formType) {
-            // Update tabs
-            authTabs.forEach(tab => {
-                if (tab.getAttribute('data-tab') === formType) {
-                    tab.classList.add('active');
-                } else {
-                    tab.classList.remove('active');
-                }
-            });
-            
-            // Show/hide forms
-            if (formType === 'login') {
-                loginForm.classList.remove('hidden');
-                registerForm.classList.add('hidden');
-            } else {
-                loginForm.classList.add('hidden');
-                registerForm.classList.remove('hidden');
-            }
-        }
-        
-        // Tab click event
-        authTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                const formType = this.getAttribute('data-tab');
-                switchForm(formType);
-            });
-        });
-        
-        // Switch auth links
-        switchAuthLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = this.getAttribute('data-target');
-                switchForm(target);
-            });
-        });
-        
-        // Password visibility toggle
-        const passwordToggles = document.querySelectorAll('.password-toggle');
-        
-        passwordToggles.forEach(toggle => {
-            toggle.addEventListener('click', function() {
-                const passwordField = document.getElementById(this.getAttribute('data-for'));
-                const icon = this.querySelector('i');
+    
+
+    <footer class="bg-dark border-t border-gray-800 py-12 px-4">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo and About -->
+                <div>
+                    <a href="#" class="text-primary font-bold text-2xl flex items-center mb-4">
+                        <i class="fas fa-film mr-2"></i>
+                        <span>MovieFlix</span>
+                    </a>
+                    <p class="text-gray-400 text-sm mb-4">MovieFlix là trang web xem phim trực tuyến hàng đầu với kho phim đa dạng và chất lượng cao.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
                 
-                if (passwordField.type === 'password') {
-                    passwordField.type = 'text';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash');
-                } else {
-                    passwordField.type = 'password';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
+                <!-- Categories -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Thể loại</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Hành động</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Học đường</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Tình cảm</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Học đường</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Hài hước</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Khoa học viễn tưởng</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Liên kết nhanh</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Trang chủ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim lẻ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim bộ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim chiếu rạp</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim sắp chiếu</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Top phim hot</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">123 Đường Phim, Quận Điện Ảnh, TP. Hồ Chí Minh</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone text-primary mr-3"></i>
+                            <span class="text-gray-400">+84 123 456 789</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope text-primary mr-3"></i>
+                            <span class="text-gray-400">info@movieflix.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2023 MovieFlix. Tất cả quyền được bảo lưu.</p>
+                <div class="flex justify-center space-x-4 mt-4">
+                    <a href="#" class="hover:text-primary transition-colors">Điều khoản sử dụng</a>
+                    <a href="#" class="hover:text-primary transition-colors">Chính sách bảo mật</a>
+                    <a href="#" class="hover:text-primary transition-colors">Giới thiệu</a>
+                    <a href="#" class="hover:text-primary transition-colors">Trợ giúp</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="js/layout.js"></script>
+    <script>
+        // Toggle filter dropdown
+        function toggleFilter() {
+            const dropdown = document.getElementById('filter-dropdown');
+            const arrow = document.getElementById('filter-arrow');
+
+            dropdown.classList.toggle('open');
+            arrow.classList.toggle('rotate-180');
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const activeFilters = [];
+            const checkboxes = document.querySelectorAll('.custom-checkbox:checked');
+
+            checkboxes.forEach(checkbox => {
+                if (!checkbox.disabled) {
+                    activeFilters.push({
+                        value: checkbox.value,
+                        label: checkbox.nextElementSibling.textContent
+                    });
                 }
             });
-        });
-        
-        // Form submission
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // Validate inputs
-            if (!email || !password) {
-                showNotification('Vui lòng nhập đầy đủ thông tin đăng nhập!', 'error');
-                return;
-            }
-            
-            // Simulate login
-            showLoading();
-            setTimeout(() => {
-                hideLoading();
-                showNotification('Đăng nhập thành công!', 'success');
-                // Redirect to home page after successful login
-                // window.location.href = 'index.html';
-            }, 1500);
-        });
-        
-        registerForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            // Validate inputs
-            if (!name || !email || !password || !confirmPassword) {
-                showNotification('Vui lòng nhập đầy đủ thông tin đăng ký!', 'error');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                showNotification('Mật khẩu xác nhận không khớp!', 'error');
-                return;
-            }
-            
-            // Simulate registration
-            showLoading();
-            setTimeout(() => {
-                hideLoading();
-                showNotification('Đăng ký thành công! Vui lòng đăng nhập.', 'success');
-                // Switch to login form after successful registration
-                switchForm('login');
-            }, 1500);
-        });
-    });
-    
-    // Loading overlay
-    function showLoading() {
-        document.getElementById('loadingOverlay').classList.remove('hidden');
-    }
-    
-    function hideLoading() {
-        document.getElementById('loadingOverlay').classList.add('hidden');
-    }
-    
-    // Show notifications
-    function showNotification(message, type = 'info') {
-        const notification = document.getElementById('notification');
-        let bgColor = 'bg-neutral-800';
-        
-        if (type === 'success') {
-            bgColor = 'bg-green-600';
-        } else if (type === 'error') {
-            bgColor = 'bg-red-600';
+
+            // Update active filters display
+            updateActiveFilters(activeFilters);
+
+            // Here you would typically make an API call with the filters
+            console.log('Applied filters:', activeFilters);
+
+            // Close the filter dropdown
+            toggleFilter();
         }
-        
-        notification.className = `notification fixed top-20 left-0 z-50 ${bgColor} text-white px-4 py-2 rounded-r-lg shadow-lg`;
-        
-        if (type === 'success') {
-            notification.innerHTML = `<p class="text-sm"><span class="font-bold"><i class="fas fa-check-circle mr-1"></i> Thành công:</span> ${message}</p>`;
-        } else if (type === 'error') {
-            notification.innerHTML = `<p class="text-sm"><span class="font-bold"><i class="fas fa-exclamation-circle mr-1"></i> Lỗi:</span> ${message}</p>`;
-        } else {
-            notification.innerHTML = `<p class="text-sm"><span class="font-bold">Thông báo:</span> ${message}</p>`;
+
+        // Clear all filters
+        function clearFilters() {
+            const checkboxes = document.querySelectorAll('.custom-checkbox:checked');
+            checkboxes.forEach(checkbox => {
+                if (!checkbox.disabled) {
+                    checkbox.checked = false;
+                }
+            });
+
+            // Reset sort dropdown
+            document.querySelector('select').value = 'newest';
+
+            // Clear active filters display
+            updateActiveFilters([]);
         }
-        
-        notification.style.animation = 'none';
-        notification.offsetHeight; // Trigger reflow
-        notification.style.animation = 'slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards';
-    }
-    
-    // Create new notifications periodically
-    setInterval(() => {
-        const updates = [
-            'Phim "Chiến Binh Bất Tử" vừa được cập nhật',
-            'Phim "Tình Yêu Mùa Hè" sắp ra mắt',
-            'Phim "Bí Mật Đảo Jeju" đã có tập mới'
-        ];
-        
-        const randomUpdate = updates[Math.floor(Math.random() * updates.length)];
-        const notification = document.getElementById('notification');
-        notification.className = 'notification fixed bottom-8  left-0 z-50 bg-neutral-800 text-white px-4 py-2 rounded-r-lg shadow-lg';
-        notification.innerHTML = `<p class="text-sm"><span class="font-bold">Mới cập nhật:</span> ${randomUpdate}!</p>`;
-        
-        notification.style.animation = 'none';
-        notification.offsetHeight; // Trigger reflow
-        notification.style.animation = 'slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards';
-    }, 20000);
-    
-    // Scroll to top button
-    const scrollToTopBtn = document.getElementById('scrollToTop');
-    
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            scrollToTopBtn.style.opacity = '1';
-        } else {
-            scrollToTopBtn.style.opacity = '0';
+
+        // Update active filters display
+        function updateActiveFilters(filters) {
+            const container = document.getElementById('active-filters');
+            container.innerHTML = '';
+
+            filters.forEach(filter => {
+                const tag = document.createElement('span');
+                tag.className = 'filter-tag';
+                tag.innerHTML = `
+            ${filter.label}
+            <button onclick="removeFilter('${filter.value}')" class="ml-1 hover:text-primary">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        `;
+                container.appendChild(tag);
+            });
         }
-    });
-    
-    scrollToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-    
-    // Search functionality
-    document.getElementById('searchButton').addEventListener('click', function() {
-        const searchInput = document.getElementById('searchInput');
-        if (searchInput.value.trim()) {
-            window.location.href = `search-results.html?q=${encodeURIComponent(searchInput.value.trim())}`;
-        }
-    });
-    
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            if (this.value.trim()) {
-                window.location.href = `search-results.html?q=${encodeURIComponent(this.value.trim())}`;
+
+        // Remove individual filter
+        function removeFilter(value) {
+            const checkbox = document.querySelector(`.custom-checkbox[value="${value}"]`);
+            if (checkbox) {
+                checkbox.checked = false;
+                applyFilters();
             }
         }
-    });
-</script>
+
+        // Toggle favorite
+        function toggleFavorite(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const heartIcon = event.currentTarget.querySelector('i');
+            if (heartIcon.classList.contains('far')) {
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                heartIcon.style.color = '#F43F5E'; // Red color for liked
+            } else {
+                heartIcon.classList.remove('fas');
+                heartIcon.classList.add('far');
+                heartIcon.style.color = ''; // Reset to default
+            }
+        }
+
+        // Handle checkbox changes
+        document.querySelectorAll('.custom-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                // Auto-apply filters when changed (optional)
+                // applyFilters();
+            });
+        });
+
+        // Pagination
+        document.querySelectorAll('.pagination-item:not(.disabled)').forEach(button => {
+            button.addEventListener('click', function () {
+                // Remove active class from all
+                document.querySelectorAll('.pagination-item').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Add active class to clicked
+                this.classList.add('active');
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Make tooltips stay visible when hovering over them
+        document.addEventListener('DOMContentLoaded', function () {
+            const movieCards = document.querySelectorAll('.movie-card');
+
+            movieCards.forEach(card => {
+                // Reset any inline styles that might be causing issues
+                const tooltip = card.querySelector('.movie-tooltip');
+                if (tooltip) {
+                    tooltip.style = '';
+                }
+
+                // Remove any existing event listeners by cloning and replacing elements
+                if (tooltip) {
+                    const newTooltip = tooltip.cloneNode(true);
+                    tooltip.parentNode.replaceChild(newTooltip, tooltip);
+                }
+
+                const newCard = card.cloneNode(true);
+                card.parentNode.replaceChild(newCard, card);
+            });
+
+            // Re-add event listeners to the favorite buttons after cloning
+            document.querySelectorAll('.movie-tooltip button').forEach(button => {
+                button.addEventListener('click', function (event) {
+                    toggleFavorite(event);
+                });
+            });
+        });
+
+        // Toggle favorite
+        function toggleFavorite(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const heartIcon = event.currentTarget.querySelector('i');
+            if (heartIcon.classList.contains('far')) {
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                heartIcon.style.color = '#F43F5E'; // Red color for liked
+            } else {
+                heartIcon.classList.remove('fas');
+                heartIcon.classList.add('far');
+                heartIcon.style.color = ''; // Reset to default
+            }
+        }
+    </script>
+
 </body>
+
 </html>

@@ -1,1813 +1,1314 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đảo Hải Tặc - CineAsia</title>
+    <title>Đế Chế Rồng - Chi tiết phim | PhimHay</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
-
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/layout.css">
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        neutral: {
-                            50: '#f9f9f9',
-                            100: '#f3f3f3',
-                            200: '#e5e5e5',
-                            300: '#d4d4d4',
-                            400: '#a3a3a3',
-                            500: '#737373',
-                            600: '#525252',
-                            700: '#404040',
-                            800: '#262626',
-                            900: '#171717',
-                        },
-                        accent: {
-                            100: '#fff1f2',
-                            500: '#f43f5e',
-                            700: '#be123c',
-                        }
+                        primary: '#10B981',
+                        dark: '#0F172A',
+                        darker: '#0B1120',
+                        light: '#E2E8F0'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                    }
+                    },
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f9f9f9;
+            background-color: #0B1120;
+            color: #E2E8F0;
         }
 
-        .movie-card {
-            transition: transform 0.3s ease;
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
 
-
-        /* Mobile menu */
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 50;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+        ::-webkit-scrollbar-track {
+            background: #0B1120;
         }
 
-        .mobile-menu.active {
-            opacity: 1;
-            visibility: visible;
+        ::-webkit-scrollbar-thumb {
+            background: #10B981;
+            border-radius: 3px;
         }
 
-        .mobile-menu-content {
+        ::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+
+        /* Glass effect */
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-dark {
+            background: rgba(11, 17, 32, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Button hover effects */
+        .btn-action {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-action::before {
+            content: '';
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 80%;
-            max-width: 300px;
-            height: 100%;
-            background-color: #262626;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            overflow-y: auto;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
         }
 
-        .mobile-menu.active .mobile-menu-content {
-            transform: translateX(0);
+        .btn-action:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
-        .movie-card:hover {
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Episode card */
+        .episode-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .episode-card:hover {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+            transform: translateX(5px);
+        }
+
+        .episode-card.active {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 3px solid #10B981;
+        }
+
+        /* Comment hover */
+        .comment-item {
+            transition: all 0.3s ease;
+        }
+
+        .comment-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Actor card */
+        .actor-card {
+            transition: all 0.3s ease;
+        }
+
+        .actor-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
+        .actor-card:hover img {
+            transform: scale(1.05);
         }
 
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        /* Related movie card */
+        .related-movie {
+            transition: all 0.3s ease;
         }
 
-        .notification {
-            animation: slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards;
-            transform: translateX(-100%);
+        .related-movie:hover {
+            transform: translateY(-3px);
         }
 
-        @keyframes slideIn {
-            to {
-                transform: translateX(0);
+        .related-movie:hover .movie-poster {
+            transform: scale(1.05);
+        }
+
+        /* Tab navigation */
+        .tab-btn {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #10B981;
+            transition: width 0.3s ease;
+        }
+
+        .tab-btn.active::after,
+        .tab-btn:hover::after {
+            width: 100%;
+        }
+
+        .tab-btn.active {
+            color: #10B981;
+        }
+
+        /* Rating stars */
+        .star {
+            color: #374151;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .star.filled {
+            color: #10B981;
+        }
+
+        .star:hover {
+            color: #34D399;
+        }
+
+        /* Thumbnail overlay */
+        .thumbnail-overlay {
+            background: linear-gradient(to bottom, transparent 0%, rgba(11, 17, 32, 0.7) 70%, rgba(11, 17, 32, 1) 100%);
+        }
+
+        /* Responsive utilities */
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .left-sidebar {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .poster-section {
+                grid-column: 1;
+            }
+
+            .info-section {
+                grid-column: 2;
+            }
+
+            .related-top {
+                grid-column: 1 / -1;
             }
         }
 
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
+        @media (max-width: 640px) {
+            .left-sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .poster-section,
+            .info-section,
+            .related-top {
+                grid-column: 1;
             }
         }
 
-        .tab-content {
-            display: none;
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
         }
 
-        .tab-content.active {
-            display: block;
+        /* Loading animation */
+        .skeleton {
+            background: linear-gradient(90deg, #1E293B 25%, #334155 50%, #1E293B 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
     </style>
 </head>
 
-<body class="bg-neutral-50 text-neutral-800">
-    <!-- Notification -->
-    <div id="notification"
-        class="notification fixed bottom-8 left-0 z-50 bg-neutral-800 text-white px-4 py-2 rounded-r-lg shadow-lg">
-        <p class="text-sm"><span class="font-bold">Mới cập nhật:</span> Phim "Hoa Mộc Lan" vừa được thêm vào!</p>
-    </div>
-
-    <!-- Scroll to top button -->
-    <button id="scrollToTop"
-        class="fixed bottom-8 right-8 bg-neutral-800 text-white p-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300 z-50">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-     <!-- Header -->
-
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="mobile-menu">
-        <div class="mobile-menu-content p-6">
-            <div class="flex justify-between items-center mb-8">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-film text-accent-500 text-2xl"></i>
-                    <h1 class="text-2xl font-bold text-white">CineAsia</h1>
-                </div>
-                <button id="closeMobileMenu" class="text-white text-xl">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <div class="mb-6">
-                <div class="relative">
-                    <input type="text" value="Đảo Hải Tặc" placeholder="Tìm kiếm phim..."
-                        class="w-full bg-neutral-700 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent-500">
-                    <button class="absolute right-3 top-2 text-neutral-400">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-
-            <nav class="flex flex-col space-y-4 text-white mb-8">
-                <a href="index.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Trang
-                    chủ</a>
-                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim lẻ</a>
-                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim bộ</a>
-                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim chiếu rạp</a>
-                <a href="category.html" class="py-2 border-b border-neutral-700 hover:text-accent-500 transition">Phim sắp chiếu</a>
-            </nav>
-
-            <a href="login.html">
-<button
-                class="w-full bg-accent-500 hover:bg-accent-700 px-4 py-2 rounded-full text-white text-sm transition">
-                Đăng nhập
-            </button>
-</a>
-        </div>
-    </div>
-
+<body class="pattern-bg">
     <!-- Header -->
-    <header class="bg-neutral-800 text-white shadow-md">
-        <div class="container mx-auto px-4 py-4">
+    <header class="header py-4 px-6 sticky top-0 z-50 bg-dark border-b border-gray-800 shadow-lg">
+        <div class="container mx-auto">
             <div class="flex justify-between items-center">
-                <a href="index.html" >
-<div class="flex items-center space-x-2">
-                    <i class="fas fa-film text-accent-500 text-2xl"></i>
-                    <h1 class="text-2xl font-bold">CineAsia</h1>
-                </div></a>
-                <nav class="hidden md:flex space-x-6">
-                    <a href="index.html" class="hover:text-accent-500 transition">Trang chủ</a>
-                    <a href="category.html" class="hover:text-accent-500 transition">Phim lẻ</a>
-                    <a href="category.html" class="hover:text-accent-500 transition">Phim bộ</a>
-                    <a href="category.html" class="hover:text-accent-500 transition">Phim chiếu rạp</a>
-                    <a href="category.html" class="hover:text-accent-500 transition">Phim sắp chiếu</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    <div class="relative hidden sm:block">
-                        <input type="text" value="Đảo Hải Tặc" placeholder="Tìm kiếm phim..."
-                            class="bg-neutral-700 text-white px-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent-500">
-                        <button class="absolute right-3 top-2 text-neutral-400">
-                            <i class="fas fa-search"></i>
-                        </button>
+                <!-- Logo -->
+                <a href="index.html" class="logo text-2xl">
+                    <i class="fas fa-film mr-2"></i>
+                    <span class="hidden sm:inline">CinemaStream</span>
+                    <span class="sm:hidden">CS</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="nav-link active">Home</a>
+                    
+                    <!-- Categories Dropdown -->
+                    <div class="dropdown relative">
+                        <a href="category.html" class="nav-link flex items-center">
+                            Categories
+                            <i class="fas fa-chevron-down text-xs ml-1"></i>
+                        </a>
+                        <div class="dropdown-content rounded-lg">
+                            <div class="p-2 grid grid-cols-2 gap-1">
+                                <a href="category.html?genre=action" class="dropdown-item rounded">Action</a>
+                                <a href="category.html?genre=comedy" class="dropdown-item rounded">Comedy</a>
+                                <a href="category.html?genre=drama" class="dropdown-item rounded">Drama</a>
+                                <a href="category.html?genre=horror" class="dropdown-item rounded">Horror</a>
+                                <a href="category.html?genre=sci-fi" class="dropdown-item rounded">Sci-Fi</a>
+                                <a href="category.html?genre=thriller" class="dropdown-item rounded">Thriller</a>
+                            </div>
+                            <div class="border-t border-gray-700 p-2">
+                                <a href="category.html" class="text-teal hover:underline text-sm flex items-center p-2">
+                                    <span>View All Categories</span>
+                                    <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <a href="login.html">
-<button
-                        class="hidden sm:block bg-accent-500 hover:bg-accent-700 px-4 py-2 rounded-full text-sm transition">
-                        Đăng nhập
+                    
+                    <!-- Years Dropdown -->
+                    <div class="dropdown relative">
+                        <a href="category.html?type=year" class="nav-link flex items-center">
+                            Years
+                            <i class="fas fa-chevron-down text-xs ml-1"></i>
+                        </a>
+                        <div class="dropdown-content rounded-lg">
+                            <div class="p-2 grid grid-cols-2 gap-1">
+                                <a href="category.html?year=2023" class="dropdown-item rounded">2023</a>
+                                <a href="category.html?year=2022" class="dropdown-item rounded">2022</a>
+                                <a href="category.html?year=2021" class="dropdown-item rounded">2021</a>
+                                <a href="category.html?year=2020" class="dropdown-item rounded">2020</a>
+                                <a href="category.html?year=2019" class="dropdown-item rounded">2019</a>
+                                <a href="category.html?year=2018" class="dropdown-item rounded">2018</a>
+                            </div>
+                            <div class="border-t border-gray-700 p-2">
+                                <a href="category.html?type=year" class="text-teal hover:underline text-sm flex items-center p-2">
+                                    <span>View All Years</span>
+                                    <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="nav-link">TV Shows</a>
+                    <a href="#" class="nav-link">My List</a>
+                </nav>
+                
+                <!-- Right Side Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Desktop Search -->
+                    <div class="hidden md:block relative">
+                        <form action="search.html" method="get" id="desktopSearchForm">
+                            <input type="text" name="q" placeholder="Search..." class="search-input rounded-full px-4 py-2 pr-10">
+                            <button type="submit" class="absolute right-3 top-2.5 text-gray-light hover:text-teal">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Mobile Search Button -->
+                    <button id="mobileSearchToggle" class="md:hidden text-gray-light hover:text-teal">
+                        <i class="fas fa-search text-xl"></i>
                     </button>
-</a>
-                    <button id="openMobileMenu" class="md:hidden text-white">
+                    
+                    <!-- Notifications -->
+                    <div class="dropdown relative">
+                        <button class="text-gray-light hover:text-teal relative">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <div class="dropdown-content right-0 w-72 rounded-lg">
+                            <div class="p-3 border-b border-gray-700 flex justify-between items-center">
+                                <h3 class="text-white font-medium">Notifications</h3>
+                                <a href="#" class="text-teal text-sm hover:underline">Mark all as read</a>
+                            </div>
+                            <div class="max-h-80 overflow-y-auto">
+                                <a href="#" class="dropdown-item border-b border-gray-700">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 mr-3">
+                                            <div class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
+                                                <i class="fas fa-film"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="text-white text-sm font-medium">New release available</p>
+                                            <p class="text-gray-light text-xs mt-1">Dune: Part Two is now available</p>
+                                            <p class="text-gray-light text-xs mt-1">2 hours ago</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item border-b border-gray-700">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 mr-3">
+                                            <div class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="text-white text-sm font-medium">New recommendations</p>
+                                            <p class="text-gray-light text-xs mt-1">Check out these movies based on your watchlist</p>
+                                            <p class="text-gray-light text-xs mt-1">1 day ago</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0 mr-3">
+                                            <div class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
+                                                <i class="fas fa-gift"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="text-white text-sm font-medium">Special Offer</p>
+                                            <p class="text-gray-light text-xs mt-1">Get 20% off on annual subscription</p>
+                                            <p class="text-gray-light text-xs mt-1">3 days ago</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="p-3 border-t border-gray-700">
+                                <a href="#" class="text-teal hover:underline text-sm flex items-center justify-center">
+                                    <span>View All Notifications</span>
+                                    <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Login Button -->
+                    <a href="auth.html" class="text-gray-light hover:text-teal transition flex items-center">
+                        <span class="hidden md:inline-block mr-2">Login</span>
+                        <i class="fas fa-user-circle text-xl"></i>
+                    </a>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobileMenuToggle" class="md:hidden text-gray-light hover:text-teal">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
+            
+            <!-- Mobile Search (Hidden by default) -->
+            <div id="mobileSearchBar" class="mt-4 hidden">
+                <form action="search.html" method="get" id="mobileSearchForm">
+                    <div class="relative">
+                        <input type="text" name="q" placeholder="Search movies, TV shows..." class="w-full bg-dark border border-gray-700 rounded-full px-4 py-2 text-white focus:outline-none focus:border-teal">
+                        <button type="submit" class="absolute right-3 top-2.5 text-gray-light hover:text-teal">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </header>
-
-    <!-- Breadcrumbs -->
-    <div class="bg-neutral-100 py-3">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center text-sm text-neutral-600">
-                <a href="index.html" class="hover:text-accent-500">Trang chủ</a>
-                <span class="mx-2">/</span>
-                <a href="#" class="hover:text-accent-500">Phim bộ</a>
-                <span class="mx-2">/</span>
-                <span class="text-neutral-800 font-medium">Đảo Hải Tặc</span>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu">
+        <div class="p-6">
+            <!-- Mobile Menu Header -->
+            <div class="flex justify-between items-center mb-8">
+                <a href="index.html" class="logo text-2xl">
+                    <i class="fas fa-film mr-2"></i>
+                    <span>CinemaStream</span>
+                </a>
+                <button id="mobileMenuClose" class="text-gray-light hover:text-teal">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <nav class="space-y-6">
+                <a href="index.html" class="block text-white hover:text-teal transition text-lg">Home</a>
+                
+                <!-- Mobile Categories -->
+                <div class="space-y-2">
+                    <button id="mobileCategoriesToggle" class="flex items-center justify-between w-full text-white hover:text-teal transition text-lg">
+                        <span>Categories</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="mobileCategoriesDropdown" class="mobile-dropdown pl-4">
+                        <div class="grid grid-cols-2 gap-2 py-2">
+                            <a href="category.html?genre=action" class="text-gray-light hover:text-teal transition py-1">Action</a>
+                            <a href="category.html?genre=comedy" class="text-gray-light hover:text-teal transition py-1">Comedy</a>
+                            <a href="category.html?genre=drama" class="text-gray-light hover:text-teal transition py-1">Drama</a>
+                            <a href="category.html?genre=horror" class="text-gray-light hover:text-teal transition py-1">Horror</a>
+                            <a href="category.html?genre=sci-fi" class="text-gray-light hover:text-teal transition py-1">Sci-Fi</a>
+                            <a href="category.html?genre=thriller" class="text-gray-light hover:text-teal transition py-1">Thriller</a>
+                        </div>
+                        <a href="category.html" class="block text-teal text-sm py-2 hover:underline">View All Categories</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile Years -->
+                <div class="space-y-2">
+                    <button id="mobileYearsToggle" class="flex items-center justify-between w-full text-white hover:text-teal transition text-lg">
+                        <span>Years</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="mobileYearsDropdown" class="mobile-dropdown pl-4">
+                        <div class="grid grid-cols-2 gap-2 py-2">
+                            <a href="category.html?year=2023" class="text-gray-light hover:text-teal transition py-1">2023</a>
+                            <a href="category.html?year=2022" class="text-gray-light hover:text-teal transition py-1">2022</a>
+                            <a href="category.html?year=2021" class="text-gray-light hover:text-teal transition py-1">2021</a>
+                            <a href="category.html?year=2020" class="text-gray-light hover:text-teal transition py-1">2020</a>
+                            <a href="category.html?year=2019" class="text-gray-light hover:text-teal transition py-1">2019</a>
+                            <a href="category.html?year=2018" class="text-gray-light hover:text-teal transition py-1">2018</a>
+                        </div>
+                        <a href="category.html?type=year" class="block text-teal text-sm py-2 hover:underline">View All Years</a>
+                    </div>
+                </div>
+                
+                <a href="#" class="block text-white hover:text-teal transition text-lg">TV Shows</a>
+                <a href="#" class="block text-white hover:text-teal transition text-lg">My List</a>
+                
+                <div class="pt-6 border-t border-gray-700">
+                    <a href="auth.html" class="block text-white hover:text-teal transition text-lg">Login / Sign Up</a>
+                </div>
+            </nav>
+            
+            <!-- Mobile Menu Footer -->
+            <div class="absolute bottom-8 left-6 right-6">
+                <div class="flex space-x-4 mb-4">
+                    <a href="#" class="social-icon text-gray-light">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-light">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-light">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-light">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+                <p class="text-gray-light text-sm">
+                    &copy; 2023 CinemaStream. All rights reserved.
+                </p>
             </div>
         </div>
     </div>
+    <!-- Thumbnail Banner -->
+    <section class="relative h-[400px] md:h-[500px] overflow-hidden">
+        <img src="https://placehold.co/1920x1080/0F172A/10B981?text=Đế+Chế+Rồng+Banner" alt="Đế Chế Rồng"
+            class="w-full h-full object-cover">
+        <div class="absolute inset-0 thumbnail-overlay"></div>
+
+        <!-- Breadcrumb -->
+        <div class="absolute top-4 left-0 w-full z-10">
+            <div class="container mx-auto px-4">
+                <nav class="flex items-center space-x-2 text-sm">
+                    <a href="/" class="text-gray-400 hover:text-white transition">Trang chủ</a>
+                    <span class="text-gray-400">/</span>
+                    <a href="/phim-le" class="text-gray-400 hover:text-white transition">Phim lẻ</a>
+                    <span class="text-gray-400">/</span>
+                    <span class="text-white">Đế Chế Rồng</span>
+                </nav>
+            </div>
+        </div>
+    </section>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
-        <div class="flex flex-col lg:flex-row gap-8">
-            <!-- Left Sidebar (3/10) -->
-            <div class="lg:w-[30%]">
-                <!-- Movie Poster -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-                    <img src="https://placehold.co/300x500/262626/FFFFFF?text=Đảo+Hải+Tặc" alt="Movie poster"
-                        class="w-full object-cover">
-                </div>
+    <section class="container mx-auto px-4 -mt-20 relative z-20 pb-12">
+        <div class="main-grid grid grid-cols-1 lg:grid-cols-10 gap-6">
 
-                <!-- Movie Info -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h1 class="text-2xl font-bold mb-2">Đảo Hải Tặc</h1>
-                    <div class="flex items-center mb-4">
-                        <div class="flex items-center mr-4">
-                            <i class="fas fa-star text-yellow-400 mr-1"></i>
-                            <span class="font-medium">9.5</span>
-                            <span class="text-neutral-500 text-sm ml-1">/10</span>
-                        </div>
-                        <div class="text-sm text-neutral-500">
-                            <span>1999 - Hiện tại</span>
-                        </div>
-                    </div>
+            <!-- Left Sidebar (3 parts) -->
+            <div class="lg:col-span-3 left-sidebar">
+                <!-- Poster Section -->
+                <div class="poster-section">
+                    <div class="glass-dark rounded-2xl p-4 mb-6">
+                        <img src="https://placehold.co/400x600/0F172A/10B981?text=Đế+Chế+Rồng" alt="Đế Chế Rồng Poster"
+                            class="w-full rounded-xl shadow-2xl">
 
-                    <div class="space-y-3 mb-4">
-                        <div class="flex">
-                            <span class="text-neutral-500 w-24">Thể loại:</span>
-                            <span>Hành động, Phiêu lưu, Hài hước</span>
-                        </div>
-                        <div class="flex">
-                            <span class="text-neutral-500 w-24">Quốc gia:</span>
-                            <span>Nhật Bản</span>
-                        </div>
-                        <div class="flex">
-                            <span class="text-neutral-500 w-24">Đạo diễn:</span>
-                            <span>Eiichiro Oda</span>
-                        </div>
-                        <div class="flex">
-                            <span class="text-neutral-500 w-24">Thời lượng:</span>
-                            <span>24 phút/tập</span>
-                        </div>
-                        <div class="flex">
-                            <span class="text-neutral-500 w-24">Chất lượng:</span>
-                            <span class="bg-neutral-200 text-neutral-700 px-2 py-0.5 text-xs rounded">HD</span>
-                        </div>
-                    </div>
+                        <!-- Action Buttons -->
+                        <div class="mt-4 space-y-3">
+                            <button
+                                class="btn-action w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2">
+                                <i class="fas fa-play"></i>
+                                <span>Xem phim</span>
+                            </button>
 
-                    <div class="mb-4">
-                        <h3 class="font-medium mb-2">Nội dung:</h3>
-                        <p class="text-neutral-600 text-sm">
-                            Đảo Hải Tặc kể về cuộc phiêu lưu của Monkey D. Luffy và băng hải tặc Mũ Rơm trên hành trình
-                            tìm kiếm kho báu One Piece và trở thành Vua Hải Tặc. Trong thế giới của biển cả và hải tặc,
-                            Luffy cùng các đồng đội của mình đã trải qua vô số cuộc phiêu lưu, đối đầu với nhiều kẻ thù
-                            mạnh mẽ và kết bạn với nhiều đồng minh.
-                        </p>
-                    </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button
+                                    class="btn-action glass hover:bg-white/10 py-3 rounded-xl flex items-center justify-center"
+                                    onclick="toggleLike(this)">
+                                    <i class="far fa-heart text-lg"></i>
+                                </button>
+                                <button
+                                    class="btn-action glass hover:bg-white/10 py-3 rounded-xl flex items-center justify-center"
+                                    onclick="toggleBookmark(this)">
+                                    <i class="far fa-bookmark text-lg"></i>
+                                </button>
+                                <button
+                                    class="btn-action glass hover:bg-white/10 py-3 rounded-xl flex items-center justify-center"
+                                    onclick="shareMovie()">
+                                    <i class="fas fa-share-alt text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
 
-                    <div class="flex space-x-2">
-                        <span class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full">Phiêu lưu</span>
-                        <span class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full">Hành động</span>
-                        <span class="bg-neutral-200 text-neutral-700 px-2 py-1 text-xs rounded-full">Hài hước</span>
+                        <!-- Rating -->
+                        <div class="mt-4 text-center">
+                            <div class="flex items-center justify-center gap-1 mb-2">
+                                <span class="star filled text-2xl">★</span>
+                                <span class="star filled text-2xl">★</span>
+                                <span class="star filled text-2xl">★</span>
+                                <span class="star filled text-2xl">★</span>
+                                <span class="star filled text-2xl">★</span>
+                            </div>
+                            <p class="text-3xl font-bold gradient-text">9.8/10</p>
+                            <p class="text-sm text-gray-400">12,543 đánh giá</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Weekly Top Movies -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-bold mb-4">Top Phim Tuần Này</h3>
-                    <div class="space-y-4">
-                        <!-- Top Movie 1 -->
-                        <div class="flex space-x-3 click-item">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 bg-accent-500 text-white rounded-full flex items-center justify-center font-bold">
-                                1
+                <!-- Movie Info Section -->
+                <div class="info-section">
+                    <div class="glass-dark rounded-2xl p-6 mb-6">
+                        <h3 class="text-lg font-bold mb-4">Thông tin phim</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Tên gốc:</span>
+                                <span>Dragon Empire</span>
                             </div>
-                            <div class="flex space-x-3">
-                                <img src="https://placehold.co/100x150/262626/FFFFFF?text=Top+1" alt="Movie poster"
-                                    class="w-14 h-20 object-cover rounded">
-                                <div>
-                                    <h4 class="font-medium">Đảo Hải Tặc</h4>
-                                    <p class="text-neutral-500 text-xs">Hành động, Phiêu lưu</p>
-                                    <div class="flex items-center mt-1">
-                                        <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
-                                        <span class="text-xs">9.5</span>
-                                    </div>
-                                </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Đạo diễn:</span>
+                                <span>Trần Văn X</span>
                             </div>
-                        </div>
-
-                        <!-- Top Movie 2 -->
-                        <div class="flex space-x-3 click-item">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 bg-neutral-500 text-white rounded-full flex items-center justify-center font-bold">
-                                2
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Quốc gia:</span>
+                                <span>Việt Nam</span>
                             </div>
-                            <div class="flex space-x-3">
-                                <img src="https://placehold.co/100x150/262626/FFFFFF?text=Top+2" alt="Movie poster"
-                                    class="w-14 h-20 object-cover rounded">
-                                <div>
-                                    <h4 class="font-medium">Vũ Trụ Anh Hùng</h4>
-                                    <p class="text-neutral-500 text-xs">Hành động, Viễn tưởng</p>
-                                    <div class="flex items-center mt-1">
-                                        <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
-                                        <span class="text-xs">9.2</span>
-                                    </div>
-                                </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Năm SX:</span>
+                                <span>2025</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Thời lượng:</span>
+                                <span>120 phút</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Chất lượng:</span>
+                                <span class="text-primary font-semibold">HD</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Ngôn ngữ:</span>
+                                <span>Tiếng Việt</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Lượt xem:</span>
+                                <span>2.5M</span>
                             </div>
                         </div>
 
-                        <!-- Top Movie 3 -->
-                        <div class="flex space-x-3 click-item">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 bg-neutral-500 text-white rounded-full flex items-center justify-center font-bold">
-                                3
-                            </div>
-                            <div class="flex space-x-3">
-                                <img src="https://placehold.co/100x150/262626/FFFFFF?text=Top+3" alt="Movie poster"
-                                    class="w-14 h-20 object-cover rounded">
-                                <div>
-                                    <h4 class="font-medium">Hoa Mộc Lan</h4>
-                                    <p class="text-neutral-500 text-xs">Hành động, Lịch sử</p>
-                                    <div class="flex items-center mt-1">
-                                        <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
-                                        <span class="text-xs">8.9</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Top Movie 4 -->
-                        <div class="flex space-x-3 click-item">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 bg-neutral-500 text-white rounded-full flex items-center justify-center font-bold">
-                                4
-                            </div>
-                            <div class="flex space-x-3">
-                                <img src="https://placehold.co/100x150/262626/FFFFFF?text=Top+4" alt="Movie poster"
-                                    class="w-14 h-20 object-cover rounded">
-                                <div>
-                                    <h4 class="font-medium">Bí Mật Đảo Jeju</h4>
-                                    <p class="text-neutral-500 text-xs">Bí ẩn, Tâm lý</p>
-                                    <div class="flex items-center mt-1">
-                                        <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
-                                        <span class="text-xs">9.0</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Top Movie 5 -->
-                        <div class="flex space-x-3 click-item">
-                            <div
-                                class="flex-shrink-0 w-8 h-8 bg-neutral-500 text-white rounded-full flex items-center justify-center font-bold">
-                                5
-                            </div>
-                            <div class="flex space-x-3">
-                                <img src="https://placehold.co/100x150/262626/FFFFFF?text=Top+5" alt="Movie poster"
-                                    class="w-14 h-20 object-cover rounded">
-                                <div>
-                                    <h4 class="font-medium">Tình Yêu Và Định Mệnh</h4>
-                                    <p class="text-neutral-500 text-xs">Tình cảm, Lãng mạn</p>
-                                    <div class="flex items-center mt-1">
-                                        <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
-                                        <span class="text-xs">8.7</span>
-                                    </div>
-                                </div>
+                        <!-- Genres -->
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                            <p class="text-sm text-gray-400 mb-2">Thể loại:</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs">Hành động</span>
+                                <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs">Viễn
+                                    tưởng</span>
+                                <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs">Phiêu lưu</span>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Top Related Movies -->
+                <!-- <div class="related-top">
+                <div class="glass-dark rounded-2xl p-6">
+                    <h3 class="text-lg font-bold mb-4">Top phim liên quan</h3>
+                    <div class="space-y-3">
+                        <a href="#" class="related-movie flex gap-3 p-3 rounded-xl hover:bg-white/5">
+                            <div class="relative overflow-hidden rounded-lg flex-shrink-0">
+                                <img src="https://placehold.co/80x120/0F172A/10B981?text=Movie+1" 
+                                     alt="Movie" 
+                                     class="movie-poster w-20 h-28 object-cover transition-transform duration-300">
+                                <span class="absolute top-1 left-1 bg-primary text-white text-xs px-2 py-1 rounded">TOP 1</span>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold line-clamp-1">Huyền Thoại Rồng</h4>
+                                <p class="text-sm text-gray-400">2024</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-primary text-sm">★ 9.5</span>
+                                    <span class="text-gray-400 text-xs">• 1.2M views</span>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <a href="#" class="related-movie flex gap-3 p-3 rounded-xl hover:bg-white/5">
+                            <div class="relative overflow-hidden rounded-lg flex-shrink-0">
+                                <img src="https://placehold.co/80x120/0F172A/10B981?text=Movie+2" 
+                                     alt="Movie" 
+                                     class="movie-poster w-20 h-28 object-cover transition-transform duration-300">
+                                <span class="absolute top-1 left-1 bg-primary text-white text-xs px-2 py-1 rounded">TOP 2</span>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold line-clamp-1">Chiến Binh Bất Tử</h4>
+                                <p class="text-sm text-gray-400">2023</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-primary text-sm">★ 9.2</span>
+                                    <span class="text-gray-400 text-xs">• 980K views</span>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <a href="#" class="related-movie flex gap-3 p-3 rounded-xl hover:bg-white/5">
+                            <div class="relative overflow-hidden rounded-lg flex-shrink-0">
+                                <img src="https://placehold.co/80x120/0F172A/10B981?text=Movie+3" 
+                                     alt="Movie" 
+                                     class="movie-poster w-20 h-28 object-cover transition-transform duration-300">
+                                <span class="absolute top-1 left-1 bg-primary text-white text-xs px-2 py-1 rounded">TOP 3</span>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold line-clamp-1">Vũ Trụ Song Song</h4>
+                                <p class="text-sm text-gray-400">2024</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-primary text-sm">★ 9.0</span>
+                                    <span class="text-gray-400 text-xs">• 750K views</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div> -->
             </div>
 
-            <!-- Right Content (7/10) -->
-            <div class="lg:w-[70%]">
-                <!-- Movie Preview and Actions -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-                    <div class="relative">
-                        <img src="https://placehold.co/1200x675/262626/FFFFFF?text=Đảo+Hải+Tặc+Preview"
-                            alt="Movie preview" class="w-full h-96 object-cover">
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
-                            <button
-                                class="click-watch bg-accent-500 hover:bg-accent-700 text-white px-6 py-3 rounded-full text-lg font-medium transition flex items-center">
-                                <i class="fas fa-play mr-2"></i>
-                                Xem ngay
-                            </button>
-                        </div>
-                    </div>
+            <!-- Right Content (7 parts) -->
+            <div class="lg:col-span-7">
+                <!-- Movie Title and Description -->
+                <div class="glass-dark rounded-2xl p-6 mb-6">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-2">Đế Chế Rồng</h1>
+                    <p class="text-xl text-gray-300 mb-4">Dragon Empire (2025)</p>
 
-                    <div class="p-6 flex justify-between items-center">
-                        <div class="p-6 flex justify-between items-center">
-                            <div class="flex space-x-4">
-                                <!-- Like Button -->
-                                <button id="likeButton"
-                                    class="flex items-center space-x-2 bg-neutral-100 hover:bg-neutral-200 px-4 py-2 rounded-full transition">
-                                    <i class="far fa-heart"></i>
-                                    <span>Yêu thích</span>
-                                </button>
-
-                                <!-- Share Button -->
-                                <div class="relative">
-                                    <button id="shareButton"
-                                        class="flex items-center space-x-2 bg-neutral-100 hover:bg-neutral-200 px-4 py-2 rounded-full transition">
-                                        <i class="fas fa-share-alt"></i>
-                                        <span>Chia sẻ</span>
-                                    </button>
-                                    <div id="shareMenu"
-                                        class="absolute left-0 mt-2 w-60 bg-white rounded-lg shadow-lg p-3 z-10 hidden">
-                                        <h4 class="text-sm font-medium mb-2">Chia sẻ phim này</h4>
-                                        <div class="flex space-x-3 mb-3">
-                                            <button
-                                                class="w-9 h-9 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                                                <i class="fab fa-facebook-f"></i>
-                                            </button>
-                                            <button
-                                                class="w-9 h-9 bg-sky-500 text-white rounded-full flex items-center justify-center hover:bg-sky-600 transition">
-                                                <i class="fab fa-twitter"></i>
-                                            </button>
-                                            <button
-                                                class="w-9 h-9 bg-green-600 text-white rounded-full flex items-center justify-center hover:bg-green-700 transition">
-                                                <i class="fab fa-whatsapp"></i>
-                                            </button>
-                                            <button
-                                                class="w-9 h-9 bg-red-600 text-white rounded-full flex items-center justify-center hover:bg-red-700 transition">
-                                                <i class="fab fa-pinterest"></i>
-                                            </button>
-                                        </div>
-                                        <div class="relative">
-                                            <input type="text" id="shareLink"
-                                                value="https://cineasia.com/phim/dao-hai-tac"
-                                                class="w-full text-sm border border-neutral-300 rounded px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"
-                                                readonly>
-                                            <button id="copyLinkBtn"
-                                                class="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-accent-500">
-                                                <i class="far fa-copy"></i>
-                                            </button>
-                                        </div>
-                                        <div id="copyConfirm" class="mt-2 text-xs text-green-600 hidden">
-                                            <i class="fas fa-check mr-1"></i> Đã sao chép liên kết!
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Add to List Button -->
-                                <div class="relative">
-                                    <button id="addToButton"
-                                        class="flex items-center space-x-2 bg-neutral-100 hover:bg-neutral-200 px-4 py-2 rounded-full transition">
-                                        <i class="fas fa-plus"></i>
-                                        <span>Thêm vào</span>
-                                    </button>
-                                    <div id="addToMenu"
-                                        class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg p-2 z-10 hidden">
-                                        <h4 class="text-sm font-medium px-3 py-2">Thêm vào danh sách</h4>
-                                        <ul class="space-y-1">
-                                            <li>
-                                                <button
-                                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-neutral-100 transition flex items-center">
-                                                    <i class="fas fa-list mr-2 text-neutral-500"></i>
-                                                    <span>Xem sau</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-neutral-100 transition flex items-center">
-                                                    <i class="fas fa-heart mr-2 text-neutral-500"></i>
-                                                    <span>Phim yêu thích</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-neutral-100 transition flex items-center">
-                                                    <i class="fas fa-star mr-2 text-neutral-500"></i>
-                                                    <span>Phim hay nhất</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button id="createNewListBtn"
-                                                    class="w-full text-left px-3 py-2 text-sm rounded hover:bg-neutral-100 transition flex items-center text-accent-500">
-                                                    <i class="fas fa-plus-circle mr-2"></i>
-                                                    <span>Tạo danh sách mới</span>
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center space-x-2">
-                            <span class="text-neutral-500">Lượt xem:</span>
-                            <span class="font-medium">10.5K</span>
-                        </div>
+                    <div class="prose prose-invert max-w-none">
+                        <p class="text-gray-300 leading-relaxed">
+                            Đế Chế Rồng là câu chuyện về một vương quốc cổ đại nơi con người và rồng sống hòa thuận với
+                            nhau.
+                            Vương quốc này được bảo vệ bởi những con rồng thần thánh, tạo nên một đế chế hùng mạnh nhất
+                            trong lịch sử.
+                            Hoàng tử Ryu, người thừa kế ngai vàng, phát hiện ra một âm mưu đen tối nhằm tiêu diệt tất cả
+                            các con rồng
+                            và chiếm đoạt vương quốc...
+                        </p>
                     </div>
                 </div>
 
-                <!-- Tabbed Content -->
-                <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-                    <div class="border-b border-neutral-200">
-                        <div class="flex">
-                            <button class="tab-btn px-6 py-4 font-medium text-accent-500 border-b-2 border-accent-500"
-                                data-tab="episodes">
-                                Danh sách tập
-                            </button>
-                            <button
-                                class="tab-btn px-6 py-4 font-medium text-neutral-500 hover:text-neutral-800 transition"
-                                data-tab="cast">
-                                Diễn viên & Đạo diễn
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Episodes Tab -->
-                    <div id="episodes-tab" class="tab-content active p-6">
-                        <div class="mb-4 flex justify-between items-center">
-                            <h3 class="font-bold">Danh sách tập phim</h3>
-                            <div class="flex items-center space-x-2">
-                                <span class="text-sm text-neutral-500">Sắp xếp:</span>
-                                <select class="text-sm border border-neutral-300 rounded px-2 py-1">
-                                    <option>Mới nhất</option>
-                                    <option>Cũ nhất</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                            <!-- Episode 1 -->
-                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch ">
-                                <div class="relative mb-2">
-                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+1"
-                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
-                                    <span
-                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:15</span>
-                                </div>
-                                <h4 class="font-medium text-sm">Tập 1</h4>
-                                <p class="text-neutral-500 text-xs">Khởi đầu cuộc phiêu lưu</p>
-                            </div>
-
-                            <!-- Episode 2 -->
-                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch ">
-                                <div class="relative mb-2">
-                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+2"
-                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
-                                    <span
-                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">23:45</span>
-                                </div>
-                                <h4 class="font-medium text-sm">Tập 2</h4>
-                                <p class="text-neutral-500 text-xs">Người thợ săn hải tặc</p>
-                            </div>
-
-                            <!-- Episode 3 -->
-                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch ">
-                                <div class="relative mb-2">
-                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+3"
-                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
-                                    <span
-                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:30</span>
-                                </div>
-                                <h4 class="font-medium text-sm">Tập 3</h4>
-                                <p class="text-neutral-500 text-xs">Morgan và Coby</p>
-                            </div>
-
-                            <!-- Episode 4 -->
-                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch ">
-                                <div class="relative mb-2">
-                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+4"
-                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
-                                    <span
-                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">23:55</span>
-                                </div>
-                                <h4 class="font-medium text-sm">Tập 4</h4>
-                                <p class="text-neutral-500 text-xs">Quá khứ của Zoro</p>
-                            </div>
-
-                            <!-- Episode 5 -->
-                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch ">
-                                <div class="relative mb-2">
-                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+5"
-                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
-                                    <span
-                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:10</span>
-                                </div>
-                                <h4 class="font-medium text-sm">Tập 5</h4>
-                                <p class="text-neutral-500 text-xs">Thị trấn Orange</p>
-                            </div>
-
-                            <!-- Episode 6 -->
-                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch ">
-                                <div class="relative mb-2">
-                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+6"
-                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
-                                    <span
-                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:05</span>
-                                </div>
-                                <h4 class="font-medium text-sm">Tập 6</h4>
-                                <p class="text-neutral-500 text-xs">Gặp gỡ Nami</p>
-                            </div>
-
-                            <!-- Episode 7 -->
-                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch ">
-                                <div class="relative mb-2">
-                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+7"
-                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
-                                    <span
-                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">23:50</span>
-                                </div>
-                                <h4 class="font-medium text-sm">Tập 7</h4>
-                                <p class="text-neutral-500 text-xs">Tên hề Buggy</p>
-                            </div>
-
-                            <!-- Episode 8 -->
-                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch ">
-                                <div class="relative mb-2">
-                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+8"
-                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
-                                    <span
-                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:20</span>
-                                </div>
-                                <h4 class="font-medium text-sm">Tập 8</h4>
-                                <p class="text-neutral-500 text-xs">Trận chiến với Buggy</p>
-                            </div>
-
-                            <!-- Episode 9 -->
-                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch ">
-                                <div class="relative mb-2">
-                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+9"
-                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
-                                    <span
-                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:00</span>
-                                </div>
-                                <h4 class="font-medium text-sm">Tập 9</h4>
-                                <p class="text-neutral-500 text-xs">Kho báu của Nami</p>
-                            </div>
-
-                            <!-- Episode 10 -->
-                            <div class="bg-neutral-100 rounded p-3 hover:bg-neutral-200 transition cursor-pointer click-watch ">
-                                <div class="relative mb-2">
-                                    <img src="https://placehold.co/200x120/262626/FFFFFF?text=Tập+10"
-                                        alt="Episode thumbnail" class="w-full h-24 object-cover rounded">
-                                    <span
-                                        class="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-1 rounded">24:15</span>
-                                </div>
-                                <h4 class="font-medium text-sm">Tập 10</h4>
-                                <p class="text-neutral-500 text-xs">Hướng đến Syrup</p>
-                            </div>
-                        </div>
-
-                        <div class="mt-6 flex justify-center">
-                            <div class="flex space-x-1">
-                                <button
-                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300 bg-neutral-100">
-                                    <i class="fas fa-chevron-left text-xs"></i>
-                                </button>
-                                <button
-                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300 bg-accent-500 text-white">1</button>
-                                <button
-                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300">2</button>
-                                <button
-                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300">3</button>
-                                <button
-                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300">...</button>
-                                <button
-                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300">100</button>
-                                <button
-                                    class="w-8 h-8 flex items-center justify-center rounded border border-neutral-300 bg-neutral-100">
-                                    <i class="fas fa-chevron-right text-xs"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cast Tab -->
-                    <div id="cast-tab" class="tab-content p-6">
-                        <h3 class="font-bold mb-4">Diễn viên lồng tiếng & Đạo diễn</h3>
-
-                        <div class="mb-6">
-                            <h4 class="font-medium text-lg mb-3">Đạo diễn</h4>
-                            <div class="flex items-center space-x-4">
-                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Director" alt="Director"
-                                    class="w-16 h-16 rounded-full object-cover">
-                                <div>
-                                    <h5 class="font-medium">Eiichiro Oda</h5>
-                                    <p class="text-neutral-500 text-sm">Tác giả & Sáng tạo</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h4 class="font-medium text-lg mb-3">Diễn viên lồng tiếng chính</h4>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                            <!-- Actor 1 -->
-                            <div class="flex items-center space-x-3">
-                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+1" alt="Actor"
-                                    class="w-14 h-14 rounded-full object-cover">
-                                <div>
-                                    <h5 class="font-medium">Mayumi Tanaka</h5>
-                                    <p class="text-neutral-500 text-sm">Monkey D. Luffy</p>
-                                </div>
-                            </div>
-
-                            <!-- Actor 2 -->
-                            <div class="flex items-center space-x-3">
-                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+2" alt="Actor"
-                                    class="w-14 h-14 rounded-full object-cover">
-                                <div>
-                                    <h5 class="font-medium">Kazuya Nakai</h5>
-                                    <p class="text-neutral-500 text-sm">Roronoa Zoro</p>
-                                </div>
-                            </div>
-
-                            <!-- Actor 3 -->
-                            <div class="flex items-center space-x-3">
-                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+3" alt="Actor"
-                                    class="w-14 h-14 rounded-full object-cover">
-                                <div>
-                                    <h5 class="font-medium">Akemi Okamura</h5>
-                                    <p class="text-neutral-500 text-sm">Nami</p>
-                                </div>
-                            </div>
-
-                            <!-- Actor 4 -->
-                            <div class="flex items-center space-x-3">
-                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+4" alt="Actor"
-                                    class="w-14 h-14 rounded-full object-cover">
-                                <div>
-                                    <h5 class="font-medium">Kappei Yamaguchi</h5>
-                                    <p class="text-neutral-500 text-sm">Usopp</p>
-                                </div>
-                            </div>
-
-                            <!-- Actor 5 -->
-                            <div class="flex items-center space-x-3">
-                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+5" alt="Actor"
-                                    class="w-14 h-14 rounded-full object-cover">
-                                <div>
-                                    <h5 class="font-medium">Hiroaki Hirata</h5>
-                                    <p class="text-neutral-500 text-sm">Sanji</p>
-                                </div>
-                            </div>
-
-                            <!-- Actor 6 -->
-                            <div class="flex items-center space-x-3">
-                                <img src="https://placehold.co/150x150/262626/FFFFFF?text=Actor+6" alt="Actor"
-                                    class="w-14 h-14 rounded-full object-cover">
-                                <div>
-                                    <h5 class="font-medium">Ikue Otani</h5>
-                                    <p class="text-neutral-500 text-sm">Tony Tony Chopper</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Comments Section -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h3 class="text-lg font-bold mb-4">Bình Luận (125)</h3>
-
-                    <!-- Comment Form -->
-                    <div class="mb-6">
-                        <div class="flex space-x-4">
-                            <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar"
-                                class="w-10 h-10 rounded-full">
-                            <div class="flex-1">
-                                <textarea id="mainCommentInput" placeholder="Viết bình luận của bạn..."
-                                    class="w-full border border-neutral-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
-                                <div class="flex justify-end mt-2">
-                                    <button id="submitCommentBtn"
-                                        class="bg-accent-500 hover:bg-accent-700 text-white px-4 py-2 rounded-md text-sm transition">
-                                        Gửi bình luận
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Comments List -->
-                    <div id="commentsList" class="space-y-6">
-                        <!-- Comment 1 -->
-                        <div class="comment-item flex space-x-4">
-                            <img src="https://placehold.co/100x100/262626/FFFFFF?text=User+1" alt="User avatar"
-                                class="w-10 h-10 rounded-full">
-                            <div class="flex-1">
-                                <div class="flex items-center mb-1">
-                                    <h4 class="font-medium">NguyenVanA</h4>
-                                    <span class="mx-2 text-neutral-400">•</span>
-                                    <span class="text-neutral-500 text-sm">2 giờ trước</span>
-                                </div>
-                                <p class="text-neutral-700 mb-2">Đảo Hải Tặc là bộ anime yêu thích của tôi! Đã theo dõi
-                                    từ tập đầu tiên và vẫn đang hóng từng tập mới. Luffy và băng Mũ Rơm thực sự truyền
-                                    cảm hứng.</p>
-                                <div class="flex items-center text-sm text-neutral-500">
-                                    <button class="like-button flex items-center hover:text-accent-500"
-                                        data-likes="125">
-                                        <i class="far fa-thumbs-up mr-1"></i>
-                                        <span>125</span>
-                                    </button>
-                                    <span class="mx-2">•</span>
-                                    <button class="reply-button hover:text-accent-500">Trả lời</button>
-                                </div>
-
-                                <!-- Reply Form (Hidden by default) -->
-                                <div class="reply-form mt-3 ml-6 hidden">
-                                    <div class="flex space-x-3">
-                                        <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar"
-                                            class="w-8 h-8 rounded-full">
-                                        <div class="flex-1">
-                                            <textarea placeholder="Viết phản hồi của bạn..."
-                                                class="w-full border border-neutral-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
-                                            <div class="flex justify-end mt-2 space-x-2">
-                                                <button
-                                                    class="cancel-reply bg-neutral-200 hover:bg-neutral-300 text-neutral-700 px-3 py-1 rounded-md text-xs transition">
-                                                    Hủy
-                                                </button>
-                                                <button
-                                                    class="submit-reply bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded-md text-xs transition">
-                                                    Gửi
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Replies Container -->
-                                <div class="replies-container">
-                                    <!-- Reply 1 -->
-                                    <div class="mt-4 ml-6 flex space-x-4">
-                                        <img src="https://placehold.co/100x100/262626/FFFFFF?text=User+2"
-                                            alt="User avatar" class="w-8 h-8 rounded-full">
-                                        <div class="flex-1">
-                                            <div class="flex items-center mb-1">
-                                                <h4 class="font-medium">TranThiB</h4>
-                                                <span class="mx-2 text-neutral-400">•</span>
-                                                <span class="text-neutral-500 text-sm">1 giờ trước</span>
-                                            </div>
-                                            <p class="text-neutral-700 mb-2">Đồng ý! Tôi thích nhất là nhân vật Zoro,
-                                                kiếm sĩ ba kiếm thực sự quá ngầu!</p>
-                                            <div class="flex items-center text-sm text-neutral-500">
-                                                <button class="like-button flex items-center hover:text-accent-500"
-                                                    data-likes="43">
-                                                    <i class="far fa-thumbs-up mr-1"></i>
-                                                    <span>43</span>
-                                                </button>
-                                                <span class="mx-2">•</span>
-                                                <button class="reply-button hover:text-accent-500">Trả lời</button>
-                                            </div>
-
-                                            <!-- Nested Reply Form (Hidden by default) -->
-                                            <div class="reply-form mt-3 hidden">
-                                                <div class="flex space-x-3">
-                                                    <img src="https://placehold.co/100x100/262626/FFFFFF?text=You"
-                                                        alt="Your avatar" class="w-8 h-8 rounded-full">
-                                                    <div class="flex-1">
-                                                        <textarea placeholder="Viết phản hồi của bạn..."
-                                                            class="w-full border border-neutral-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
-                                                        <div class="flex justify-end mt-2 space-x-2">
-                                                            <button
-                                                                class="cancel-reply bg-neutral-200 hover:bg-neutral-300 text-neutral-700 px-3 py-1 rounded-md text-xs transition">
-                                                                Hủy
-                                                            </button>
-                                                            <button
-                                                                class="submit-reply bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded-md text-xs transition">
-                                                                Gửi
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Comment 2 -->
-                        <div class="comment-item flex space-x-4">
-                            <img src="https://placehold.co/100x100/262626/FFFFFF?text=User+3" alt="User avatar"
-                                class="w-10 h-10 rounded-full">
-                            <div class="flex-1">
-                                <div class="flex items-center mb-1">
-                                    <h4 class="font-medium">LeVanC</h4>
-                                    <span class="mx-2 text-neutral-400">•</span>
-                                    <span class="text-neutral-500 text-sm">1 ngày trước</span>
-                                </div>
-                                <p class="text-neutral-700 mb-2">Tôi mới xem đến arc Wano, thực sự quá hay! Cốt truyện
-                                    phát triển rất tốt và các nhân vật đều có chiều sâu. Oda-sensei thực sự là một thiên
-                                    tài.</p>
-                                <div class="flex items-center text-sm text-neutral-500">
-                                    <button class="like-button flex items-center hover:text-accent-500" data-likes="87">
-                                        <i class="far fa-thumbs-up mr-1"></i>
-                                        <span>87</span>
-                                    </button>
-                                    <span class="mx-2">•</span>
-                                    <button class="reply-button hover:text-accent-500">Trả lời</button>
-                                </div>
-
-                                <!-- Reply Form (Hidden by default) -->
-                                <div class="reply-form mt-3 ml-6 hidden">
-                                    <div class="flex space-x-3">
-                                        <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar"
-                                            class="w-8 h-8 rounded-full">
-                                        <div class="flex-1">
-                                            <textarea placeholder="Viết phản hồi của bạn..."
-                                                class="w-full border border-neutral-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
-                                            <div class="flex justify-end mt-2 space-x-2">
-                                                <button
-                                                    class="cancel-reply bg-neutral-200 hover:bg-neutral-300 text-neutral-700 px-3 py-1 rounded-md text-xs transition">
-                                                    Hủy
-                                                </button>
-                                                <button
-                                                    class="submit-reply bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded-md text-xs transition">
-                                                    Gửi
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Comment 3 -->
-                        <div class="comment-item flex space-x-4">
-                            <img src="https://placehold.co/100x100/262626/FFFFFF?text=User+4" alt="User avatar"
-                                class="w-10 h-10 rounded-full">
-                            <div class="flex-1">
-                                <div class="flex items-center mb-1">
-                                    <h4 class="font-medium">PhamThiD</h4>
-                                    <span class="mx-2 text-neutral-400">•</span>
-                                    <span class="text-neutral-500 text-sm">3 ngày trước</span>
-                                </div>
-                                <p class="text-neutral-700 mb-2">Ai đang hóng arc cuối cùng không? Tôi thực sự tò mò về
-                                    kho báu One Piece là gì và kết thúc của cuộc phiêu lưu này sẽ như thế nào.</p>
-                                <div class="flex items-center text-sm text-neutral-500">
-                                    <button class="like-button flex items-center hover:text-accent-500" data-likes="65">
-                                        <i class="far fa-thumbs-up mr-1"></i>
-                                        <span>65</span>
-                                    </button>
-                                    <span class="mx-2">•</span>
-                                    <button class="reply-button hover:text-accent-500">Trả lời</button>
-                                </div>
-
-                                <!-- Reply Form (Hidden by default) -->
-                                <div class="reply-form mt-3 ml-6 hidden">
-                                    <div class="flex space-x-3">
-                                        <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar"
-                                            class="w-8 h-8 rounded-full">
-                                        <div class="flex-1">
-                                            <textarea placeholder="Viết phản hồi của bạn..."
-                                                class="w-full border border-neutral-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
-                                            <div class="flex justify-end mt-2 space-x-2">
-                                                <button
-                                                    class="cancel-reply bg-neutral-200 hover:bg-neutral-300 text-neutral-700 px-3 py-1 rounded-md text-xs transition">
-                                                    Hủy
-                                                </button>
-                                                <button
-                                                    class="submit-reply bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded-md text-xs transition">
-                                                    Gửi
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Hidden Comments -->
-                    <div id="hiddenComments" class="space-y-6 py-6 hidden">
-                        <!-- Comment 4 -->
-                        <div class="comment-item flex space-x-4">
-                            <img src="https://placehold.co/100x100/262626/FFFFFF?text=User+5" alt="User avatar"
-                                class="w-10 h-10 rounded-full">
-                            <div class="flex-1">
-                                <div class="flex items-center mb-1">
-                                    <h4 class="font-medium">HoangVanE</h4>
-                                    <span class="mx-2 text-neutral-400">•</span>
-                                    <span class="text-neutral-500 text-sm">5 ngày trước</span>
-                                </div>
-                                <p class="text-neutral-700 mb-2">Tôi thích cách Oda xây dựng thế giới One Piece, rất chi
-                                    tiết và có chiều sâu. Mỗi hòn đảo đều có văn hóa và lịch sử riêng, thực sự là một
-                                    thế giới sống động.</p>
-                                <div class="flex items-center text-sm text-neutral-500">
-                                    <button class="like-button flex items-center hover:text-accent-500" data-likes="52">
-                                        <i class="far fa-thumbs-up mr-1"></i>
-                                        <span>52</span>
-                                    </button>
-                                    <span class="mx-2">•</span>
-                                    <button class="reply-button hover:text-accent-500">Trả lời</button>
-                                </div>
-
-                                <!-- Reply Form (Hidden by default) -->
-                                <div class="reply-form mt-3 ml-6 hidden">
-                                    <div class="flex space-x-3">
-                                        <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar"
-                                            class="w-8 h-8 rounded-full">
-                                        <div class="flex-1">
-                                            <textarea placeholder="Viết phản hồi của bạn..."
-                                                class="w-full border border-neutral-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
-                                            <div class="flex justify-end mt-2 space-x-2">
-                                                <button
-                                                    class="cancel-reply bg-neutral-200 hover:bg-neutral-300 text-neutral-700 px-3 py-1 rounded-md text-xs transition">
-                                                    Hủy
-                                                </button>
-                                                <button
-                                                    class="submit-reply bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded-md text-xs transition">
-                                                    Gửi
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Comment 5 -->
-                        <div class="comment-item flex space-x-4">
-                            <img src="https://placehold.co/100x100/262626/FFFFFF?text=User+6" alt="User avatar"
-                                class="w-10 h-10 rounded-full">
-                            <div class="flex-1">
-                                <div class="flex items-center mb-1">
-                                    <h4 class="font-medium">NguyenThiF</h4>
-                                    <span class="mx-2 text-neutral-400">•</span>
-                                    <span class="text-neutral-500 text-sm">1 tuần trước</span>
-                                </div>
-                                <p class="text-neutral-700 mb-2">Nhân vật nữ trong One Piece rất đa dạng và mạnh mẽ.
-                                    Nami và Robin là hai trong số những nhân vật nữ yêu thích của tôi, họ không chỉ xinh
-                                    đẹp mà còn rất thông minh và can đảm.</p>
-                                <div class="flex items-center text-sm text-neutral-500">
-                                    <button class="like-button flex items-center hover:text-accent-500" data-likes="48">
-                                        <i class="far fa-thumbs-up mr-1"></i>
-                                        <span>48</span>
-                                    </button>
-                                    <span class="mx-2">•</span>
-                                    <button class="reply-button hover:text-accent-500">Trả lời</button>
-                                </div>
-
-                                <!-- Reply Form (Hidden by default) -->
-                                <div class="reply-form mt-3 ml-6 hidden">
-                                    <div class="flex space-x-3">
-                                        <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar"
-                                            class="w-8 h-8 rounded-full">
-                                        <div class="flex-1">
-                                            <textarea placeholder="Viết phản hồi của bạn..."
-                                                class="w-full border border-neutral-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
-                                            <div class="flex justify-end mt-2 space-x-2">
-                                                <button
-                                                    class="cancel-reply bg-neutral-200 hover:bg-neutral-300 text-neutral-700 px-3 py-1 rounded-md text-xs transition">
-                                                    Hủy
-                                                </button>
-                                                <button
-                                                    class="submit-reply bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded-md text-xs transition">
-                                                    Gửi
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Comment 6 -->
-                        <div class="comment-item flex space-x-4">
-                            <img src="https://placehold.co/100x100/262626/FFFFFF?text=User+7" alt="User avatar"
-                                class="w-10 h-10 rounded-full">
-                            <div class="flex-1">
-                                <div class="flex items-center mb-1">
-                                    <h4 class="font-medium">TranVanG</h4>
-                                    <span class="mx-2 text-neutral-400">•</span>
-                                    <span class="text-neutral-500 text-sm">2 tuần trước</span>
-                                </div>
-                                <p class="text-neutral-700 mb-2">Các trận chiến trong One Piece không chỉ là về sức mạnh
-                                    mà còn là về ý chí và quyết tâm. Đó là lý do tại sao tôi luôn xúc động khi xem những
-                                    trận chiến quan trọng.</p>
-                                <div class="flex items-center text-sm text-neutral-500">
-                                    <button class="like-button flex items-center hover:text-accent-500" data-likes="39">
-                                        <i class="far fa-thumbs-up mr-1"></i>
-                                        <span>39</span>
-                                    </button>
-                                    <span class="mx-2">•</span>
-                                    <button class="reply-button hover:text-accent-500">Trả lời</button>
-                                </div>
-
-                                <!-- Reply Form (Hidden by default) -->
-                                <div class="reply-form mt-3 ml-6 hidden">
-                                    <div class="flex space-x-3">
-                                        <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar"
-                                            class="w-8 h-8 rounded-full">
-                                        <div class="flex-1">
-                                            <textarea placeholder="Viết phản hồi của bạn..."
-                                                class="w-full border border-neutral-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
-                                            <div class="flex justify-end mt-2 space-x-2">
-                                                <button
-                                                    class="cancel-reply bg-neutral-200 hover:bg-neutral-300 text-neutral-700 px-3 py-1 rounded-md text-xs transition">
-                                                    Hủy
-                                                </button>
-                                                <button
-                                                    class="submit-reply bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded-md text-xs transition">
-                                                    Gửi
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 text-center">
-                        <button id="toggleCommentsBtn" class="text-accent-500 hover:text-accent-700 font-medium">
-                            Xem thêm bình luận
+                <!-- Tab Navigation -->
+                <div class="glass-dark rounded-2xl p-1 mb-6">
+                    <div class="flex flex-wrap">
+                        <button class="tab-btn active flex-1 py-3 px-4 text-center font-medium"
+                            onclick="switchTab('episodes')">
+                            Danh sách tập
+                        </button>
+                        <button class="tab-btn flex-1 py-3 px-4 text-center font-medium"
+                            onclick="switchTab('comments')">
+                            Bình luận
+                        </button>
+                        <button class="tab-btn flex-1 py-3 px-4 text-center font-medium" onclick="switchTab('actors')">
+                            Diễn viên
+                        </button>
+                        <button class="tab-btn flex-1 py-3 px-4 text-center font-medium" onclick="switchTab('related')">
+                            Phim liên quan
                         </button>
                     </div>
                 </div>
 
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Episodes Tab -->
+                    <div id="episodes-tab" class="tab-pane">
+                        <div class="glass-dark rounded-2xl p-6">
+                            <h3 class="text-xl font-bold mb-4">Danh sách tập phim</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-2">
+                                <div class="episode-card active glass rounded-xl p-4 border border-transparent">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold">Tập 1: Khởi Đầu</h4>
+                                            <p class="text-sm text-gray-400">45 phút • 2.1M views</p>
+                                        </div>
+                                        <button
+                                            class="w-10 h-10 bg-primary rounded-full flex items-center justify-center hover:bg-primary/80 transition">
+                                            <i class="fas fa-play text-white text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
 
+                                <div class="episode-card glass rounded-xl p-4 border border-transparent">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold">Tập 2: Bí Mật</h4>
+                                            <p class="text-sm text-gray-400">42 phút • 1.8M views</p>
+                                        </div>
+                                        <button
+                                            class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center hover:bg-primary transition">
+                                            <i class="fas fa-play text-white text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
 
-                <!-- Related Movies -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-bold mb-4">Phim Liên Quan</h3>
+                                <div class="episode-card glass rounded-xl p-4 border border-transparent">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold">Tập 3: Cuộc Gặp Gỡ</h4>
+                                            <p class="text-sm text-gray-400">48 phút • 1.6M views</p>
+                                        </div>
+                                        <button
+                                            class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center hover:bg-primary transition">
+                                            <i class="fas fa-play text-white text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
 
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
-                        <!-- Related Movie 1 -->
-                        <div class="movie-card bg-white rounded-lg overflow-hidden border border-neutral-200">
-                            <img src="https://placehold.co/300x450/262626/FFFFFF?text=Naruto" alt="Movie poster"
-                                class="w-full h-48 object-cover">
-                            <div class="p-3">
-                                <h4 class="font-medium text-sm">Naruto</h4>
-                                <p class="text-neutral-500 text-xs mt-1">Hành động, Phiêu lưu</p>
-                                <div class="flex items-center mt-1">
-                                    <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
-                                    <span class="text-xs">9.1</span>
+                                <div class="episode-card glass rounded-xl p-4 border border-transparent">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold">Tập 4: Hành Trình</h4>
+                                            <p class="text-sm text-gray-400">50 phút • 1.5M views</p>
+                                        </div>
+                                        <button
+                                            class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center hover:bg-primary transition">
+                                            <i class="fas fa-play text-white text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="episode-card glass rounded-xl p-4 border border-transparent">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold">Tập 5: Phản Bội</h4>
+                                            <p class="text-sm text-gray-400">45 phút • 1.3M views</p>
+                                        </div>
+                                        <button
+                                            class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center hover:bg-primary transition">
+                                            <i class="fas fa-play text-white text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="episode-card glass rounded-xl p-4 border border-transparent">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold">Tập 6: Đối Đầu</h4>
+                                            <p class="text-sm text-gray-400">52 phút • 1.2M views</p>
+                                        </div>
+                                        <button
+                                            class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center hover:bg-primary transition">
+                                            <i class="fas fa-play text-white text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="episode-card glass rounded-xl p-4 border border-transparent">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold">Tập 7: Liên Minh</h4>
+                                            <p class="text-sm text-gray-400">47 phút • 1.1M views</p>
+                                        </div>
+                                        <button
+                                            class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center hover:bg-primary transition">
+                                            <i class="fas fa-play text-white text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="episode-card glass rounded-xl p-4 border border-transparent">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-semibold">Tập 8: Chiến Đấu</h4>
+                                            <p class="text-sm text-gray-400">55 phút • 1M views</p>
+                                        </div>
+                                        <button
+                                            class="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center hover:bg-primary transition">
+                                            <i class="fas fa-play text-white text-sm"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Related Movie 2 -->
-                        <div class="movie-card bg-white rounded-lg overflow-hidden border border-neutral-200">
-                            <img src="https://placehold.co/300x450/262626/FFFFFF?text=Bleach" alt="Movie poster"
-                                class="w-full h-48 object-cover">
-                            <div class="p-3">
-                                <h4 class="font-medium text-sm">Bleach</h4>
-                                <p class="text-neutral-500 text-xs mt-1">Hành động, Siêu nhiên</p>
-                                <div class="flex items-center mt-1">
-                                    <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
-                                    <span class="text-xs">8.8</span>
+                    <!-- Comments Tab -->
+                    <div id="comments-tab" class="tab-pane hidden">
+                        <div class="glass-dark rounded-2xl p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold">Bình luận (1,234)</h3>
+                                <select class="bg-dark border border-gray-700 rounded-lg px-3 py-2 text-sm">
+                                    <option>Mới nhất</option>
+                                    <option>Cũ nhất</option>
+                                    <option>Phổ biến nhất</option>
+                                </select>
+                            </div>
+
+                            <!-- Comment Form -->
+                            <div class="mb-6">
+                                <textarea placeholder="Viết bình luận của bạn..."
+                                    class="w-full bg-dark border border-gray-700 rounded-xl p-4 resize-none focus:border-primary focus:outline-none transition"
+                                    rows="3"></textarea>
+                                <div class="flex justify-end mt-2">
+                                    <button
+                                        class="btn-action bg-primary hover:bg-primary/90 text-white font-medium py-2 px-6 rounded-lg">
+                                        Gửi bình luận
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Comments List -->
+                            <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                                <div class="comment-item p-4 rounded-xl">
+                                    <div class="flex gap-3">
+                                        <img src="https://placehold.co/50x50/0F172A/10B981?text=U1" alt="User"
+                                            class="w-10 h-10 rounded-full">
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-start mb-2">
+                                                <div>
+                                                    <h4 class="font-semibold">Nguyễn Văn A</h4>
+                                                    <p class="text-xs text-gray-400">2 giờ trước</p>
+                                                </div>
+                                                <button class="text-gray-400 hover:text-white">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </button>
+                                            </div>
+                                            <p class="text-gray-300 mb-3">Phim rất hay! Kỹ xảo đỉnh cao, diễn xuất xuất
+                                                sắc. Đặc biệt là cảnh chiến đấu với rồng ở tập 8, quá hoành tráng!</p>
+                                            <div class="flex items-center gap-4 text-sm">
+                                                <button class="text-gray-400 hover:text-primary transition">
+                                                    <i class="far fa-thumbs-up mr-1"></i> 234
+                                                </button>
+                                                <button class="text-gray-400 hover:text-primary transition">
+                                                    <i class="far fa-comment mr-1"></i> Trả lời
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="comment-item p-4 rounded-xl">
+                                    <div class="flex gap-3">
+                                        <img src="https://placehold.co/50x50/0F172A/10B981?text=U2" alt="User"
+                                            class="w-10 h-10 rounded-full">
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-start mb-2">
+                                                <div>
+                                                    <h4 class="font-semibold">Trần Thị B</h4>
+                                                    <p class="text-xs text-gray-400">5 giờ trước</p>
+                                                </div>
+                                                <button class="text-gray-400 hover:text-white">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </button>
+                                            </div>
+                                            <p class="text-gray-300 mb-3">Cảm động quá! Tình cảm giữa Ryu và Mira được
+                                                thể hiện rất tự nhiên và chân thực.</p>
+                                            <div class="flex items-center gap-4 text-sm">
+                                                <button class="text-gray-400 hover:text-primary transition">
+                                                    <i class="far fa-thumbs-up mr-1"></i> 156
+                                                </button>
+                                                <button class="text-gray-400 hover:text-primary transition">
+                                                    <i class="far fa-comment mr-1"></i> Trả lời
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button
+                                class="w-full mt-4 py-3 text-center text-primary hover:bg-white/5 rounded-xl transition">
+                                Xem thêm bình luận
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Actors Tab -->
+                    <div id="actors-tab" class="tab-pane hidden">
+                        <div class="glass-dark rounded-2xl p-6">
+                            <h3 class="text-xl font-bold mb-6">Dàn diễn viên</h3>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                <div class="actor-card text-center">
+                                    <div class="relative overflow-hidden rounded-xl mb-3">
+                                        <img src="https://placehold.co/200x300/0F172A/10B981?text=Actor+1" alt="Actor"
+                                            class="w-full h-40 object-cover transition-transform duration-300">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                                            <p class="text-xs">Vai: Hoàng tử Ryu</p>
+                                        </div>
+                                    </div>
+                                    <h4 class="font-semibold text-sm">Nguyễn Văn A</h4>
+                                </div>
+
+                                <div class="actor-card text-center">
+                                    <div class="relative overflow-hidden rounded-xl mb-3">
+                                        <img src="https://placehold.co/200x300/0F172A/10B981?text=Actor+2" alt="Actor"
+                                            class="w-full h-40 object-cover transition-transform duration-300">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                                            <p class="text-xs">Vai: Mira</p>
+                                        </div>
+                                    </div>
+                                    <h4 class="font-semibold text-sm">Trần Thị B</h4>
+                                </div>
+
+                                <div class="actor-card text-center">
+                                    <div class="relative overflow-hidden rounded-xl mb-3">
+                                        <img src="https://placehold.co/200x300/0F172A/10B981?text=Actor+3" alt="Actor"
+                                            class="w-full h-40 object-cover transition-transform duration-300">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                                            <p class="text-xs">Vai: Vua Drakon</p>
+                                        </div>
+                                    </div>
+                                    <h4 class="font-semibold text-sm">Lê Văn C</h4>
+                                </div>
+
+                                <div class="actor-card text-center">
+                                    <div class="relative overflow-hidden rounded-xl mb-3">
+                                        <img src="https://placehold.co/200x300/0F172A/10B981?text=Actor+4" alt="Actor"
+                                            class="w-full h-40 object-cover transition-transform duration-300">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                                            <p class="text-xs">Vai: Hoàng hậu</p>
+                                        </div>
+                                    </div>
+                                    <h4 class="font-semibold text-sm">Phạm Thị D</h4>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-6 border-t border-gray-700">
+                                <h4 class="font-semibold mb-3">Đội ngũ sản xuất</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Đạo diễn:</span>
+                                        <span>Trần Văn X</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Biên kịch:</span>
+                                        <span>Nguyễn Thị Y</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Nhà sản xuất:</span>
+                                        <span>Studio ABC</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-400">Âm nhạc:</span>
+                                        <span>Lê Văn Z</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Related Movie 3 -->
-                        <div class="movie-card bg-white rounded-lg overflow-hidden border border-neutral-200">
-                            <img src="https://placehold.co/300x450/262626/FFFFFF?text=Dragon+Ball" alt="Movie poster"
-                                class="w-full h-48 object-cover">
-                            <div class="p-3">
-                                <h4 class="font-medium text-sm">Dragon Ball</h4>
-                                <p class="text-neutral-500 text-xs mt-1">Hành động, Viễn tưởng</p>
-                                <div class="flex items-center mt-1">
-                                    <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
-                                    <span class="text-xs">9.3</span>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Related Movies Tab -->
+                    <div id="related-tab" class="tab-pane hidden">
+                        <div class="glass-dark rounded-2xl p-6">
+                            <h3 class="text-xl font-bold mb-6">Phim liên quan</h3>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                <a href="#" class="group">
+                                    <div class="relative overflow-hidden rounded-xl mb-2">
+                                        <img src="https://placehold.co/300x450/0F172A/10B981?text=Movie+1" alt="Movie"
+                                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                                        <div class="absolute top-2 left-2">
+                                            <span class="bg-primary text-white text-xs px-2 py-1 rounded">HD</span>
+                                        </div>
+                                        <div
+                                            class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                                            <p class="text-sm font-semibold">Huyền Thoại Rồng</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-primary">★ 9.5</span>
+                                        <span class="text-gray-400">2024</span>
+                                    </div>
+                                </a>
 
-                        <!-- Related Movie 4 -->
-                        <div class="movie-card bg-white rounded-lg overflow-hidden border border-neutral-200">
-                            <img src="https://placehold.co/300x450/262626/FFFFFF?text=Hunter+X+Hunter"
-                                alt="Movie poster" class="w-full h-48 object-cover">
-                            <div class="p-3">
-                                <h4 class="font-medium text-sm">Hunter X Hunter</h4>
-                                <p class="text-neutral-500 text-xs mt-1">Hành động, Phiêu lưu</p>
-                                <div class="flex items-center mt-1">
-                                    <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
-                                    <span class="text-xs">9.4</span>
-                                </div>
-                            </div>
-                        </div>
+                                <a href="#" class="group">
+                                    <div class="relative overflow-hidden rounded-xl mb-2">
+                                        <img src="https://placehold.co/300x450/0F172A/10B981?text=Movie+2" alt="Movie"
+                                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                                        <div class="absolute top-2 left-2">
+                                            <span class="bg-primary text-white text-xs px-2 py-1 rounded">HD</span>
+                                        </div>
+                                        <div
+                                            class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                                            <p class="text-sm font-semibold">Chiến Binh Bất Tử</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-primary">★ 9.2</span>
+                                        <span class="text-gray-400">2023</span>
+                                    </div>
+                                </a>
 
-                        <!-- Related Movie 5 -->
-                        <div class="movie-card bg-white rounded-lg overflow-hidden border border-neutral-200">
-                            <img src="https://placehold.co/300x450/262626/FFFFFF?text=My+Hero+Academia"
-                                alt="Movie poster" class="w-full h-48 object-cover">
-                            <div class="p-3">
-                                <h4 class="font-medium text-sm">My Hero Academia</h4>
-                                <p class="text-neutral-500 text-xs mt-1">Hành động, Siêu anh hùng</p>
-                                <div class="flex items-center mt-1">
-                                    <i class="fas fa-star text-yellow-400 text-xs mr-1"></i>
-                                    <span class="text-xs">8.9</span>
-                                </div>
+                                <a href="#" class="group">
+                                    <div class="relative overflow-hidden rounded-xl mb-2">
+                                        <img src="https://placehold.co/300x450/0F172A/10B981?text=Movie+3" alt="Movie"
+                                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                                        <div class="absolute top-2 left-2">
+                                            <span class="bg-primary text-white text-xs px-2 py-1 rounded">HD</span>
+                                        </div>
+                                        <div
+                                            class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                                            <p class="text-sm font-semibold">Vũ Trụ Song Song</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-primary">★ 9.0</span>
+                                        <span class="text-gray-400">2024</span>
+                                    </div>
+                                </a>
+
+                                <a href="#" class="group">
+                                    <div class="relative overflow-hidden rounded-xl mb-2">
+                                        <img src="https://placehold.co/300x450/0F172A/10B981?text=Movie+4" alt="Movie"
+                                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                                        <div class="absolute top-2 left-2">
+                                            <span class="bg-primary text-white text-xs px-2 py-1 rounded">HD</span>
+                                        </div>
+                                        <div
+                                            class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                                            <p class="text-sm font-semibold">Thế Giới Khác</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-primary">★ 8.8</span>
+                                        <span class="text-gray-400">2025</span>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <!-- Footer -->
-    <footer class="bg-neutral-800 text-white pt-12 pb-6 mt-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-                <!-- About -->
+     <footer class="bg-dark border-t border-gray-800 py-12 px-4">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo and About -->
                 <div>
-                    <h4 class="text-lg font-bold mb-4">Về CineAsia</h4>
-                    <p class="text-neutral-400 text-sm mb-4">CineAsia là trang web xem phim trực tuyến hàng đầu với kho
-                        phim đa dạng từ châu Á và quốc tế.</p>
+                    <a href="#" class="text-primary font-bold text-2xl flex items-center mb-4">
+                        <i class="fas fa-film mr-2"></i>
+                        <span>MovieFlix</span>
+                    </a>
+                    <p class="text-gray-400 text-sm mb-4">MovieFlix là trang web xem phim trực tuyến hàng đầu với kho phim đa dạng và chất lượng cao.</p>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-neutral-400 hover:text-white transition">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="text-neutral-400 hover:text-white transition">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="text-neutral-400 hover:text-white transition">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="text-neutral-400 hover:text-white transition">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>
                 </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="text-lg font-bold mb-4">Liên Kết Nhanh</h4>
-                    <ul class="space-y-2 text-neutral-400">
-                        <li><a href="#" class="hover:text-white transition">Trang chủ</a></li>
-                        <li><a href="#" class="hover:text-white transition">Phim lẻ</a></li>
-                        <li><a href="#" class="hover:text-white transition">Phim bộ</a></li>
-                        <li><a href="#" class="hover:text-white transition">Phim chiếu rạp</a></li>
-                        <li><a href="#" class="hover:text-white transition">Phim sắp chiếu</a></li>
-                        <li><a href="#" class="hover:text-white transition">Bình luận phim</a></li>
-                    </ul>
-                </div>
-
+                
                 <!-- Categories -->
                 <div>
-                    <h4 class="text-lg font-bold mb-4">Thể Loại</h4>
-                    <ul class="space-y-2 text-neutral-400">
-                        <li><a href="#" class="hover:text-white transition">Hành động</a></li>
-                        <li><a href="#" class="hover:text-white transition">Tình cảm</a></li>
-                        <li><a href="#" class="hover:text-white transition">Hài hước</a></li>
-                        <li><a href="#" class="hover:text-white transition">Kinh dị</a></li>
-                        <li><a href="#" class="hover:text-white transition">Viễn tưởng</a></li>
-                        <li><a href="#" class="hover:text-white transition">Hoạt hình</a></li>
+                    <h3 class="text-white font-bold text-lg mb-4">Thể loại</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Hành động</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Học đường</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Tình cảm</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Học đường</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Hài hước</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Khoa học viễn tưởng</a></li>
                     </ul>
                 </div>
-
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Liên kết nhanh</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Trang chủ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim lẻ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim bộ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim chiếu rạp</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim sắp chiếu</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Top phim hot</a></li>
+                    </ul>
+                </div>
+                
                 <!-- Contact -->
                 <div>
-                    <h4 class="text-lg font-bold mb-4">Liên Hệ</h4>
-                    <ul class="space-y-2 text-neutral-400">
-                        <li class="flex items-center">
-                            <i class="fas fa-map-marker-alt mr-2 text-accent-500"></i>
-                            <span>123 Đường Phim, Quận 1, TP.HCM</span>
+                    <h3 class="text-white font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-primary mt-1 mr-3"></i>
+                            <span class="text-gray-400">123 Đường Phim, Quận Điện Ảnh, TP. Hồ Chí Minh</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-phone-alt mr-2 text-accent-500"></i>
-                            <span>+84 123 456 789</span>
+                            <i class="fas fa-phone text-primary mr-3"></i>
+                            <span class="text-gray-400">+84 123 456 789</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-envelope mr-2 text-accent-500"></i>
-                            <span>info@cineasia.com</span>
+                            <i class="fas fa-envelope text-primary mr-3"></i>
+                            <span class="text-gray-400">info@movieflix.com</span>
                         </li>
                     </ul>
                 </div>
             </div>
-
-            <div class="border-t border-neutral-700 pt-6 text-center text-neutral-500 text-sm">
-                <p>&copy; 2025 CineAsia. Tất cả quyền được bảo lưu.</p>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2023 MovieFlix. Tất cả quyền được bảo lưu.</p>
+                <div class="flex justify-center space-x-4 mt-4">
+                    <a href="#" class="hover:text-primary transition-colors">Điều khoản sử dụng</a>
+                    <a href="#" class="hover:text-primary transition-colors">Chính sách bảo mật</a>
+                    <a href="#" class="hover:text-primary transition-colors">Giới thiệu</a>
+                    <a href="#" class="hover:text-primary transition-colors">Trợ giúp</a>
+                </div>
             </div>
         </div>
     </footer>
 
+  <script src="js/layout.js"></script>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script>
-
-         // Menu toggle for mobile
-     const openMobileMenuBtn = document.getElementById('openMobileMenu');
-    const closeMobileMenuBtn = document.getElementById('closeMobileMenu');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    openMobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-
-    closeMobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-
-    
-        // Scroll to top button
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.style.opacity = '1';
-            } else {
-                scrollToTopBtn.style.opacity = '0';
-            }
-        });
-
-        scrollToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
         });
 
         // Tab switching
-        document.addEventListener('DOMContentLoaded', function () {
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.add('hidden');
+            });
 
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const tabName = button.getAttribute('data-tab');
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
 
-                    // Hide all tab contents
-                    tabContents.forEach(content => {
-                        content.classList.remove('active');
-                    });
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
 
-                    // Show the selected tab content
-                    document.getElementById(`${tabName}-tab`).classList.add('active');
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
 
-                    // Update tab button styles
-                    tabButtons.forEach(btn => {
-                        btn.classList.remove('text-accent-500', 'border-b-2', 'border-accent-500');
-                        btn.classList.add('text-neutral-500');
-                    });
+        // Action buttons
+        function toggleLike(button) {
+            const icon = button.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                icon.classList.add('text-primary');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                icon.classList.remove('text-primary');
+            }
+        }
 
-                    // Add active class to clicked button
-                    button.classList.remove('text-neutral-500');
-                    button.classList.add('text-accent-500', 'border-b-2', 'border-accent-500');
+        function toggleBookmark(button) {
+            const icon = button.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                icon.classList.add('text-primary');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                icon.classList.remove('text-primary');
+            }
+        }
+
+        function shareMovie() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Đế Chế Rồng',
+                    text: 'Xem phim Đế Chế Rồng trên PhimHay',
+                    url: window.location.href,
                 });
-            });
-        });
-
-        // Show notifications
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.transform = 'translateX(0)';
-
-            setTimeout(() => {
-                notification.style.transform = 'translateX(-100%)';
-            }, 5000);
+            } else {
+                // Fallback - copy to clipboard
+                navigator.clipboard.writeText(window.location.href);
+                alert('Đã sao chép liên kết!');
+            }
         }
 
-        // Create new notifications periodically
-        setInterval(() => {
-            const movies = [
-                'Phim "Chiến Binh Bất Tử" vừa được cập nhật',
-                'Phim "Tình Yêu Mùa Hè" sắp ra mắt',
-                'Phim "Bí Mật Đảo Jeju" đã có tập mới'
-            ];
-
-            const randomMovie = movies[Math.floor(Math.random() * movies.length)];
-            const notification = document.getElementById('notification');
-            notification.innerHTML = `<p class="text-sm"><span class="font-bold">Mới cập nhật:</span> ${randomMovie}!</p>`;
-
-            notification.style.animation = 'none';
-            notification.offsetHeight; // Trigger reflow
-            notification.style.animation = 'slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards';
-        }, 10000);
-
-        // Action 
-        // Like Button Functionality
-        const likeButton = document.getElementById('likeButton');
-        let isLiked = false;
-
-        likeButton.addEventListener('click', () => {
-            isLiked = !isLiked;
-
-            if (isLiked) {
-                likeButton.innerHTML = '<i class="fas fa-heart text-red-500"></i><span>Đã thích</span>';
-                likeButton.classList.remove('bg-neutral-100', 'hover:bg-neutral-200');
-                likeButton.classList.add('bg-red-50', 'hover:bg-red-100', 'text-red-500');
-
-                // Show notification
-                showNotification('Đã thêm phim vào danh sách yêu thích!');
-            } else {
-                likeButton.innerHTML = '<i class="far fa-heart"></i><span>Yêu thích</span>';
-                likeButton.classList.remove('bg-red-50', 'hover:bg-red-100', 'text-red-500');
-                likeButton.classList.add('bg-neutral-100', 'hover:bg-neutral-200');
-            }
-
-            // Add heart animation
-            const heart = document.createElement('div');
-            heart.innerHTML = '<i class="fas fa-heart text-red-500 text-xl"></i>';
-            heart.style.position = 'absolute';
-            heart.style.left = `${likeButton.offsetLeft + likeButton.offsetWidth / 2}px`;
-            heart.style.top = `${likeButton.offsetTop}px`;
-            heart.style.opacity = '1';
-            heart.style.transform = 'scale(1)';
-            heart.style.transition = 'all 0.5s ease-out';
-            heart.style.zIndex = '100';
-
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.style.transform = 'translateY(-20px) scale(1.5)';
-                heart.style.opacity = '0';
-            }, 10);
-
-            setTimeout(() => {
-                document.body.removeChild(heart);
-            }, 500);
-        });
-
-        // Share Button Functionality
-        const shareButton = document.getElementById('shareButton');
-        const shareMenu = document.getElementById('shareMenu');
-        const copyLinkBtn = document.getElementById('copyLinkBtn');
-        const shareLink = document.getElementById('shareLink');
-        const copyConfirm = document.getElementById('copyConfirm');
-
-        shareButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            shareMenu.classList.toggle('hidden');
-
-            // Close other menus
-            addToMenu.classList.add('hidden');
-        });
-
-        copyLinkBtn.addEventListener('click', () => {
-            shareLink.select();
-            document.execCommand('copy');
-
-            // Show confirmation
-            copyConfirm.classList.remove('hidden');
-            setTimeout(() => {
-                copyConfirm.classList.add('hidden');
-            }, 2000);
-        });
-
-        // Add to List Button Functionality
-        const addToButton = document.getElementById('addToButton');
-        const addToMenu = document.getElementById('addToMenu');
-        const createNewListBtn = document.getElementById('createNewListBtn');
-
-        addToButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            addToMenu.classList.toggle('hidden');
-
-            // Close other menus
-            shareMenu.classList.add('hidden');
-        });
-
-        // Add to list options
-        const listOptions = addToMenu.querySelectorAll('li:not(:last-child) button');
-        listOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                const listName = option.querySelector('span').textContent;
-                showNotification(`Đã thêm phim vào danh sách "${listName}"!`);
-                addToMenu.classList.add('hidden');
-            });
-        });
-
-        createNewListBtn.addEventListener('click', () => {
-            // Here you would normally show a modal to create a new list
-            // For this example, we'll just show a notification
-            showNotification('Tính năng tạo danh sách mới sẽ sớm ra mắt!');
-            addToMenu.classList.add('hidden');
-        });
-
-        // Close menus when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!shareButton.contains(e.target) && !shareMenu.contains(e.target)) {
-                shareMenu.classList.add('hidden');
-            }
-
-            if (!addToButton.contains(e.target) && !addToMenu.contains(e.target)) {
-                addToMenu.classList.add('hidden');
-            }
-        });
-
-        // Function to show notifications (reusing the existing notification system)
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.innerHTML = `<p class="text-sm">${message}</p>`;
-
-            notification.style.animation = 'none';
-            notification.offsetHeight; // Trigger reflow
-            notification.style.animation = 'slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards';
-        }
-
-
-        // Comment Functionality
-
-        // Toggle Comments (Show More/Show Less)
-        const toggleCommentsBtn = document.getElementById('toggleCommentsBtn');
-        const hiddenComments = document.getElementById('hiddenComments');
-        let commentsExpanded = false;
-
-        toggleCommentsBtn.addEventListener('click', () => {
-            commentsExpanded = !commentsExpanded;
-
-            if (commentsExpanded) {
-                hiddenComments.classList.remove('hidden');
-                toggleCommentsBtn.textContent = 'Ẩn bớt bình luận';
-
-                // Smooth scroll to the first hidden comment
-                hiddenComments.firstElementChild.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                hiddenComments.classList.add('hidden');
-                toggleCommentsBtn.textContent = 'Xem thêm bình luận';
-            }
-        });
-
-        // Reply Functionality
-        const replyButtons = document.querySelectorAll('.reply-button');
-        const cancelReplyButtons = document.querySelectorAll('.cancel-reply');
-        const submitReplyButtons = document.querySelectorAll('.submit-reply');
-
-        // Show reply form when "Trả lời" is clicked
-        replyButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Hide all other reply forms first
-                document.querySelectorAll('.reply-form').forEach(form => {
-                    if (form !== button.closest('.flex-1').querySelector('.reply-form')) {
-                        form.classList.add('hidden');
-                    }
+        // Episode card click
+        document.querySelectorAll('.episode-card').forEach(card => {
+            card.addEventListener('click', function () {
+                // Remove active from all
+                document.querySelectorAll('.episode-card').forEach(c => {
+                    c.classList.remove('active');
                 });
-
-                // Show this reply form
-                const replyForm = button.closest('.flex-1').querySelector('.reply-form');
-                replyForm.classList.remove('hidden');
-                replyForm.querySelector('textarea').focus();
+                // Add active to clicked
+                this.classList.add('active');
             });
         });
 
-        // Hide reply form when "Hủy" is clicked
-        cancelReplyButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const replyForm = button.closest('.reply-form');
-                replyForm.classList.add('hidden');
-                replyForm.querySelector('textarea').value = '';
-            });
-        });
-
-        // Submit reply
-        submitReplyButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const replyForm = button.closest('.reply-form');
-                const textarea = replyForm.querySelector('textarea');
-                const replyText = textarea.value.trim();
-
-                if (replyText) {
-                    // Create new reply element
-                    const repliesContainer = button.closest('.flex-1').querySelector('.replies-container') ||
-                        createRepliesContainer(button.closest('.flex-1'));
-
-                    const newReply = document.createElement('div');
-                    newReply.className = 'mt-4 ml-6 flex space-x-4';
-                    newReply.innerHTML = `
-                                    <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar" class="w-8 h-8 rounded-full">
-                                    <div class="flex-1">
-                                        <div class="flex items-center mb-1">
-                                            <h4 class="font-medium">Bạn</h4>
-                                            <span class="mx-2 text-neutral-400">•</span>
-                                            <span class="text-neutral-500 text-sm">Vừa xong</span>
-                                        </div>
-                                        <p class="text-neutral-700 mb-2">${replyText}</p>
-                                        <div class="flex items-center text-sm text-neutral-500">
-                                            <button class="like-button flex items-center hover:text-accent-500" data-likes="0">
-                                                <i class="far fa-thumbs-up mr-1"></i>
-                                                <span>0</span>
-                                            </button>
-                                            <span class="mx-2">•</span>
-                                            <button class="reply-button hover:text-accent-500">Trả lời</button>
-                                        </div>
-                                        
-                                        <!-- Nested Reply Form (Hidden by default) -->
-                                        <div class="reply-form mt-3 hidden">
-                                            <div class="flex space-x-3">
-                                                <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar" class="w-8 h-8 rounded-full">
-                                                <div class="flex-1">
-                                                    <textarea placeholder="Viết phản hồi của bạn..." class="w-full border border-neutral-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
-                                                    <div class="flex justify-end mt-2 space-x-2">
-                                                        <button class="cancel-reply bg-neutral-200 hover:bg-neutral-300 text-neutral-700 px-3 py-1 rounded-md text-xs transition">
-                                                            Hủy
-                                                        </button>
-                                                        <button class="submit-reply bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded-md text-xs transition">
-                                                            Gửi
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-
-                    repliesContainer.appendChild(newReply);
-
-                    // Add event listeners to the new reply's buttons
-                    const newLikeButton = newReply.querySelector('.like-button');
-                    const newReplyButton = newReply.querySelector('.reply-button');
-                    const newCancelButton = newReply.querySelector('.cancel-reply');
-                    const newSubmitButton = newReply.querySelector('.submit-reply');
-
-                    setupLikeButton(newLikeButton);
-                    setupReplyButton(newReplyButton);
-                    setupCancelButton(newCancelButton);
-                    setupSubmitButton(newSubmitButton);
-
-                    // Clear and hide the form
-                    textarea.value = '';
-                    replyForm.classList.add('hidden');
-
-                    // Show notification
-                    showNotification('Bình luận của bạn đã được đăng!');
-                }
-            });
-        });
-
-        // Helper function to create replies container if it doesn't exist
-        function createRepliesContainer(parent) {
-            const repliesContainer = document.createElement('div');
-            repliesContainer.className = 'replies-container';
-            parent.appendChild(repliesContainer);
-            return repliesContainer;
+        // Smooth scroll for mobile
+        if (window.innerWidth < 768) {
+            document.querySelector('.main-grid').scrollIntoView({ behavior: 'smooth' });
         }
-
-        // Helper functions to set up event listeners for dynamically created elements
-        function setupLikeButton(button) {
-            button.addEventListener('click', handleLikeClick);
-        }
-
-        function setupReplyButton(button) {
-            button.addEventListener('click', function () {
-                const replyForm = this.closest('.flex-1').querySelector('.reply-form');
-                replyForm.classList.remove('hidden');
-                replyForm.querySelector('textarea').focus();
-            });
-        }
-
-        function setupCancelButton(button) {
-            button.addEventListener('click', function () {
-                const replyForm = this.closest('.reply-form');
-                replyForm.classList.add('hidden');
-                replyForm.querySelector('textarea').value = '';
-            });
-        }
-
-        function setupSubmitButton(button) {
-            button.addEventListener('click', function () {
-                // Implementation similar to the existing submit reply functionality
-                // This is simplified for brevity
-                const replyForm = this.closest('.reply-form');
-                const textarea = replyForm.querySelector('textarea');
-                if (textarea.value.trim()) {
-                    showNotification('Bình luận của bạn đã được đăng!');
-                    textarea.value = '';
-                    replyForm.classList.add('hidden');
-                }
-            });
-        }
-
-        // Like Functionality
-        const likeButtons = document.querySelectorAll('.like-button');
-
-        likeButtons.forEach(button => {
-            setupLikeButton(button);
-        });
-
-        function handleLikeClick() {
-            const likesCount = parseInt(this.getAttribute('data-likes'));
-            const likesSpan = this.querySelector('span');
-            const likeIcon = this.querySelector('i');
-
-            if (likeIcon.classList.contains('far')) {
-                // Like
-                likeIcon.classList.remove('far');
-                likeIcon.classList.add('fas', 'text-accent-500');
-                this.setAttribute('data-likes', likesCount + 1);
-                likesSpan.textContent = likesCount + 1;
-                this.classList.add('text-accent-500');
-            } else {
-                // Unlike
-                likeIcon.classList.remove('fas', 'text-accent-500');
-                likeIcon.classList.add('far');
-                this.setAttribute('data-likes', likesCount - 1);
-                likesSpan.textContent = likesCount - 1;
-                this.classList.remove('text-accent-500');
-            }
-        }
-
-        // Main comment submission
-        const mainCommentInput = document.getElementById('mainCommentInput');
-        const submitCommentBtn = document.getElementById('submitCommentBtn');
-        const commentsList = document.getElementById('commentsList');
-
-        submitCommentBtn.addEventListener('click', () => {
-            const commentText = mainCommentInput.value.trim();
-
-            if (commentText) {
-                // Create new comment element
-                const newComment = document.createElement('div');
-                newComment.className = 'comment-item flex space-x-4';
-                newComment.innerHTML = `
-                                <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar" class="w-10 h-10 rounded-full">
-                                <div class="flex-1">
-                                    <div class="flex items-center mb-1">
-                                        <h4 class="font-medium">Bạn</h4>
-                                        <span class="mx-2 text-neutral-400">•</span>
-                                        <span class="text-neutral-500 text-sm">Vừa xong</span>
-                                    </div>
-                                    <p class="text-neutral-700 mb-2">${commentText}</p>
-                                    <div class="flex items-center text-sm text-neutral-500">
-                                        <button class="like-button flex items-center hover:text-accent-500" data-likes="0">
-                                            <i class="far fa-thumbs-up mr-1"></i>
-                                            <span>0</span>
-                                        </button>
-                                        <span class="mx-2">•</span>
-                                        <button class="reply-button hover:text-accent-500">Trả lời</button>
-                                    </div>
-                                    
-                                    <!-- Reply Form (Hidden by default) -->
-                                    <div class="reply-form mt-3 ml-6 hidden">
-                                        <div class="flex space-x-3">
-                                            <img src="https://placehold.co/100x100/262626/FFFFFF?text=You" alt="Your avatar" class="w-8 h-8 rounded-full">
-                                            <div class="flex-1">
-                                                <textarea placeholder="Viết phản hồi của bạn..." class="w-full border border-neutral-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent"></textarea>
-                                                <div class="flex justify-end mt-2 space-x-2">
-                                                    <button class="cancel-reply bg-neutral-200 hover:bg-neutral-300 text-neutral-700 px-3 py-1 rounded-md text-xs transition">
-                                                        Hủy
-                                                    </button>
-                                                    <button class="submit-reply bg-accent-500 hover:bg-accent-700 text-white px-3 py-1 rounded-md text-xs transition">
-                                                        Gửi
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Replies Container -->
-                                    <div class="replies-container"></div>
-                                </div>
-                            `;
-
-                // Insert at the top of the comments list
-                commentsList.insertBefore(newComment, commentsList.firstChild);
-
-                // Add event listeners to the new comment's buttons
-                const newLikeButton = newComment.querySelector('.like-button');
-                const newReplyButton = newComment.querySelector('.reply-button');
-                const newCancelButton = newComment.querySelector('.cancel-reply');
-                const newSubmitButton = newComment.querySelector('.submit-reply');
-
-                setupLikeButton(newLikeButton);
-                setupReplyButton(newReplyButton);
-                setupCancelButton(newCancelButton);
-                setupSubmitButton(newSubmitButton);
-
-                // Clear the input
-                mainCommentInput.value = '';
-
-                // Show notification
-                showNotification('Bình luận của bạn đã được đăng!');
-            }
-        });
-
-        // Function to show notifications (reusing the existing notification system)
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.innerHTML = `<p class="text-sm">${message}</p>`;
-
-            notification.style.animation = 'none';
-            notification.offsetHeight; // Trigger reflow
-            notification.style.animation = 'slideIn 0.5s ease-out forwards, fadeOut 0.5s ease-in 4.5s forwards';
-        }
-
     </script>
-    <script src="js/click.js" ></script>
+
 </body>
 
 </html>
