@@ -4,306 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phim Hành Động | PhimHay</title>
+    <title>Xem phim: Đế Chế Rồng - Tập 1 | PhimHay</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/layout.css">
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#10B981',
-                        dark: '#0F172A',
-                        darker: '#0B1120',
-                        light: '#E2E8F0'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: #0B1120;
-            color: #E2E8F0;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #0B1120;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #10B981;
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #059669;
-        }
-
-        /* Glass effect */
-        .glass {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .glass-dark {
-            background: rgba(11, 17, 32, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Gradient text */
-        .gradient-text {
-            background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Movie card hover tooltip */
-        .movie-card {
-            position: relative;
-        }
-
-        .movie-tooltip {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%) translateY(-20px);
-            width: 400px;
-            /* Increased width to be larger than parent */
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 50;
-            pointer-events: none;
-        }
-
-        .movie-card:hover .movie-tooltip {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(-10px);
-            pointer-events: auto;
-            /* Enable pointer events when visible */
-        }
-
-        /* Xử lí đầu cuối card  */
-        /* Mặc định (grid-cols-2) */
-        .movie-card:nth-child(2n+1):hover .movie-tooltip {
-            left: 0;
-            transform: translateX(0) translateY(-10px);
-        }
-
-        .movie-card:nth-child(2n):hover .movie-tooltip {
-            left: 100%;
-            transform: translateX(-100%) translateY(-10px);
-        }
-
-        /* sm:grid-cols-4 */
-        @media (min-width: 640px) {
-            .movie-card:nth-child(4n+1):hover .movie-tooltip {
-                left: 0;
-                transform: translateX(0) translateY(-10px);
-            }
-
-            .movie-card:nth-child(4n):hover .movie-tooltip {
-                left: 100%;
-                transform: translateX(-100%) translateY(-10px);
-            }
-        }
-
-        /* md:grid-cols-5 */
-        @media (min-width: 768px) {
-            .movie-card:nth-child(5n+1):hover .movie-tooltip {
-                left: 0;
-                transform: translateX(0) translateY(-10px);
-            }
-
-            .movie-card:nth-child(5n):hover .movie-tooltip {
-                left: 100%;
-                transform: translateX(-100%) translateY(-10px);
-            }
-        }
-
-        /* lg:grid-cols-6 */
-        @media (min-width: 1024px) {
-            .movie-card:nth-child(6n+1):hover .movie-tooltip {
-                left: 0;
-                transform: translateX(0) translateY(-10px);
-            }
-
-            .movie-card:nth-child(6n):hover .movie-tooltip {
-                left: 100%;
-                transform: translateX(-100%) translateY(-10px);
-            }
-        }
-
-        /* xl:grid-cols-8 */
-        @media (min-width: 1280px) {
-            .movie-card:nth-child(8n+1):hover .movie-tooltip {
-                left: 0;
-                transform: translateX(0) translateY(-10px);
-            }
-
-            .movie-card:nth-child(8n):hover .movie-tooltip {
-                left: 100%;
-                transform: translateX(-100%) translateY(-10px);
-            }
-        }
+    <script src="js/tailwind.js"></script>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/layout.css">
 
 
-
-        /* Adjust tooltip position for edge cards */
-        /* Xử lí đầu cuối card  */
-        /* .movie-card:first-child .movie-tooltip,
-        .movie-card:nth-child(5n+1) .movie-tooltip {
-            left: 0;
-            transform: translateX(0) translateY(-20px);
-        }
-
-        .movie-card:first-child:hover .movie-tooltip,
-        .movie-card:nth-child(5n+1):hover .movie-tooltip {
-            transform: translateX(0) translateY(-10px);
-        }
-
-        .movie-card:nth-child(8n) .movie-tooltip {
-            left: auto;
-            right: 0;
-            transform: translateX(0) translateY(-20px);
-        }
-
-        .movie-card:nth-child(8n):hover .movie-tooltip {
-            transform: translateX(0) translateY(-10px);
-        } */
-
-        /* Tooltip blur separator */
-        .tooltip-separator {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(to bottom, transparent 0%, rgba(11, 17, 32, 0.8) 50%, rgba(11, 17, 32, 1) 100%);
-            backdrop-filter: blur(8px);
-        }
-
-        /* Filter dropdown animation */
-        .filter-dropdown {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .filter-dropdown.open {
-            max-height: 600px;
-        }
-
-        /* Checkbox custom style */
-        .custom-checkbox {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #374151;
-            border-radius: 4px;
-            background: transparent;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.2s ease;
-        }
-
-        .custom-checkbox:checked {
-            background: #10B981;
-            border-color: #10B981;
-        }
-
-        .custom-checkbox:checked::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 14px;
-        }
-
-        /* Pagination */
-        .pagination-item {
-            transition: all 0.2s ease;
-        }
-
-        .pagination-item:hover:not(.active):not(.disabled) {
-            background: rgba(16, 185, 129, 0.1);
-            color: #10B981;
-        }
-
-        .pagination-item.active {
-            background: #10B981;
-            color: white;
-        }
-
-        .pagination-item.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Loading skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, #1E293B 25%, #334155 50%, #1E293B 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        /* Filter tag */
-        .filter-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
-        }
-
-        .filter-tag:hover {
-            background: rgba(16, 185, 129, 0.2);
-        }
-
-        /* Smooth transitions */
-        .smooth-transition {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-    </style>
 </head>
 
 <body>
@@ -317,11 +29,11 @@
                     <span class="hidden sm:inline">CinemaStream</span>
                     <span class="sm:hidden">CS</span>
                 </a>
-                
+
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex items-center space-x-6">
                     <a href="index.html" class="nav-link active">Home</a>
-                    
+
                     <!-- Categories Dropdown -->
                     <div class="dropdown relative">
                         <a href="category.html" class="nav-link flex items-center">
@@ -345,7 +57,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Years Dropdown -->
                     <div class="dropdown relative">
                         <a href="category.html?type=year" class="nav-link flex items-center">
@@ -362,35 +74,37 @@
                                 <a href="category.html?year=2018" class="dropdown-item rounded">2018</a>
                             </div>
                             <div class="border-t border-gray-700 p-2">
-                                <a href="category.html?type=year" class="text-teal hover:underline text-sm flex items-center p-2">
+                                <a href="category.html?type=year"
+                                    class="text-teal hover:underline text-sm flex items-center p-2">
                                     <span>View All Years</span>
                                     <i class="fas fa-arrow-right ml-1"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    
+
                     <a href="#" class="nav-link">TV Shows</a>
                     <a href="#" class="nav-link">My List</a>
                 </nav>
-                
+
                 <!-- Right Side Actions -->
                 <div class="flex items-center space-x-4">
                     <!-- Desktop Search -->
                     <div class="hidden md:block relative">
                         <form action="search.html" method="get" id="desktopSearchForm">
-                            <input type="text" name="q" placeholder="Search..." class="search-input rounded-full px-4 py-2 pr-10">
+                            <input type="text" name="q" placeholder="Search..."
+                                class="search-input rounded-full px-4 py-2 pr-10">
                             <button type="submit" class="absolute right-3 top-2.5 text-gray-light hover:text-teal">
                                 <i class="fas fa-search"></i>
                             </button>
                         </form>
                     </div>
-                    
+
                     <!-- Mobile Search Button -->
                     <button id="mobileSearchToggle" class="md:hidden text-gray-light hover:text-teal">
                         <i class="fas fa-search text-xl"></i>
                     </button>
-                    
+
                     <!-- Notifications -->
                     <div class="dropdown relative">
                         <button class="text-gray-light hover:text-teal relative">
@@ -406,7 +120,8 @@
                                 <a href="#" class="dropdown-item border-b border-gray-700">
                                     <div class="flex">
                                         <div class="flex-shrink-0 mr-3">
-                                            <div class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
                                                 <i class="fas fa-film"></i>
                                             </div>
                                         </div>
@@ -420,13 +135,15 @@
                                 <a href="#" class="dropdown-item border-b border-gray-700">
                                     <div class="flex">
                                         <div class="flex-shrink-0 mr-3">
-                                            <div class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
                                                 <i class="fas fa-star"></i>
                                             </div>
                                         </div>
                                         <div>
                                             <p class="text-white text-sm font-medium">New recommendations</p>
-                                            <p class="text-gray-light text-xs mt-1">Check out these movies based on your watchlist</p>
+                                            <p class="text-gray-light text-xs mt-1">Check out these movies based on your
+                                                watchlist</p>
                                             <p class="text-gray-light text-xs mt-1">1 day ago</p>
                                         </div>
                                     </div>
@@ -434,13 +151,15 @@
                                 <a href="#" class="dropdown-item">
                                     <div class="flex">
                                         <div class="flex-shrink-0 mr-3">
-                                            <div class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center text-teal">
                                                 <i class="fas fa-gift"></i>
                                             </div>
                                         </div>
                                         <div>
                                             <p class="text-white text-sm font-medium">Special Offer</p>
-                                            <p class="text-gray-light text-xs mt-1">Get 20% off on annual subscription</p>
+                                            <p class="text-gray-light text-xs mt-1">Get 20% off on annual subscription
+                                            </p>
                                             <p class="text-gray-light text-xs mt-1">3 days ago</p>
                                         </div>
                                     </div>
@@ -454,25 +173,26 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Login Button -->
                     <a href="auth.html" class="text-gray-light hover:text-teal transition flex items-center">
                         <span class="hidden md:inline-block mr-2">Login</span>
                         <i class="fas fa-user-circle text-xl"></i>
                     </a>
-                    
+
                     <!-- Mobile Menu Toggle -->
                     <button id="mobileMenuToggle" class="md:hidden text-gray-light hover:text-teal">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
-            
+
             <!-- Mobile Search (Hidden by default) -->
             <div id="mobileSearchBar" class="mt-4 hidden">
                 <form action="search.html" method="get" id="mobileSearchForm">
                     <div class="relative">
-                        <input type="text" name="q" placeholder="Search movies, TV shows..." class="w-full bg-dark border border-gray-700 rounded-full px-4 py-2 text-white focus:outline-none focus:border-teal">
+                        <input type="text" name="q" placeholder="Search movies, TV shows..."
+                            class="w-full bg-dark border border-gray-700 rounded-full px-4 py-2 text-white focus:outline-none focus:border-teal">
                         <button type="submit" class="absolute right-3 top-2.5 text-gray-light hover:text-teal">
                             <i class="fas fa-search"></i>
                         </button>
@@ -481,10 +201,10 @@
             </div>
         </div>
     </header>
-    
+
     <!-- Mobile Menu Overlay -->
     <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
-    
+
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="mobile-menu">
         <div class="p-6">
@@ -498,57 +218,73 @@
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            
+
             <!-- Mobile Navigation -->
             <nav class="space-y-6">
                 <a href="index.html" class="block text-white hover:text-teal transition text-lg">Home</a>
-                
+
                 <!-- Mobile Categories -->
                 <div class="space-y-2">
-                    <button id="mobileCategoriesToggle" class="flex items-center justify-between w-full text-white hover:text-teal transition text-lg">
+                    <button id="mobileCategoriesToggle"
+                        class="flex items-center justify-between w-full text-white hover:text-teal transition text-lg">
                         <span>Categories</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div id="mobileCategoriesDropdown" class="mobile-dropdown pl-4">
                         <div class="grid grid-cols-2 gap-2 py-2">
-                            <a href="category.html?genre=action" class="text-gray-light hover:text-teal transition py-1">Action</a>
-                            <a href="category.html?genre=comedy" class="text-gray-light hover:text-teal transition py-1">Comedy</a>
-                            <a href="category.html?genre=drama" class="text-gray-light hover:text-teal transition py-1">Drama</a>
-                            <a href="category.html?genre=horror" class="text-gray-light hover:text-teal transition py-1">Horror</a>
-                            <a href="category.html?genre=sci-fi" class="text-gray-light hover:text-teal transition py-1">Sci-Fi</a>
-                            <a href="category.html?genre=thriller" class="text-gray-light hover:text-teal transition py-1">Thriller</a>
+                            <a href="category.html?genre=action"
+                                class="text-gray-light hover:text-teal transition py-1">Action</a>
+                            <a href="category.html?genre=comedy"
+                                class="text-gray-light hover:text-teal transition py-1">Comedy</a>
+                            <a href="category.html?genre=drama"
+                                class="text-gray-light hover:text-teal transition py-1">Drama</a>
+                            <a href="category.html?genre=horror"
+                                class="text-gray-light hover:text-teal transition py-1">Horror</a>
+                            <a href="category.html?genre=sci-fi"
+                                class="text-gray-light hover:text-teal transition py-1">Sci-Fi</a>
+                            <a href="category.html?genre=thriller"
+                                class="text-gray-light hover:text-teal transition py-1">Thriller</a>
                         </div>
-                        <a href="category.html" class="block text-teal text-sm py-2 hover:underline">View All Categories</a>
+                        <a href="category.html" class="block text-teal text-sm py-2 hover:underline">View All
+                            Categories</a>
                     </div>
                 </div>
-                
+
                 <!-- Mobile Years -->
                 <div class="space-y-2">
-                    <button id="mobileYearsToggle" class="flex items-center justify-between w-full text-white hover:text-teal transition text-lg">
+                    <button id="mobileYearsToggle"
+                        class="flex items-center justify-between w-full text-white hover:text-teal transition text-lg">
                         <span>Years</span>
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div id="mobileYearsDropdown" class="mobile-dropdown pl-4">
                         <div class="grid grid-cols-2 gap-2 py-2">
-                            <a href="category.html?year=2023" class="text-gray-light hover:text-teal transition py-1">2023</a>
-                            <a href="category.html?year=2022" class="text-gray-light hover:text-teal transition py-1">2022</a>
-                            <a href="category.html?year=2021" class="text-gray-light hover:text-teal transition py-1">2021</a>
-                            <a href="category.html?year=2020" class="text-gray-light hover:text-teal transition py-1">2020</a>
-                            <a href="category.html?year=2019" class="text-gray-light hover:text-teal transition py-1">2019</a>
-                            <a href="category.html?year=2018" class="text-gray-light hover:text-teal transition py-1">2018</a>
+                            <a href="category.html?year=2023"
+                                class="text-gray-light hover:text-teal transition py-1">2023</a>
+                            <a href="category.html?year=2022"
+                                class="text-gray-light hover:text-teal transition py-1">2022</a>
+                            <a href="category.html?year=2021"
+                                class="text-gray-light hover:text-teal transition py-1">2021</a>
+                            <a href="category.html?year=2020"
+                                class="text-gray-light hover:text-teal transition py-1">2020</a>
+                            <a href="category.html?year=2019"
+                                class="text-gray-light hover:text-teal transition py-1">2019</a>
+                            <a href="category.html?year=2018"
+                                class="text-gray-light hover:text-teal transition py-1">2018</a>
                         </div>
-                        <a href="category.html?type=year" class="block text-teal text-sm py-2 hover:underline">View All Years</a>
+                        <a href="category.html?type=year" class="block text-teal text-sm py-2 hover:underline">View All
+                            Years</a>
                     </div>
                 </div>
-                
+
                 <a href="#" class="block text-white hover:text-teal transition text-lg">TV Shows</a>
                 <a href="#" class="block text-white hover:text-teal transition text-lg">My List</a>
-                
+
                 <div class="pt-6 border-t border-gray-700">
                     <a href="auth.html" class="block text-white hover:text-teal transition text-lg">Login / Sign Up</a>
                 </div>
             </nav>
-            
+
             <!-- Mobile Menu Footer -->
             <div class="absolute bottom-8 left-6 right-6">
                 <div class="flex space-x-4 mb-4">
@@ -573,8 +309,373 @@
     </div>
 
     <!-- Main Content -->
-    
-    
+    <main
+        class="pt-20 pb-12 min-h-screen bg-gradient-to-br from-darker via-dark to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="w-full max-w-md relative z-10 animate-slide-up">
+
+             <!-- Navigation Tabs -->
+        <div class="gradient-border mb-8">
+            <div class="gradient-border-content">
+                <div class="flex p-1">
+                    <button 
+                        id="loginTab" 
+                        class="flex-1 py-3 px-6 text-center font-semibold rounded-xl transition-all duration-300 bg-gradient-to-r from-primary to-emerald-600 text-white shadow-lg transform scale-105 tab-button active"
+                        onclick="switchTab('login')"
+                    >
+                        <span class="flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                            </svg>
+                            Đăng nhập
+                        </span>
+                    </button>
+                    <button 
+                        id="registerTab" 
+                        class="flex-1 py-3 px-6 text-center font-semibold rounded-xl transition-all duration-300 text-gray-600 hover:text-gray-800 hover:bg-gray-50 tab-button"
+                        onclick="switchTab('register')"
+                    >
+                        <span class="flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                            </svg>
+                            Đăng ký
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forms Container -->
+        <div class="glass-effect rounded-2xl p-8 shadow-2xl backdrop-blur-xl">
+            <div class="forms-container">
+                <!-- Login Form -->
+                <div id="loginForm" class="form-content">
+                    <form class="space-y-6">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-white mb-2">Chào mừng trở lại!</h2>
+                            <p class="text-light/70">Đăng nhập để tiếp tục hành trình của bạn</p>
+                        </div>
+
+                        <div class="space-y-5">
+                            <div class="group">
+                                <label for="loginEmail" class="block text-sm font-medium text-light mb-2">
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                                        </svg>
+                                        Email
+                                    </span>
+                                </label>
+                                <div class="relative">
+                                    <input 
+                                        type="email" 
+                                        id="loginEmail" 
+                                        name="email"
+                                        required
+                                        class="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 backdrop-blur-sm"
+                                        placeholder="your@email.com"
+                                    >
+                                    <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/20 to-emerald-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                </div>
+                            </div>
+
+                            <div class="group">
+                                <label for="loginPassword" class="block text-sm font-medium text-light mb-2">
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                        Mật khẩu
+                                    </span>
+                                </label>
+                                <div class="relative">
+                                    <input 
+                                        type="password" 
+                                        id="loginPassword" 
+                                        name="password"
+                                        required
+                                        class="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 backdrop-blur-sm pr-12"
+                                        placeholder="••••••••"
+                                    >
+                                    <button 
+                                        type="button" 
+                                        onclick="togglePassword('loginPassword')"
+                                        class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                                    >
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/20 to-emerald-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <label class="flex items-center group cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 text-primary bg-white/10 border-white/20 rounded focus:ring-primary focus:ring-2">
+                                    <span class="ml-3 text-sm text-light/80 group-hover:text-white transition-colors">Ghi nhớ đăng nhập</span>
+                                </label>
+                                <a href="#" class="text-sm text-primary hover:text-emerald-400 font-medium transition-colors">
+                                    Quên mật khẩu?
+                                </a>
+                            </div>
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            class="w-full bg-gradient-to-r from-primary to-emerald-600 text-white py-4 px-6 rounded-xl font-semibold hover:from-emerald-600 hover:to-primary focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-transparent transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                        >
+                            <span class="flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                                </svg>
+                                Đăng nhập
+                            </span>
+                        </button>
+
+                        <!-- Social Login -->
+                        <div class="relative">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-white/20"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-4 bg-transparent text-light/60">Hoặc đăng nhập với</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <button type="button" class="flex items-center justify-center px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white hover:bg-white/20 transition-all duration-300 backdrop-blur-sm">
+                                <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                </svg>
+                                Google
+                            </button>
+                            <button type="button" class="flex items-center justify-center px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white hover:bg-white/20 transition-all duration-300 backdrop-blur-sm">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                Facebook
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <span class="text-light/70">Chưa có tài khoản? </span>
+                            <button 
+                                type="button" 
+                                onclick="switchTab('register')"
+                                class="text-primary hover:text-emerald-400 font-medium transition-colors"
+                            >
+                                Đăng ký ngay
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div id="registerForm" class="form-content hidden">
+                    <form class="space-y-6">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-white mb-2">Tạo tài khoản mới</h2>
+                            <p class="text-light/70">Bắt đầu hành trình của bạn cùng chúng tôi</p>
+                        </div>
+
+                        <div class="space-y-5">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="group">
+                                    <label for="firstName" class="block text-sm font-medium text-light mb-2">
+                                        <span class="flex items-center">
+                                            <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                            </svg>
+                                            Họ
+                                        </span>
+                                    </label>
+                                    <div class="relative">
+                                        <input 
+                                            type="text" 
+                                            id="firstName" 
+                                            name="firstName"
+                                            required
+                                            class="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 backdrop-blur-sm"
+                                            placeholder="Nguyễn"
+                                        >
+                                        <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/20 to-emerald-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                    </div>
+                                </div>
+                                <div class="group">
+                                    <label for="lastName" class="block text-sm font-medium text-light mb-2">
+                                        <span class="flex items-center">
+                                            <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                            </svg>
+                                            Tên
+                                        </span>
+                                    </label>
+                                    <div class="relative">
+                                        <input 
+                                            type="text" 
+                                            id="lastName" 
+                                            name="lastName"
+                                            required
+                                            class="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 backdrop-blur-sm"
+                                            placeholder="Văn A"
+                                        >
+                                        <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/20 to-emerald-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="group">
+                                <label for="registerEmail" class="block text-sm font-medium text-light mb-2">
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                                        </svg>
+                                        Email
+                                    </span>
+                                </label>
+                                <div class="relative">
+                                    <input 
+                                        type="email" 
+                                        id="registerEmail" 
+                                        name="email"
+                                        required
+                                        class="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 backdrop-blur-sm"
+                                        placeholder="your@email.com"
+                                    >
+                                    <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/20 to-emerald-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                </div>
+                            </div>
+
+                            <div class="group">
+                                <label for="registerPassword" class="block text-sm font-medium text-light mb-2">
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                        Mật khẩu
+                                    </span>
+                                </label>
+                                <div class="relative">
+                                    <input 
+                                        type="password" 
+                                        id="registerPassword" 
+                                        name="password"
+                                        required
+                                        class="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 backdrop-blur-sm pr-12"
+                                        placeholder="••••••••"
+                                    >
+                                    <button 
+                                        type="button" 
+                                        onclick="togglePassword('registerPassword')"
+                                        class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                                    >
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/20 to-emerald-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                </div>
+                                <!-- Password Strength Indicator -->
+                                <div class="mt-2">
+                                    <div class="flex space-x-1">
+                                        <div id="strength1" class="h-1 w-1/4 bg-white/20 rounded-full transition-colors duration-300"></div>
+                                        <div id="strength2" class="h-1 w-1/4 bg-white/20 rounded-full transition-colors duration-300"></div>
+                                        <div id="strength3" class="h-1 w-1/4 bg-white/20 rounded-full transition-colors duration-300"></div>
+                                        <div id="strength4" class="h-1 w-1/4 bg-white/20 rounded-full transition-colors duration-300"></div>
+                                    </div>
+                                    <p id="strengthText" class="text-xs text-white/60 mt-1">Độ mạnh mật khẩu</p>
+                                </div>
+                            </div>
+
+                            <div class="group">
+                                <label for="confirmPassword" class="block text-sm font-medium text-light mb-2">
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Xác nhận mật khẩu
+                                    </span>
+                                </label>
+                                <div class="relative">
+                                    <input 
+                                        type="password" 
+                                        id="confirmPassword" 
+                                        name="confirmPassword"
+                                        required
+                                        class="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 backdrop-blur-sm pr-12"
+                                        placeholder="••••••••"
+                                    >
+                                    <button 
+                                        type="button" 
+                                        onclick="togglePassword('confirmPassword')"
+                                        class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                                    >
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/20 to-emerald-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                </div>
+                            </div>
+
+                            <div class="group">
+                                <label class="flex items-start cursor-pointer">
+                                    <input type="checkbox" required class="w-4 h-4 text-primary bg-white/10 border-white/20 rounded focus:ring-primary focus:ring-2 mt-1">
+                                    <span class="ml-3 text-sm text-light/80 group-hover:text-white transition-colors">
+                                        Tôi đồng ý với 
+                                        <a href="#" class="text-primary hover:text-emerald-400 font-medium transition-colors">Điều khoản dịch vụ</a> 
+                                        và 
+                                        <a href="#" class="text-primary hover:text-emerald-400 font-medium transition-colors">Chính sách bảo mật</a>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            class="w-full bg-gradient-to-r from-primary to-emerald-600 text-white py-4 px-6 rounded-xl font-semibold hover:from-emerald-600 hover:to-primary focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-transparent transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                        >
+                            <span class="flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                                </svg>
+                                Tạo tài khoản
+                            </span>
+                        </button>
+
+                        <div class="text-center">
+                            <span class="text-light/70">Đã có tài khoản? </span>
+                            <button 
+                                type="button" 
+                                onclick="switchTab('login')"
+                                class="text-primary hover:text-emerald-400 font-medium transition-colors"
+                            >
+                                Đăng nhập ngay
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+            
+    </main>
+
 
     <footer class="bg-dark border-t border-gray-800 py-12 px-4">
         <div class="container mx-auto">
@@ -585,7 +686,8 @@
                         <i class="fas fa-film mr-2"></i>
                         <span>MovieFlix</span>
                     </a>
-                    <p class="text-gray-400 text-sm mb-4">MovieFlix là trang web xem phim trực tuyến hàng đầu với kho phim đa dạng và chất lượng cao.</p>
+                    <p class="text-gray-400 text-sm mb-4">MovieFlix là trang web xem phim trực tuyến hàng đầu với kho
+                        phim đa dạng và chất lượng cao.</p>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-primary transition-colors">
                             <i class="fab fa-facebook-f"></i>
@@ -601,7 +703,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <!-- Categories -->
                 <div>
                     <h3 class="text-white font-bold text-lg mb-4">Thể loại</h3>
@@ -611,10 +713,11 @@
                         <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Tình cảm</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Học đường</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Hài hước</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Khoa học viễn tưởng</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Khoa học viễn
+                                tưởng</a></li>
                     </ul>
                 </div>
-                
+
                 <!-- Quick Links -->
                 <div>
                     <h3 class="text-white font-bold text-lg mb-4">Liên kết nhanh</h3>
@@ -622,12 +725,14 @@
                         <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Trang chủ</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim lẻ</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim bộ</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim chiếu rạp</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim sắp chiếu</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim chiếu rạp</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Phim sắp chiếu</a>
+                        </li>
                         <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Top phim hot</a></li>
                     </ul>
                 </div>
-                
+
                 <!-- Contact -->
                 <div>
                     <h3 class="text-white font-bold text-lg mb-4">Liên hệ</h3>
@@ -647,7 +752,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500 text-sm">
                 <p>© 2023 MovieFlix. Tất cả quyền được bảo lưu.</p>
                 <div class="flex justify-center space-x-4 mt-4">
@@ -660,172 +765,9 @@
         </div>
     </footer>
 
-
     <script src="js/layout.js"></script>
-    <script>
-        // Toggle filter dropdown
-        function toggleFilter() {
-            const dropdown = document.getElementById('filter-dropdown');
-            const arrow = document.getElementById('filter-arrow');
+    <script src="js/auth.js"></script>
 
-            dropdown.classList.toggle('open');
-            arrow.classList.toggle('rotate-180');
-        }
-
-        // Apply filters
-        function applyFilters() {
-            const activeFilters = [];
-            const checkboxes = document.querySelectorAll('.custom-checkbox:checked');
-
-            checkboxes.forEach(checkbox => {
-                if (!checkbox.disabled) {
-                    activeFilters.push({
-                        value: checkbox.value,
-                        label: checkbox.nextElementSibling.textContent
-                    });
-                }
-            });
-
-            // Update active filters display
-            updateActiveFilters(activeFilters);
-
-            // Here you would typically make an API call with the filters
-            console.log('Applied filters:', activeFilters);
-
-            // Close the filter dropdown
-            toggleFilter();
-        }
-
-        // Clear all filters
-        function clearFilters() {
-            const checkboxes = document.querySelectorAll('.custom-checkbox:checked');
-            checkboxes.forEach(checkbox => {
-                if (!checkbox.disabled) {
-                    checkbox.checked = false;
-                }
-            });
-
-            // Reset sort dropdown
-            document.querySelector('select').value = 'newest';
-
-            // Clear active filters display
-            updateActiveFilters([]);
-        }
-
-        // Update active filters display
-        function updateActiveFilters(filters) {
-            const container = document.getElementById('active-filters');
-            container.innerHTML = '';
-
-            filters.forEach(filter => {
-                const tag = document.createElement('span');
-                tag.className = 'filter-tag';
-                tag.innerHTML = `
-            ${filter.label}
-            <button onclick="removeFilter('${filter.value}')" class="ml-1 hover:text-primary">
-                <i class="fas fa-times text-xs"></i>
-            </button>
-        `;
-                container.appendChild(tag);
-            });
-        }
-
-        // Remove individual filter
-        function removeFilter(value) {
-            const checkbox = document.querySelector(`.custom-checkbox[value="${value}"]`);
-            if (checkbox) {
-                checkbox.checked = false;
-                applyFilters();
-            }
-        }
-
-        // Toggle favorite
-        function toggleFavorite(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            const heartIcon = event.currentTarget.querySelector('i');
-            if (heartIcon.classList.contains('far')) {
-                heartIcon.classList.remove('far');
-                heartIcon.classList.add('fas');
-                heartIcon.style.color = '#F43F5E'; // Red color for liked
-            } else {
-                heartIcon.classList.remove('fas');
-                heartIcon.classList.add('far');
-                heartIcon.style.color = ''; // Reset to default
-            }
-        }
-
-        // Handle checkbox changes
-        document.querySelectorAll('.custom-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
-                // Auto-apply filters when changed (optional)
-                // applyFilters();
-            });
-        });
-
-        // Pagination
-        document.querySelectorAll('.pagination-item:not(.disabled)').forEach(button => {
-            button.addEventListener('click', function () {
-                // Remove active class from all
-                document.querySelectorAll('.pagination-item').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-
-                // Add active class to clicked
-                this.classList.add('active');
-
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
-
-        // Make tooltips stay visible when hovering over them
-        document.addEventListener('DOMContentLoaded', function () {
-            const movieCards = document.querySelectorAll('.movie-card');
-
-            movieCards.forEach(card => {
-                // Reset any inline styles that might be causing issues
-                const tooltip = card.querySelector('.movie-tooltip');
-                if (tooltip) {
-                    tooltip.style = '';
-                }
-
-                // Remove any existing event listeners by cloning and replacing elements
-                if (tooltip) {
-                    const newTooltip = tooltip.cloneNode(true);
-                    tooltip.parentNode.replaceChild(newTooltip, tooltip);
-                }
-
-                const newCard = card.cloneNode(true);
-                card.parentNode.replaceChild(newCard, card);
-            });
-
-            // Re-add event listeners to the favorite buttons after cloning
-            document.querySelectorAll('.movie-tooltip button').forEach(button => {
-                button.addEventListener('click', function (event) {
-                    toggleFavorite(event);
-                });
-            });
-        });
-
-        // Toggle favorite
-        function toggleFavorite(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            const heartIcon = event.currentTarget.querySelector('i');
-            if (heartIcon.classList.contains('far')) {
-                heartIcon.classList.remove('far');
-                heartIcon.classList.add('fas');
-                heartIcon.style.color = '#F43F5E'; // Red color for liked
-            } else {
-                heartIcon.classList.remove('fas');
-                heartIcon.classList.add('far');
-                heartIcon.style.color = ''; // Reset to default
-            }
-        }
-    </script>
 
 </body>
 
