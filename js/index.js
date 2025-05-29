@@ -18,8 +18,8 @@ const featuredSwiper = new Swiper(".featuredSwiper", {
       return (
         '<span class="' +
         className +
-        '" style="background-image: url(https://placehold.co/300x450/black/10B981?text=Phim+Nổi+Bật+' +
-        (index + 1) +
+        '" style="background-image: url(images/movie' +
+        (index + 1) +'.webp' +
         ')"></span>'
       );
     },
@@ -132,8 +132,8 @@ const animatedSwiper = new Swiper(".animatedSwiper", {
       return (
         '<span class="' +
         className +
-        '" style="background-image: url(https://placehold.co/600x350/black/10B981?text=Hoạt+Hình+' +
-        (index + 1) +
+        '" style="background-image: url(images/thumb' +
+        (index + 15) +('.webp') +
         ')"></span>'
       );
     },
@@ -142,7 +142,7 @@ const animatedSwiper = new Swiper(".animatedSwiper", {
 
 // Comments Slider
 const commentsSwiper = new Swiper(".commentsSwiper", {
-  slidesPerView: 2,
+  slidesPerView: 1,
   spaceBetween: 20,
 
   navigation: {
